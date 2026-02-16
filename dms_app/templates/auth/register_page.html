@@ -1,1 +1,115 @@
-<h1>Register Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ShareHope</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
+    <style>
+        .hidden-fields { display: none; }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
+    {% include 'components/_navbar.html' %}
+
+    <main class="flex-grow flex items-center justify-center py-12 px-4">
+        <div class="max-w-2xl w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+            
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Create Your Account</h2>
+                <p class="text-gray-500 mt-2">Provide your details to join the ShareHope network</p>
+            </div>
+
+            <form method="POST" action="/register/" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <div class="flex gap-2 p-1.5 bg-gray-100 rounded-2xl">
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="role" value="DONOR" class="hidden peer" checked onchange="toggleFields('DONOR')">
+                        <div class="text-center py-3 rounded-xl font-bold transition-all peer-checked:bg-white peer-checked:text-blue-600 peer-checked:shadow-sm text-gray-500">
+                            🤝 Donor
+                        </div>
+                    </label>
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="role" value="NGO" class="hidden peer" onchange="toggleFields('NGO')">
+                        <div class="text-center py-3 rounded-xl font-bold transition-all peer-checked:bg-white peer-checked:text-blue-600 peer-checked:shadow-sm text-gray-500">
+                            🏢 NGO
+                        </div>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700">Username</label>
+                        <input type="text" name="username" required class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="unique_username">
+                    </div>
+                    <div>
+                        <label id="name-label" class="block text-sm font-bold text-gray-700">Full Name</label>
+                        <input type="text" name="name" required class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Enter name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700">Email Address</label>
+                        <input type="email" name="email" required class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="email@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700">Password</label>
+                        <input type="password" name="password" required class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-100 pt-6">
+                    <h4 class="text-blue-700 font-bold text-sm uppercase tracking-widest mb-4">Verification Details</h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div id="donor-id-field">
+                            <label class="block text-sm font-bold text-gray-700">Citizenship Number</label>
+                            <input type="text" name="citizenship_number" class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter ID number">
+                        </div>
+
+                        <div id="ngo-id-field" class="hidden-fields">
+                            <label class="block text-sm font-bold text-gray-700">Registration Number</label>
+                            <input type="text" name="registration_number" class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Official Reg No.">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700">Verification Document</label>
+                            <input type="file" name="verification_document" required class="w-full mt-1 p-1.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 shadow-lg transform transition active:scale-[0.98]">
+                    Submit Registration
+                </button>
+            </form>
+
+            <div class="mt-6 text-center text-sm text-gray-600">
+                Already have an account? 
+                <a href="/login/" class="text-blue-600 font-bold hover:underline">Login here</a>
+            </div>
+        </div>
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script>
+        function toggleFields(role) {
+            const nameLabel = document.getElementById('name-label');
+            const donorField = document.getElementById('donor-id-field');
+            const ngoField = document.getElementById('ngo-id-field');
+
+            if (role === 'DONOR') {
+                nameLabel.innerText = "Full Name";
+                donorField.classList.remove('hidden-fields');
+                ngoField.classList.add('hidden-fields');
+            } else {
+                nameLabel.innerText = "Organization Name";
+                ngoField.classList.remove('hidden-fields');
+                donorField.classList.add('hidden-fields');
+            }
+        }
+    </script>
+</body>
+</html>
