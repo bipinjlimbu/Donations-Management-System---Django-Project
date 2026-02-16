@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ShareHope | Home</title>
     {% load static %}
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
 </head>
 <body class="bg-gray-50 font-sans text-gray-900">
+
+    {% include 'components/_navbar.html' %}
 
     <section class="relative h-[80vh] min-h-[600px] flex items-center justify-center text-white overflow-hidden">
         <div class="absolute inset-0 z-0">
