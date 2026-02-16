@@ -628,6 +628,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 4rem;
 }
 
+.h-32 {
+  height: 8rem;
+}
+
 .min-h-\[600px\] {
   min-height: 600px;
 }
@@ -843,6 +847,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-t {
   border-top-width: 1px;
+}
+
+.border-dashed {
+  border-style: dashed;
 }
 
 .border-gray-100 {
@@ -1061,6 +1069,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pt-6 {
   padding-top: 1.5rem;
+}
+
+.pt-5 {
+  padding-top: 1.25rem;
+}
+
+.pb-6 {
+  padding-bottom: 1.5rem;
 }
 
 .text-left {
