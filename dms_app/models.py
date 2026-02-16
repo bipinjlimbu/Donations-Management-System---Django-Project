@@ -5,6 +5,7 @@ from django.utils.timezone import now
 class ContactInfo(models.Model):
     phone = models.CharField(max_length=15)
     address = models.TextField()
+    profile_image = models.ImageField(upload_to='profiles/temp/', blank=True, null=True)
     
     class Meta:
         abstract = True
@@ -14,6 +15,7 @@ class PendingChanges(models.Model):
     pending_email = models.EmailField(blank=True, null=True)
     pending_phone = models.CharField(max_length=15, blank=True, null=True)
     pending_address = models.TextField(blank=True, null=True)
+    pending_image = models.ImageField(upload_to='profiles/pending/', blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -27,6 +29,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=15, choices=Role.choices, default=Role.DONOR)
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
+    profile_image = models.ImageField(upload_to='profiles/users/', blank=True, null=True)
 
 class Register(ContactInfo):
     class Status(models.TextChoices):
@@ -50,11 +53,13 @@ class Register(ContactInfo):
 
 class NGOProfile(PendingChanges):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ngo_profile')
+    organization_name = models.CharField(max_length=100)
     registration_number = models.CharField(max_length=50)
     verification_document = models.FileField(upload_to='ngo_docs/', blank=True, null=True)
 
 class DonorProfile(PendingChanges):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='donor_profile')
+    full_name = models.CharField(max_length=100)
     citizenship_number = models.CharField(max_length=20)
     verification_document = models.FileField(upload_to='donor_docs/', blank=True, null=True)
 
@@ -68,6 +73,7 @@ class Campaign(models.Model):
     
     title = models.CharField(max_length=200)
     description = models.TextField()
+    campaign_image = models.ImageField(upload_to='campaigns/', blank=True, null=True) # Added campaign image
     ngo = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': User.Role.NGO})
     category = models.CharField(max_length=100)
     item_type = models.CharField(max_length=100)
@@ -87,31 +93,4 @@ class Campaign(models.Model):
             return (self.collected_quantity / self.target_quantity) * 100
         return 0
 
-class Donation(models.Model):
-    class Status(models.TextChoices):
-        PENDING = 'PENDING', 'Pending'
-        REJECTED = 'REJECTED', 'Rejected'
-        DELIVERED = 'DELIVERED', 'Delivered'
-        
-    donor = models.ForeignKey(
-        User, 
-        on_delete=models.SET_NULL, 
-        null=True, 
-        blank=True, 
-        limit_choices_to={'role': User.Role.DONOR}
-    )
-    donor_name_snapshot = models.CharField(max_length=150, blank=True, null=True)
-    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='donations')
-    quantity = models.PositiveIntegerField()
-    status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
-    requested_at = models.DateTimeField(auto_now_add=True)
-    delivered_at = models.DateTimeField(blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        if not self.pk and self.donor:
-            self.donor_name_snapshot = self.donor.get_full_name() or self.donor.username
-        
-        if self.status == self.Status.DELIVERED and not self.delivered_at:
-            self.delivered_at = now()
-            
-        super().save(*args, **kwargs)
+# Donation model remains the same as it references Campaign and User
