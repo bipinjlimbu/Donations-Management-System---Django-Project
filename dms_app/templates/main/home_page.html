@@ -1,12 +1,113 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Home Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShareHope | Home</title>
     {% load static %}
-<link  href ="{% static 'src/styles.css' %}" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
 </head>
+<body class="bg-gray-50 font-sans text-gray-900">
 
-<body>
-<h1 class="text-red-500" > Hello Home </h1>
-<p class="text-blue-600" >Hello k xa </p>
+    <section class="relative h-[80vh] min-h-[600px] flex items-center justify-center text-white overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" 
+                 class="w-full h-full object-cover" alt="Hero Background">
+            <div class="absolute inset-0 bg-black/60"></div>
+        </div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6">
+                Welcome to <span class="text-green-500">ShareHope</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-200 mb-8">
+                Donate with purpose through trusted NGO campaigns
+            </p>
+            <p class="text-lg mb-10 text-gray-300 italic">
+                Trusted by <span class="text-white font-bold">500+</span> donors and <span class="text-white font-bold">120+</span> NGOs
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/campaigns" class="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold transition transform hover:scale-105">
+                    Browse Campaigns
+                </a>
+                <a href="/signup" class="bg-white hover:bg-gray-100 text-green-700 px-8 py-4 rounded-full font-bold transition transform hover:scale-105">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto py-20 px-4 text-center">
+        <h2 class="text-3xl font-bold mb-12">Quick Access</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
+            <a href="/dashboard" class="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-green-200 transition-all">
+                <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">📊</div>
+                <h3 class="text-xl font-bold mb-2 group-hover:text-green-600">Dashboard</h3>
+                <p class="text-gray-500 text-sm">View your activity and account overview</p>
+            </a>
+            <a href="/notifications" class="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-green-200 transition-all">
+                <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">🔔</div>
+                <h3 class="text-xl font-bold mb-2 group-hover:text-green-600">Notifications</h3>
+                <p class="text-gray-500 text-sm">Check approvals, updates, and alerts</p>
+            </a>
+            <a href="/records" class="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-green-200 transition-all">
+                <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">📜</div>
+                <h3 class="text-xl font-bold mb-2 group-hover:text-green-600">My Donations</h3>
+                <p class="text-gray-500 text-sm">Track your donation history</p>
+            </a>
+            <a href="/campaigns" class="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-green-200 transition-all">
+                <div class="text-3xl mb-4 group-hover:scale-110 transition-transform">📦</div>
+                <h3 class="text-xl font-bold mb-2 group-hover:text-green-600">Campaigns</h3>
+                <p class="text-gray-500 text-sm">Browse or manage donation campaigns</p>
+            </a>
+        </div>
+    </section>
+
+    <section class="bg-gray-100 py-20 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-12">Latest Campaigns</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl overflow-hidden shadow-md flex flex-col text-left border border-gray-200">
+                    <div class="p-8 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full capitalize">Active</span>
+                            <span class="text-gray-400 text-sm">Education</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">School Supplies for Rural Kids</h3>
+                        <p class="text-gray-600 mb-6 line-clamp-3">Help us provide notebooks, pens, and backpacks to over 500 children in remote villages.</p>
+                        <div class="space-y-2 mb-6">
+                            <div class="flex justify-between text-sm italic">
+                                <span class="font-bold text-gray-700">Target: 500 Sets</span>
+                                <span class="text-green-600">80% Done</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-8 pb-8">
+                        <a href="/campaigns/1" class="block w-full text-center py-3 rounded-xl border-2 border-green-600 text-green-600 font-bold hover:bg-green-600 hover:text-white transition">View Details</a>
+                    </div>
+                </div>
+                </div>
+            <a href="/campaigns" class="inline-block mt-12 bg-green-600 text-white px-10 py-3 rounded-full font-bold hover:bg-green-700 transition">View All Campaigns</a>
+        </div>
+    </section>
+
+    <section class="py-24 bg-green-600 text-white text-center px-4">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl font-extrabold mb-6 text-white">Ready to Make a Difference?</h2>
+            <p class="text-xl mb-12 opacity-90 leading-relaxed text-gray-100">
+                Join ShareHope today and help NGOs reach communities in need through transparent and impactful donations.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/campaigns" class="bg-white text-green-600 px-10 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition">Browse Campaigns</a>
+                <a href="/signup" class="bg-green-800 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-green-900 transition border border-green-700">Get Started</a>
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>
