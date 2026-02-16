@@ -416,7 +416,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none;
 }
 
-.-translate-x-1\/2, .transform, .hover\:scale-105, .group-hover\:scale-110 {
+.-translate-x-1\/2, .transform, .hover\:scale-105, .hover\:scale-110, .group-hover\:scale-110 {
   --tw-translate-x: 0;
   --tw-translate-y: 0;
   --tw-rotate: 0;
@@ -427,7 +427,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.border, .border-2, .border-l {
+.border, .border-2, .border-l, .border-t {
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
@@ -569,8 +569,20 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 0.5rem;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
 .min-h-\[600px\] {
   min-height: 600px;
+}
+
+.min-h-\[700px\] {
+  min-height: 700px;
+}
+
+.min-h-\[100px\] {
+  min-height: 100px;
 }
 
 .w-full {
@@ -642,6 +654,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   gap: 2rem;
 }
 
+.gap-12 {
+  gap: 3rem;
+}
+
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
@@ -670,6 +686,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
   margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.space-y-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(1rem * var(--tw-space-y-reverse));
 }
 
 .overflow-hidden {
@@ -710,6 +732,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-l {
   border-left-width: 1px;
+}
+
+.border-t {
+  border-top-width: 1px;
 }
 
 .border-gray-100 {
@@ -879,12 +905,21 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-right: 1.25rem;
 }
 
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
 .pb-8 {
   padding-bottom: 2rem;
 }
 
 .pl-6 {
   padding-left: 1.5rem;
+}
+
+.pt-8 {
+  padding-top: 2rem;
 }
 
 .text-left {
@@ -977,6 +1012,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .tracking-wide {
   letter-spacing: 0.025em;
+}
+
+.tracking-wider {
+  letter-spacing: 0.05em;
 }
 
 .text-red-500 {
@@ -1156,6 +1195,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   transform: var(--tw-transform);
 }
 
+.hover\:scale-110:hover {
+  --tw-scale-x: 1.1;
+  --tw-scale-y: 1.1;
+  transform: var(--tw-transform);
+}
+
 .hover\:border-green-200:hover {
   --tw-border-opacity: 1;
   border-color: rgb(187 247 208 / var(--tw-border-opacity));
@@ -1194,6 +1239,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:text-emerald-200:hover {
   --tw-text-opacity: 1;
   color: rgb(167 243 208 / var(--tw-text-opacity));
+}
+
+.hover\:text-blue-500:hover {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .hover\:shadow-xl:hover {

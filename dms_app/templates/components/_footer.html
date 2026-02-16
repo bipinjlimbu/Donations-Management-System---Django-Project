@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
+</head>
+<body>
+
+    <footer class="bg-black text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+
+                <div class="space-y-4">
+                    <h3 class="text-white font-bold text-xl uppercase tracking-wider">ShareHope</h3>
+                    <p class="text-sm leading-relaxed">
+                        Bridging the gap between donors and NGOs. Donate with purpose and make a difference.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold">Quick Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-blue-500 transition">Home</a></li>
+                        <li><a href="/campaigns/" class="hover:text-blue-500 transition">Campaigns</a></li>
+                        <li><a href="/signup/" class="hover:text-blue-500 transition">Sign Up</a></li>
+                        <li><a href="/login/" class="hover:text-blue-500 transition">Login</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold">Contact</h4>
+                    <div class="text-sm space-y-2">
+                        <p>Email: <span class="text-gray-300">support@sharehope.com</span></p>
+                        <p>Phone: <span class="text-gray-300">+123 456 7890</span></p>
+                        <p>Address: <span class="text-gray-300">123 Donation St, City</span></p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <h4 class="text-white font-semibold">Follow Us</h4>
+                    <div class="flex space-x-4 text-xl">
+                        <a href="#" class="hover:scale-110 transition-transform">🌐</a>
+                        <a href="#" class="hover:scale-110 transition-transform">🐦</a>
+                        <a href="#" class="hover:scale-110 transition-transform">📘</a>
+                        <a href="#" class="hover:scale-110 transition-transform">📸</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-12 pt-8 border-t border-gray-800 text-center text-xs">
+                <p>© 2026 ShareHope. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
