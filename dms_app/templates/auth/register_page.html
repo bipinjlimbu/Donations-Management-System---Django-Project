@@ -55,24 +55,52 @@
                     </div>
 
                     <div>
-                        <label id="name-label" class="block text-sm font-bold text-gray-700">Full Name</label>
-                        <input type="text" name="name" required class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
+                        <label class="block text-sm font-bold text-gray-700">Username</label>
+                        <input type="text" name="username" 
+                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
+                            placeholder="e.g. johndoe123">
                     </div>
+
+                    <div>
+                        <label id="name-label" class="block text-sm font-bold text-gray-700">Full Name</label>
+                        <input type="text" id="name-input" name="name" 
+                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
+                            placeholder="Enter your full name">
+                    </div>
+
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Email Address</label>
-                        <input type="email" name="email" required class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
+                        <input type="email" name="email" 
+                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
+                            placeholder="example@mail.com">
                     </div>
+
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Phone Number</label>
-                        <input type="text" name="phone" required class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
+                        <input type="text" name="phone" 
+                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
+                            placeholder="+977-98XXXXXXXX">
                     </div>
+
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Password</label>
-                        <input type="password" name="password" required class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
+                        <input type="password" name="password" 
+                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
+                            placeholder="••••••••">
                     </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700">Confirm Password</label>
+                        <input type="password" name="confirm_password" 
+                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
+                            placeholder="••••••••">
+                    </div>
+
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-bold text-gray-700">Physical Address</label>
-                        <textarea name="address" required rows="2" class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"></textarea>
+                        <label id="address-label" class="block text-sm font-bold text-gray-700">Physical Address</label>
+                        <textarea id="address-input" name="address" rows="2" 
+                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
+                            placeholder="Street, City, District"></textarea>
                     </div>
                 </div>
 
@@ -81,15 +109,20 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div id="donor-id-field">
                             <label class="block text-sm font-bold text-gray-700">Citizenship Number</label>
-                            <input type="text" name="citizenship_number" class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="text" name="citizenship_number" 
+                                class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
+                                placeholder="12-34-56-7890">
                         </div>
                         <div id="ngo-id-field" class="hidden-fields">
                             <label class="block text-sm font-bold text-gray-700">Registration Number</label>
-                            <input type="text" name="registration_number" class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+                            <input type="text" name="registration_number" 
+                                class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
+                                placeholder="Reg-ID-5678">
                         </div>
                         <div>
-                            <label class="block text-sm font-bold text-gray-700">Verification Document (PDF/JPG)</label>
-                            <input type="file" name="verification_document" required class="w-full mt-1 p-1.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            <label class="block text-sm font-bold text-gray-700">Verification Document</label>
+                            <input type="file" name="verification_document" 
+                                class="w-full mt-1 p-1.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                         </div>
                     </div>
                 </div>
@@ -111,15 +144,24 @@
     <script>
         function toggleFields(role) {
             const nameLabel = document.getElementById('name-label');
+            const nameInput = document.getElementById('name-input');
+            const addressLabel = document.getElementById('address-label');
+            const addressInput = document.getElementById('address-input');
             const donorField = document.getElementById('donor-id-field');
             const ngoField = document.getElementById('ngo-id-field');
 
             if (role === 'DONOR') {
                 nameLabel.innerText = "Full Name";
+                nameInput.placeholder = "Enter your full name";
+                addressLabel.innerText = "Physical Address";
+                addressInput.placeholder = "Street, City, District";
                 donorField.classList.remove('hidden-fields');
                 ngoField.classList.add('hidden-fields');
             } else {
                 nameLabel.innerText = "Organization Name";
+                nameInput.placeholder = "Official NGO name";
+                addressLabel.innerText = "Office Location";
+                addressInput.placeholder = "Official office address";
                 ngoField.classList.remove('hidden-fields');
                 donorField.classList.add('hidden-fields');
             }
