@@ -59,7 +59,9 @@
                         <input type="text" name="username" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
                             placeholder="e.g. johndoe123">
+                        {% if errors.username %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.username }}</p>
+                        {% endif %}
                     </div>
 
                     <div>
@@ -67,7 +69,9 @@
                         <input type="text" id="name-input" name="name" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
                             placeholder="Enter your full name">
+                        {% if errors.name %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.name }}</p>
+                        {% endif %}
                     </div>
 
                     <div>
@@ -75,7 +79,9 @@
                         <input type="email" name="email" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
                             placeholder="example@mail.com">
+                        {% if errors.email %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.email }}</p>
+                        {% endif %}
                     </div>
 
                     <div>
@@ -83,7 +89,9 @@
                         <input type="text" name="phone" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
                             placeholder="+977-98XXXXXXXX">
+                        {% if errors.phone %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.phone }}</p>
+                        {% endif %}
                     </div>
 
                     <div>
@@ -91,7 +99,9 @@
                         <input type="password" name="password" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
                             placeholder="••••••••">
+                        {% if errors.password %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.password }}</p>
+                        {% endif %}
                     </div>
 
                     <div>
@@ -99,14 +109,19 @@
                         <input type="password" name="confirm_password" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
                             placeholder="••••••••">
+                        {% if errors.confirm_password %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.confirm_password }}</p>
+                        {% endif %}
                     </div>
 
                     <div class="md:col-span-2">
                         <label id="address-label" class="block text-sm font-bold text-gray-700">Physical Address</label>
                         <textarea id="address-input" name="address" rows="2" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="Street, City, District">{{ errors.address }}</textarea>
+                            placeholder="Street, City, District"></textarea>
+                        {% if errors.address %}
+                        <p class="text-red-500 text-sm mt-1">{{ errors.address }}</p>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -118,20 +133,26 @@
                             <input type="text" name="citizenship_number" 
                                 class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
                                 placeholder="12-34-56-7890">
+                            {% if errors.citizenship_number %}
                             <p class="text-red-500 text-sm mt-1">{{ errors.citizenship_number }}</p>
+                            {% endif %}
                         </div>
                         <div id="ngo-id-field" class="hidden-fields">
                             <label class="block text-sm font-bold text-gray-700">Registration Number</label>
                             <input type="text" name="registration_number" 
                                 class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
                                 placeholder="Reg-ID-5678">
+                            {% if errors.registration_number %}
                             <p class="text-red-500 text-sm mt-1">{{ errors.registration_number }}</p>
+                            {% endif %}
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700">Verification Document</label>
                             <input type="file" name="verification_document" 
                                 class="w-full mt-1 p-1.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                            {% if errors.verification_document %}
                             <p class="text-red-500 text-sm mt-1">{{ errors.verification_document }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
