@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from ..models import Register, User
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 import re
 
 def register_view(request):
@@ -80,6 +81,7 @@ def register_view(request):
                 citizenship_number=citizenship_number,
                 verification_document=verification_document
             ) 
+            messages.success(request, "Registration successful! Your account is pending approval.")
         
         return redirect("home")
          
@@ -103,6 +105,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                messages.success(request, "Logged in successfully.")
                 return redirect("home")
             else:
                 errors["invalid"] = "Invalid username or password."
