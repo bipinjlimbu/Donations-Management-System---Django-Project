@@ -64,7 +64,7 @@ def register_view(request):
             errors["verification_document"] = "Verification document is required."
         
         if errors:
-            return render(request, "auth/register_page.html", {"errors": errors})
+            return render(request, "auth/register_page.html", {"errors": errors, "data": request.POST})
         else:
             Register.objects.create(
                 name=name,
