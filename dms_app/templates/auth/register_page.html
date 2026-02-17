@@ -58,7 +58,7 @@
                         <label class="block text-sm font-bold text-gray-700">Username</label>
                         <input type="text" name="username" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="e.g. johndoe123">
+                            placeholder="e.g. johndoe123" value="{{ data.username|default:'' }}">
                         {% if errors.username %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.username }}</p>
                         {% endif %}
@@ -68,7 +68,7 @@
                         <label id="name-label" class="block text-sm font-bold text-gray-700">Full Name</label>
                         <input type="text" id="name-input" name="name" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="Enter your full name">
+                            placeholder="Enter your full name" value="{{ data.name|default:'' }}">
                         {% if errors.name %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.name }}</p>
                         {% endif %}
@@ -78,7 +78,7 @@
                         <label class="block text-sm font-bold text-gray-700">Email</label>
                         <input type="email" name="email" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="example@mail.com">
+                            placeholder="example@mail.com" value="{{ data.email|default:'' }}">
                         {% if errors.email %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.email }}</p>
                         {% endif %}
@@ -88,7 +88,7 @@
                         <label class="block text-sm font-bold text-gray-700">Phone Number</label>
                         <input type="text" name="phone" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="+977-98XXXXXXXX">
+                            placeholder="+977-98XXXXXXXX" value="{{ data.phone|default:'' }}   ">
                         {% if errors.phone %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.phone }}</p>
                         {% endif %}
@@ -98,7 +98,7 @@
                         <label class="block text-sm font-bold text-gray-700">Password</label>
                         <input type="password" name="password" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="••••••••">
+                            placeholder="••••••••" value="{{ data.password|default:'' }}">
                         {% if errors.password %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.password }}</p>
                         {% endif %}
@@ -108,7 +108,7 @@
                         <label class="block text-sm font-bold text-gray-700">Confirm Password</label>
                         <input type="password" name="confirm_password" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="••••••••">
+                            placeholder="••••••••" value="{{ data.confirm_password|default:'' }}">
                         {% if errors.confirm_password %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.confirm_password }}</p>
                         {% endif %}
@@ -118,7 +118,7 @@
                         <label id="address-label" class="block text-sm font-bold text-gray-700">Physical Address</label>
                         <textarea id="address-input" name="address" rows="2" 
                             class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="Street, City, District"></textarea>
+                            placeholder="Street, City, District">{{ data.address|default:'' }}</textarea>
                         {% if errors.address %}
                         <p class="text-red-500 text-sm mt-1">{{ errors.address }}</p>
                         {% endif %}
@@ -132,7 +132,7 @@
                             <label class="block text-sm font-bold text-gray-700">Citizenship Number</label>
                             <input type="text" name="citizenship_number" 
                                 class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
-                                placeholder="12-34-56-7890">
+                                placeholder="12-34-56-7890" value="{{ data.citizenship_number|default:'' }}">
                             {% if errors.citizenship_number %}
                             <p class="text-red-500 text-sm mt-1">{{ errors.citizenship_number }}</p>
                             {% endif %}
@@ -141,14 +141,14 @@
                             <label class="block text-sm font-bold text-gray-700">Registration Number</label>
                             <input type="text" name="registration_number" 
                                 class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
-                                placeholder="Reg-ID-5678">
+                                placeholder="Reg-ID-5678" value="{{ data.registration_number|default:'' }}">
                             {% if errors.registration_number %}
                             <p class="text-red-500 text-sm mt-1">{{ errors.registration_number }}</p>
                             {% endif %}
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700">Verification Document</label>
-                            <input type="file" name="verification_document" 
+                            <input type="file" name="verification_document" value="{{ data.verification_document|default:'' }}" 
                                 class="w-full mt-1 p-1.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                             {% if errors.verification_document %}
                             <p class="text-red-500 text-sm mt-1">{{ errors.verification_document }}</p>

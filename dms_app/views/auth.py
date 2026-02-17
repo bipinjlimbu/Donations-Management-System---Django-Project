@@ -18,13 +18,13 @@ def register_view(request):
         citizenship_number = request.POST.get("citizenship_number").strip()
         verification_document = request.FILES.get("verification_document")
         
-        username_pattern = r'^[A-Z]{1}[a-z]{4,}[0-9]{2,}$'
+        username_pattern = r'^[A-Z]{1}[a-zA-Z]{1,}[0-9]{1,}$'
         if not username:
             errors["username"] = "Username is required."
         elif User.objects.filter(username=username).exists():
             errors["username"] = "Username already exists."
         elif not re.match(username_pattern, username):
-            errors["username"] = "Username must start with an uppercase letter, followed by at least 4 lowercase letters, and end with at least 2 digits."
+            errors["username"] = "Username must start with an uppercase letter and end with at least 1 digits."
             
         if not name:
             errors["name"] = "Name is required."
@@ -57,7 +57,7 @@ def register_view(request):
         if role == "NGO" and not registration_number:
             errors["registration_number"] = "Registration number is required for NGOs."
             
-        if role == "Donor" and not citizenship_number:
+        if role == "DONOR" and not citizenship_number:
             errors["citizenship_number"] = "Citizenship number is required for Donors."
             
         if not verification_document:
