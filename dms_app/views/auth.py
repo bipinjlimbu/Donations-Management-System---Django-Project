@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from ..models import Register, User
+import re
 
 def register_view(request):
     errors = {}
@@ -22,7 +23,7 @@ def register_view(request):
             errors["username"] = "Username is required."
         elif User.objects.filter(username=username).exists():
             errors["username"] = "Username already exists."
-        elif not username_pattern.match(username):
+        elif not re.match(username_pattern, username):
             errors["username"] = "Username must start with an uppercase letter, followed by at least 4 lowercase letters, and end with at least 2 digits."
             
         if not name:
@@ -33,13 +34,13 @@ def register_view(request):
             errors["email"] = "Email is required."
         elif User.objects.filter(email=email).exists():
             errors["email"] = "Email already exists."
-        elif not email_pattern.match(email):
+        elif not re.match(email_pattern, email):
             errors["email"] = "Invalid email format."
         
         password_pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$'
         if not password:
             errors["password"] = "Password is required."
-        elif not password_pattern.match(password):
+        elif not re.match(password_pattern, password):
             errors["password"] = "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a digit, and a special character."
         elif password != confirm_password:
             errors["confirm_password"] = "Passwords do not match."
@@ -47,7 +48,7 @@ def register_view(request):
         phone_pattern = r'^[0-9]{9,15}$'
         if not phone:
             errors["phone"] = "Phone number is required."
-        elif not phone_pattern.match(phone):
+        elif not re.match(phone_pattern, phone):
             errors["phone"] = "Invalid phone number format."
             
         if not address:
