@@ -22,16 +22,6 @@
                 <p class="text-gray-500 mt-2">Log in to your ShareHope account</p>
             </div>
 
-            {% if messages %}
-            <div class="mb-6">
-                {% for message in messages %}
-                <div class="p-3 rounded-lg text-sm {% if message.tags == 'error' %}bg-red-50 text-red-700 border border-red-200{% else %}bg-blue-50 text-blue-700 border border-blue-200{% endif %}">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-
             <form method="POST" action="{% url 'login' %}" class="space-y-6">
                 {% csrf_token %}
 
@@ -39,15 +29,27 @@
                     <label class="block text-sm font-bold text-gray-700">Username</label>
                     <input type="text" name="username" required 
                         class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                        placeholder="your_username">
+                        placeholder="your_username" value="{{ data.username|default:'' }}">
+                    {% if errors.username %}
+                        <p class="text-red-500 text-sm mt-1">{{ errors.username }}</p>
+                    {% endif %}
                 </div>
 
                 <div>
                     <label class="block text-sm font-bold text-gray-700">Password</label>
                     <input type="password" name="password" required 
                         class="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                        placeholder="••••••••">
+                        placeholder="••••••••" value="{{ data.password|default:'' }}">
+                    {% if errors.password %}
+                        <p class="text-red-500 text-sm mt-1">{{ errors.password }}</p>
+                    {% endif %}
                 </div>
+
+                {% if errors.invalid %}
+                    <div class="text-red-500 text-sm mt-2 text-center">
+                        {{ errors.invalid }}
+                    </div>
+                {% endif %}
 
                 <button type="submit" 
                     class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-700 shadow-lg transform transition active:scale-[0.98] focus:outline-none">
