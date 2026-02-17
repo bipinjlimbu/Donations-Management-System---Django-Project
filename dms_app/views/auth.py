@@ -9,6 +9,7 @@ def register_view(request):
         name = request.POST.get("name").strip()
         email = request.POST.get("email").strip()
         password = request.POST.get("password").strip()
+        confirm_password = request.POST.get("confirm_password").strip()
         role = request.POST.get("role")
         phone = request.POST.get("phone").strip()
         address = request.POST.get("address").strip()
@@ -40,6 +41,8 @@ def register_view(request):
             errors["password"] = "Password is required."
         elif not password_pattern.match(password):
             errors["password"] = "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a digit, and a special character."
+        elif password != confirm_password:
+            errors["confirm_password"] = "Passwords do not match."
             
         phone_pattern = r'^[0-9]{9,15}$'
         if not phone:
@@ -61,20 +64,20 @@ def register_view(request):
         
         if errors:
             return render(request, "auth/register_page.html", {"errors": errors})
-        
-        user = Register.objects.create(
-            name=name,
-            username=username,
-            email=email,
-            password=password,
-            role=role,
-            phone=phone,
-            address=address,
-            profile_image=image,
-            registration_number=registration_number,
-            citizenship_number=citizenship_number,
-            verification_document=verification_document
-        )
+        else:
+            Register.objects.create(
+                name=name,
+                username=username,
+                email=email,
+                password=password,
+                role=role,
+                phone=phone,
+                address=address,
+                profile_image=image,
+                registration_number=registration_number,
+                citizenship_number=citizenship_number,
+                verification_document=verification_document
+            ) 
         
         return redirect("home")
          
