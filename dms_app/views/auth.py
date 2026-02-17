@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from ..models import Register, User
+from django.contrib.auth import authenticate, login
 import re
 
 def register_view(request):
@@ -85,4 +86,26 @@ def register_view(request):
     return render(request,"auth/register_page.html")
 
 def login_view(request):
+    errors={}
+    if request.method == "POST":
+        username = request.POST.get("username").strip()
+        password = request.POST.get("password").strip()
+        
+        if not username:
+            errors["username"] = "Username is required."
+        
+        if not password:
+            errors["password"] = "Password is required."
+            
+        if errors:
+            return render(request, "auth/login_page.html", {"errors": errors, "data": request.POST})
+        else:
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("home")
+            else:
+                errors["invalid"] = "Invalid username or password."
+                return render(request, "auth/login_page.html", {"errors": errors, "data": request.POST})
+            
     return render(request,"auth/login_page.html")
