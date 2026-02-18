@@ -89,101 +89,97 @@
                 </div>
 
             {% elif section == 'signup-requests' %}
-                <h1 class="text-2xl font-bold text-slate-800 mb-6">Sign Up Requests</h1>
-                
-                <div class="space-y-4">
-                    {% for request in signup_requests %}
-                        <div class="bg-white p-6 rounded-2xl border border-slate-200 flex justify-between items-center shadow-sm hover:border-blue-300 transition-colors">
-                            <div>
-                                <div class="flex items-center gap-2 mb-1">
-                                    <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded uppercase">{{ request.role }} Request</span>
-                                    <p class="font-bold text-slate-900 text-lg">{{ request.name }}</p>
-                                </div>
-                                <p class="text-xs text-slate-500">
-                                    Requested: {{ request.requested_at|date:"d M Y" }} • 
-                                    {% if request.role == "NGO" %} Reg: {{ request.registration_number }} {% else %} Citizenship: {{ request.citizenship_number }}{% endif %}
-                                </p>
-                            </div>
-                            <div class="flex gap-3">
-                                <button onclick="openModal('{{ request.name }}',
-                                                            '{{ request.role }}',
-                                                            '{{ request.email|default:"N/A" }}',
-                                                            '{% if request.role == "NGO" %}{{ request.registration_number }}{% else %}{{ request.citizenship_number }}{% endif %}',
-                                                            '{{ request.phone|default:"N/A" }}',
-                                                            '{{ request.address|default:"N/A" }}',
-                                                            '{% if request.profile_image %}{{ request.profile_image.url }}{% else %}https://ui-avatars.com/api/?name={{ request.name|urlencode }}{% endif %}',
-                                                            '{% if request.verification_document %}{{ request.verification_document.url }}{% else %}#{% endif %}')"
-                                        class="px-5 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-blue-700">
-                                    Review
-                                </button>
-                            </div>
-                        </div>
-                    {% empty %}
-                        <p class="text-slate-500 text-center py-10">No pending requests.</p>
-                    {% endfor %}
+                <div class="mb-6 flex justify-between items-end">
+                    <div>
+                        <h1 class="text-2xl font-black text-slate-800 tracking-tight">Sign Up Requests</h1>
+                        <p class="text-sm text-slate-500 font-medium">Verify credentials for new user registrations</p>
+                    </div>
+                    <span class="text-[11px] font-bold bg-slate-200 text-slate-600 px-3 py-1 rounded-full uppercase tracking-wider">
+                        {{ signup_requests|length }} Pending
+                    </span>
                 </div>
 
-                <div id="reviewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-                    <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="relative">
-                                        <img id="modalImg" class="w-16 h-16 rounded-2xl object-cover border-2 border-slate-100 shadow-sm" alt="Profile">
-                                        <span id="modalRoleBadge" class="absolute -bottom-2 -right-2 text-[8px] font-black bg-blue-600 text-white px-2 py-0.5 rounded-full uppercase shadow-sm"></span>
-                                    </div>
-                                    <div>
-                                        <h2 id="modalName" class="text-2xl font-black text-slate-800 leading-tight"></h2>
-                                        <p id="modalEmail" class="text-sm text-slate-500 font-medium"></p>
-                                    </div>
-                                </div>
-                                <button onclick="closeModal()" class="p-2 bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
-                                    <i data-lucide="x" class="w-5 h-5"></i>
-                                </button>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest flex items-center gap-1">
-                                        <i data-lucide="phone" class="w-3 h-3"></i> Contact Info
-                                    </p>
-                                    <p id="modalPhone" class="text-slate-700 font-bold text-sm"></p>
-                                    <p id="modalAddress" class="text-slate-500 text-xs mt-1 italic leading-relaxed"></p>
-                                </div>
-
-                                <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                                    <p id="idLabel" class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest flex items-center gap-1">
-                                        <i data-lucide="shield-check" class="w-3 h-3"></i>
-                                    </p>
-                                    <p id="modalID" class="text-slate-700 font-bold text-sm"></p>
-                                    <p class="text-[9px] text-green-600 font-bold uppercase mt-1">Status: Pending Verification</p>
+                <div class="space-y-3">
+                    {% for request in signup_requests %}
+                    <div class="bg-white border border-slate-200 rounded-2xl p-4 hover:border-blue-300 transition-all shadow-sm">
+                        <div class="flex items-center">
+                            
+                            <div class="flex items-center gap-4 min-w-[220px] pr-4">
+                                <img src="{% if request.profile_image %}{{ request.profile_image.url }}{% else %}https://ui-avatars.com/api/?name={{ request.name|urlencode }}&background=0f172a&color=fff{% endif %}" 
+                                    class="w-12 h-12 rounded-xl object-cover shrink-0">
+                                <div class="overflow-hidden">
+                                    <p class="font-bold text-slate-900 leading-tight truncate">{{ request.name }}</p>
+                                    <span class="text-[9px] font-black bg-blue-100 text-blue-700 px-2 py-0.5 rounded uppercase mt-1 inline-block">
+                                        {{ request.role }}
+                                    </span>
                                 </div>
                             </div>
 
-                            <div class="mt-4">
-                                <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-widest"></p>
-                                <div id="modalDocContainer" class="flex gap-3">
-                                    <a id="modalDocLink" href="#" target="_blank" class="flex-1 flex items-center justify-between p-4 border-2 border-dashed border-slate-200 rounded-2xl hover:bg-blue-50 hover:border-blue-300 transition-all group">
-                                        <div class="flex items-center gap-3">
-                                            <div class="p-2 bg-blue-100 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-all">
-                                                <i data-lucide="file-text" class="w-5 h-5"></i>
-                                            </div>
-                                            <div>
-                                                <p class="text-sm font-bold text-slate-700 group-hover:text-blue-700">View Document</p>
-                                                <p class="text-[10px] text-slate-400">PDF / Image (Max 5MB)</p>
-                                            </div>
-                                        </div>
-                                        <i data-lucide="external-link" class="w-4 h-4 text-slate-300 group-hover:text-blue-500"></i>
+                            <div class="border-l border-slate-100 px-6 min-w-[200px] hidden xl:block">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Email</p>
+                                <p class="text-sm text-slate-600 font-medium truncate">{{ request.email|default:"N/A" }}</p>
+                            </div>
+
+                            <div class="border-l border-slate-100 px-6 min-w-[180px]">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">
+                                    {% if request.role == "NGO" %}Registration No.{% else %}Citizenship No.{% endif %}
+                                </p>
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm text-slate-700 font-bold">
+                                        {% if request.role == "NGO" %}{{ request.registration_number }}{% else %}{{ request.citizenship_number }}{% endif %}
+                                    </p>
+                                    <a href="{% if request.verification_document %}{{ request.verification_document.url }}{% else %}#{% endif %}" target="_blank" class="text-blue-500 hover:scale-110 transition-transform">
+                                        <i data-lucide="file-text" class="w-4 h-4"></i>
                                     </a>
                                 </div>
                             </div>
 
-                            <div class="mt-8 flex gap-3">
-                                <button class="flex-1 py-4 bg-green-600 text-white rounded-2xl font-bold shadow-lg shadow-green-900/20 hover:bg-green-700 hover:-translate-y-0.5 transition-all">Approve User</button>
-                                <button class="flex-1 py-4 bg-red-50 text-red-600 rounded-2xl font-bold hover:bg-red-100 transition-all">Reject Request</button>
+                            <div class="border-l border-slate-100 px-6 min-w-[150px]">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Phone</p>
+                                <p class="text-sm text-slate-600 font-medium">{{ request.phone|default:"N/A" }}</p>
                             </div>
+
+                            <div class="border-l border-slate-100 px-6 flex-grow min-w-[200px]">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Address</p>
+                                <p class="text-sm text-slate-500 font-medium truncate italic" title="{{ request.address }}">
+                                    {{ request.address|default:"No address provided" }}
+                                </p>
+                            </div>
+
+                            <div class="border-l border-slate-100 px-6 min-w-[120px]">
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Requested On</p>
+                                <p class="text-sm text-slate-600 font-medium">
+                                    {{ request.requested_at|date:"M d, Y" }}
+                                </p>
+                            </div>
+
+                            <div class="flex items-center gap-2 pl-6">
+                                <form method="POST" action="/approve_request/{{ request.id }}/">
+                                    {% csrf_token %}
+                                    <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs font-bold transition-all">
+                                        <i data-lucide="check" class="w-4 h-4"></i> Approve
+                                    </button>
+                                </form>
+
+                                <form method="POST" action="/reject_request/{{ request.id }}/">
+                                    {% csrf_token %}
+                                    <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs font-bold transition-all">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i> Reject
+                                    </button>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
+                    {% empty %}
+                    <div class="bg-white border-2 border-dashed border-slate-200 rounded-3xl p-16 text-center">
+                        <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="coffee" class="w-8 h-8 text-slate-300"></i>
+                        </div>
+                        <p class="text-slate-500 font-bold text-lg">Nothing to review!</p>
+                        <p class="text-slate-400 text-sm">All registration requests have been processed.</p>
+                    </div>
+                    {% endfor %}
                 </div>
 
             {% elif section == 'profile-changes' %}
@@ -222,46 +218,6 @@
 <script>
     lucide.createIcons();
 
-    function openModal(name, role, email, id, phone, address, imageUrl, docUrl) {
-        const modal = document.getElementById('reviewModal');
-
-        document.getElementById('modalName').innerText = name;
-        document.getElementById('modalRoleBadge').innerText = role;
-        document.getElementById('modalEmail').innerText = email;
-        document.getElementById('modalID').innerText = id;
-        document.getElementById('modalPhone').innerText = phone || 'No phone provided';
-        document.getElementById('modalAddress').innerText = address || 'No address provided';
-        document.getElementById('idLabel').innerHTML = `<i data-lucide="shield-check" class="w-3 h-3"></i> ${role === 'NGO' ? 'Registration Number' : 'Citizenship Number'}`;
-
-        const img = document.getElementById('modalImg');
-        img.src = imageUrl ? imageUrl : `https://ui-avatars.com/api/?name=${name}&background=random`;
-
-        const docLink = document.getElementById('modalDocLink');
-        if (docUrl) {
-            docLink.href = docUrl;
-            docLink.style.display = 'flex';
-        } else {
-            docLink.style.display = 'none';
-        }
-
-        lucide.createIcons();
-
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('reviewModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
-
-    window.onclick = function(event) {
-        const modal = document.getElementById('reviewModal');
-        if (event.target == modal) {
-            closeModal();
-        }
-    }
 </script>
 </body>
 </html>
