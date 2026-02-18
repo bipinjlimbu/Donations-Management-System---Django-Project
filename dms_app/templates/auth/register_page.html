@@ -8,6 +8,8 @@
     <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
     <style>
         .hidden-fields { display: none; }
+        #image-preview { transition: transform 0.3s ease; }
+        .group:hover #image-preview { transform: scale(1.05); }
     </style>
 </head>
 
@@ -19,17 +21,18 @@
             {% for message in messages %}
                 alert("{{ message }}");
             {% endfor %}
+        </script>
     {% endif %}
 
     <main class="flex-grow flex items-center justify-center py-12 px-4">
-        <div class="max-w-2xl w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+        <div class="max-w-2xl w-full bg-white p-8 rounded-3xl shadow-xl border border-gray-100">
             
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Create Your Account</h2>
-                <p class="text-gray-500 mt-2">Join ShareHope and help bridge the gap</p>
+                <h2 class="text-3xl font-black text-gray-900 tracking-tight">Create Your Account</h2>
+                <p class="text-gray-500 mt-2 font-medium">Join ShareHope and help bridge the gap</p>
             </div>
 
-            <form method="POST" action="/register/" enctype="multipart/form-data" class="space-y-6">
+            <form id="registrationForm" method="POST" action="/register/" enctype="multipart/form-data" class="space-y-6">
                 {% csrf_token %}
 
                 <div class="flex gap-2 p-1.5 bg-gray-100 rounded-2xl">
@@ -47,130 +50,104 @@
                     </label>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-bold text-gray-700 mb-1">Profile Picture</label>
-                        <div class="flex items-center justify-center w-full">
-                            <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <span class="text-2xl mb-2">📸</span>
-                                    <p class="text-sm text-gray-500">Click to upload profile photo</p>
-                                </div>
-                                <input type="file" name="profile_image" accept="image/*" class="hidden" />
-                            </label>
-                        </div>
-                    </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-bold text-gray-700 mb-2">Profile Picture</label>
+                    <div class="flex items-center justify-center w-full">
+                        <label class="relative group flex flex-col items-center justify-center w-full h-44 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition overflow-hidden">
+                            
+                            <div id="upload-placeholder" class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-3 text-2xl">📸</div>
+                                <p class="text-sm text-gray-500 font-bold">Click to upload photo</p>
+                                <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">JPG, PNG or GIF</p>
+                            </div>
 
+                            <img id="image-preview" class="hidden absolute inset-0 w-full h-full object-cover" />
+                            
+                            <div id="change-overlay" class="hidden absolute inset-0 bg-black/40 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30">
+                                    <p class="text-white text-xs font-bold uppercase tracking-wider">Change Image</p>
+                                </div>
+                            </div>
+
+                            <input type="file" name="profile_image" id="profile-input" accept="image/*" class="hidden" onchange="previewImage(this)" />
+                        </label>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Username</label>
-                        <input type="text" name="username" 
-                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="e.g. johndoe123" value="{{ data.username|default:'' }}">
-                        {% if errors.username %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.username }}</p>
-                        {% endif %}
+                        <input type="text" name="username" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="e.g. johndoe123" value="{{ data.username|default:'' }}">
+                        {% if errors.username %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.username }}</p>{% endif %}
                     </div>
 
                     <div>
                         <label id="name-label" class="block text-sm font-bold text-gray-700">Full Name</label>
-                        <input type="text" id="name-input" name="name" 
-                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="Enter your full name" value="{{ data.name|default:'' }}">
-                        {% if errors.name %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.name }}</p>
-                        {% endif %}
+                        <input type="text" id="name-input" name="name" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Enter your full name" value="{{ data.name|default:'' }}">
+                        {% if errors.name %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.name }}</p>{% endif %}
                     </div>
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Email</label>
-                        <input type="email" name="email" 
-                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="example@mail.com" value="{{ data.email|default:'' }}">
-                        {% if errors.email %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.email }}</p>
-                        {% endif %}
+                        <input type="email" name="email" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="example@mail.com" value="{{ data.email|default:'' }}">
+                        {% if errors.email %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.email }}</p>{% endif %}
                     </div>
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Phone Number</label>
-                        <input type="text" name="phone" 
-                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="+977-98XXXXXXXX" value="{{ data.phone|default:'' }}   ">
-                        {% if errors.phone %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.phone }}</p>
-                        {% endif %}
+                        <input type="text" name="phone" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="+977-98XXXXXXXX" value="{{ data.phone|default:'' }}">
+                        {% if errors.phone %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.phone }}</p>{% endif %}
                     </div>
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Password</label>
-                        <input type="password" name="password" 
-                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="••••••••" value="{{ data.password|default:'' }}">
-                        {% if errors.password %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.password }}</p>
-                        {% endif %}
+                        <input type="password" name="password" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="••••••••" value="{{ data.password|default:'' }}">
+                        {% if errors.password %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.password }}</p>{% endif %}
                     </div>
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700">Confirm Password</label>
-                        <input type="password" name="confirm_password" 
-                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="••••••••" value="{{ data.confirm_password|default:'' }}">
-                        {% if errors.confirm_password %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.confirm_password }}</p>
-                        {% endif %}
+                        <input type="password" name="confirm_password" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="••••••••" value="{{ data.confirm_password|default:'' }}">
+                        {% if errors.confirm_password %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.confirm_password }}</p>{% endif %}
                     </div>
 
                     <div class="md:col-span-2">
                         <label id="address-label" class="block text-sm font-bold text-gray-700">Physical Address</label>
-                        <textarea id="address-input" name="address" rows="2" 
-                            class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition" 
-                            placeholder="Street, City, District">{{ data.address|default:'' }}</textarea>
-                        {% if errors.address %}
-                        <p class="text-red-500 text-sm mt-1">{{ errors.address }}</p>
-                        {% endif %}
+                        <textarea id="address-input" name="address" rows="2" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Street, City, District">{{ data.address|default:'' }}</textarea>
+                        {% if errors.address %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.address }}</p>{% endif %}
                     </div>
                 </div>
 
-                <div class="border-t border-gray-100 pt-6">
-                    <h4 class="text-blue-700 font-bold text-sm uppercase tracking-widest mb-4">Verification Details</h4>
+                <div class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+                    <h4 class="text-blue-700 font-black text-xs uppercase tracking-[0.2em] mb-4">Verification Details</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        
                         <div id="donor-id-field">
                             <label class="block text-sm font-bold text-gray-700">Citizenship Number</label>
-                            <input type="text" name="citizenship_number" 
-                                class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
-                                placeholder="12-34-56-7890" value="{{ data.citizenship_number|default:'' }}">
-                            {% if errors.citizenship_number %}
-                            <p class="text-red-500 text-sm mt-1">{{ errors.citizenship_number }}</p>
-                            {% endif %}
+                            <input type="text" name="citizenship_number" class="w-full mt-1 p-3 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="12-34-56-7890" value="{{ data.citizenship_number|default:'' }}">
+                            {% if errors.citizenship_number %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.citizenship_number }}</p>{% endif %}
                         </div>
+
                         <div id="ngo-id-field" class="hidden-fields">
                             <label class="block text-sm font-bold text-gray-700">Registration Number</label>
-                            <input type="text" name="registration_number" 
-                                class="w-full mt-1 p-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
-                                placeholder="Reg-ID-5678" value="{{ data.registration_number|default:'' }}">
-                            {% if errors.registration_number %}
-                            <p class="text-red-500 text-sm mt-1">{{ errors.registration_number }}</p>
-                            {% endif %}
+                            <input type="text" name="registration_number" class="w-full mt-1 p-3 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="Reg-ID-5678" value="{{ data.registration_number|default:'' }}">
+                            {% if errors.registration_number %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.registration_number }}</p>{% endif %}
                         </div>
+
                         <div>
                             <label class="block text-sm font-bold text-gray-700">Verification Document</label>
-                            <input type="file" name="verification_document" value="{{ data.verification_document|default:'' }}" 
-                                class="w-full mt-1 p-1.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                            {% if errors.verification_document %}
-                            <p class="text-red-500 text-sm mt-1">{{ errors.verification_document }}</p>
-                            {% endif %}
+                            <input type="file" name="verification_document" class="w-full mt-1 p-2 border border-gray-300 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-black file:bg-blue-600 file:text-white hover:file:bg-blue-700">
+                            {% if errors.verification_document %}<p class="text-red-500 text-xs mt-1 font-bold">{{ errors.verification_document }}</p>{% endif %}
                         </div>
                     </div>
                 </div>
 
-
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 shadow-lg transform transition active:scale-[0.98]">
+                <button type="submit" class="w-full bg-blue-600 text-white font-black py-4 rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-200 transform transition active:scale-[0.98]">
                     Submit Registration Request
                 </button>
             </form>
 
-            <div class="mt-6 text-center text-sm text-gray-600">
+            <div class="mt-8 text-center text-sm text-gray-500 font-medium">
                 Already have an account? 
                 <a href="/login/" class="text-blue-600 font-bold hover:underline">Login here</a>
             </div>
@@ -180,6 +157,49 @@
     {% include 'components/_footer.html' %}
 
     <script>
+        // Load stored image on page refresh (if error occurred)
+        window.onload = function() {
+            const savedImage = localStorage.getItem('temp_profile_preview');
+            if (savedImage) {
+                const preview = document.getElementById('image-preview');
+                const placeholder = document.getElementById('upload-placeholder');
+                const overlay = document.getElementById('change-overlay');
+                
+                preview.src = savedImage;
+                preview.classList.remove('hidden');
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+                placeholder.classList.add('hidden');
+            }
+        };
+
+        function previewImage(input) {
+            const file = input.files[0];
+            const preview = document.getElementById('image-preview');
+            const placeholder = document.getElementById('upload-placeholder');
+            const overlay = document.getElementById('change-overlay');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Image = e.target.result;
+                    preview.src = base64Image;
+                    preview.classList.remove('hidden');
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('flex');
+                    placeholder.classList.add('hidden');
+                    
+                    // Save to local storage to persist through errors
+                    localStorage.setItem('temp_profile_preview', base64Image);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Clear local storage ONLY if form is successfully submitted or navigated away 
+        // Note: Real "Success" is handled by the redirect, so we clear it on valid login clicks
+        document.querySelector('a[href="/login/"]').onclick = () => localStorage.removeItem('temp_profile_preview');
+
         function toggleFields(role) {
             const nameLabel = document.getElementById('name-label');
             const nameInput = document.getElementById('name-input');
