@@ -1,1 +1,144 @@
-<h1> Admin Dashboard </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - ShareHope</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        body { display: flex; flex-direction: column; height: 100vh; }
+        .dashboard-container { flex: 1; display: flex; overflow: hidden; }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans overflow-hidden">
+
+    {% include 'components/_navbar.html' %}
+
+    <div class="dashboard-container">
+        
+        <aside class="w-72 bg-[#0F172A] text-slate-300 flex flex-col shadow-xl shrink-0">
+            <nav class="flex-grow p-6 space-y-2 overflow-y-auto custom-scrollbar">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-4 text-center">Admin Control Panel</p>
+                
+                <a href="?section=user-list" 
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all 
+                   {% if section == 'user-list' or not section %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <span class="text-sm font-semibold">User List</span>
+                </a>
+
+                <a href="?section=signup-requests" 
+                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                   {% if section == 'signup-requests' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="user-plus" class="w-5 h-5 group-hover:text-orange-400"></i>
+                        <span class="text-sm font-medium">Sign Up Requests</span>
+                    </div>
+                    <span class="bg-orange-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ signup_count|default:"12" }}</span>
+                </a>
+
+                <a href="?section=profile-changes" 
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all group
+                   {% if section == 'profile-changes' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <i data-lucide="refresh-ccw" class="w-5 h-5 group-hover:text-purple-400"></i>
+                    <span class="text-sm font-medium">Profile Changes</span>
+                </a>
+
+                <a href="?section=campaign-requests" 
+                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                   {% if section == 'campaign-requests' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="flame" class="w-5 h-5 group-hover:text-green-400"></i>
+                        <span class="text-sm font-medium">Campaign Requests</span>
+                    </div>
+                    <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_count|default:"5" }}</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 overflow-y-auto p-8 bg-slate-50">
+            
+            {% if section == 'user-list' or not section %}
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold text-slate-800">User List</h1>
+                    <span class="text-sm text-slate-500 font-medium">Total Users: 240</span>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50 border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Username</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Email</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Status</th>
+                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="px-6 py-4 text-sm font-medium text-slate-900">Aryan_Donor</td>
+                                <td class="px-6 py-4 text-sm text-slate-600">aryan@mail.com</td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded-md text-[10px] font-bold uppercase">Active</span></td>
+                                <td class="px-6 py-4"><button class="text-blue-600 font-bold text-xs hover:underline">Manage</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            {% elif section == 'signup-requests' %}
+                <h1 class="text-2xl font-bold text-slate-800 mb-6">Sign Up Requests</h1>
+                <div class="space-y-4">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 flex justify-between items-center shadow-sm hover:border-blue-300 transition-colors">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded uppercase">NGO Request</span>
+                                <p class="font-bold text-slate-900 text-lg">Helping Hands Nepal</p>
+                            </div>
+                            <p class="text-xs text-slate-500">Submitted: 14th Feb 2026 • Registration No: 99821</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <button class="px-5 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-md hover:bg-blue-700">Review</button>
+                            <button class="px-5 py-2 bg-slate-100 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-200">Ignore</button>
+                        </div>
+                    </div>
+                </div>
+
+            {% elif section == 'profile-changes' %}
+                <h1 class="text-2xl font-bold text-slate-800 mb-6">Profile Change Requests</h1>
+                <div class="bg-white rounded-3xl p-12 border border-slate-200 text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-400">
+                        <i data-lucide="check-square" class="w-8 h-8"></i>
+                    </div>
+                    <p class="text-slate-800 font-bold text-lg">System All Clear</p>
+                    <p class="text-slate-500 text-sm">No users have requested profile modifications at this time.</p>
+                </div>
+
+            {% elif section == 'campaign-requests' %}
+                <h1 class="text-2xl font-bold text-slate-800 mb-6">Campaign Creation Requests</h1>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                        <div>
+                            <h3 class="font-bold text-slate-900">Clean Water Project - Terai</h3>
+                            <p class="text-xs text-slate-500">Proposed by: WaterAid Foundation</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-black text-blue-600">Rs. 450,000</p>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Goal Amount</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 flex gap-4 justify-end">
+                        <button class="text-xs font-bold text-slate-500 uppercase tracking-widest hover:text-red-500 transition-colors">Reject</button>
+                        <button class="text-xs font-bold text-blue-600 uppercase tracking-widest hover:text-blue-800 transition-colors">Approve Campaign</button>
+                    </div>
+                </div>
+            {% endif %}
+
+        </main>
+    </div>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
