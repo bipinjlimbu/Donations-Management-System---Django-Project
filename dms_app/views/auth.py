@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from ..models import Register, User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 import re
 
@@ -112,3 +112,8 @@ def login_view(request):
                 return render(request, "auth/login_page.html", {"errors": errors, "data": request.POST})
             
     return render(request,"auth/login_page.html")
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, "Logged out successfully.")
+    return redirect("home")
