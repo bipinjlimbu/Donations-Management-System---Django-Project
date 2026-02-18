@@ -5,7 +5,7 @@ from django.utils.timezone import now
 class ContactInfo(models.Model):
     phone = models.CharField(max_length=15)
     address = models.TextField()
-    profile_image = models.ImageField(upload_to='images/profiles/temp/', blank=True, null=True)
+    profile_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
     
     class Meta:
         abstract = True
@@ -15,7 +15,7 @@ class PendingChanges(models.Model):
     pending_email = models.EmailField(blank=True, null=True)
     pending_phone = models.CharField(max_length=15, blank=True, null=True)
     pending_address = models.TextField(blank=True, null=True)
-    pending_image = models.ImageField(upload_to='images/profiles/pending/', blank=True, null=True)
+    pending_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -29,7 +29,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=15, choices=Role.choices, default=Role.DONOR)
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    profile_image = models.ImageField(upload_to='images/profiles/users/', blank=True, null=True)
+    profile_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
 
 class Register(ContactInfo):
     class Status(models.TextChoices):
