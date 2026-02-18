@@ -73,3 +73,15 @@ def approve_signup_request(request, request_id):
             messages.error(request, "Signup request not found or already processed.")
     
     return redirect("admin-dashboard")
+
+@login_required
+def reject_signup_request(request, request_id):
+    if request.method == "POST":
+        try:
+            signup_request = Register.objects.get(id=request_id, status='PENDING')
+            signup_request.delete()
+            messages.success(request, f"Signup request for {signup_request.username} has been rejected.")
+        except Register.DoesNotExist:
+            messages.error(request, "Signup request not found or already processed.")
+    
+    return redirect("admin-dashboard")
