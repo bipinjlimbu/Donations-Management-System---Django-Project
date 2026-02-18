@@ -35,7 +35,6 @@ class Register(ContactInfo):
     class Status(models.TextChoices):
         PENDING = 'PENDING', 'Pending'
         APPROVED = 'APPROVED', 'Approved'
-        REJECTED = 'REJECTED', 'Rejected'
         
     username = models.CharField(max_length=150, unique=True)
     name = models.CharField(max_length=100)
