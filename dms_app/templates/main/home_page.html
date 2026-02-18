@@ -11,6 +11,16 @@
 
     {% include 'components/_navbar.html' %}
 
+    {% if messages %}
+        <div class="fixed top-4 right-4 z-50">
+            {% for message in messages %}
+                <script>
+                    alert("{{ message }}");
+                </script>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <section class="relative h-screen min-h-[700px] flex items-center justify-center text-white overflow-hidden">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" 
