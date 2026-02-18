@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.auth import get_user_model
-from ..models import Register
+from django.contrib import messages
+from ..models import DonorProfile, NGOProfile, Register
 
 def home_view(request):
     return render(request,"main/home_page.html")
@@ -34,3 +35,41 @@ def admin_dashboard_view(request):
         context['data_list'] = [] # Dummy placeholder
 
     return render(request, 'main/admin_dashboard.html', context)
+
+@login_required
+def approve_signup_request(request, request_id):
+    if request.method == "POST":
+        try:
+            signup_request = Register.objects.get(id=request_id, status='PENDING')
+            User.objects.create_user(
+                username=signup_request.username,
+                email=signup_request.email,
+                password=signup_request.password,
+                role=signup_request.role,
+                phone=signup_request.phone,
+                address=signup_request.address,
+                profile_image=signup_request.profile_image,
+            )
+            
+            if signup_request.role == "NGO":
+                NGOProfile.objects.create(
+                    user=User.objects.get(username=signup_request.username),
+                    organization_name=signup_request.name,
+                    registration_number=signup_request.registration_number,
+                    verification_document=signup_request.verification_document
+                )
+            else:
+                DonorProfile.objects.create(
+                    user=User.objects.get(username=signup_request.username),
+                    full_name=signup_request.name,
+                    citizenship_number=signup_request.citizenship_number,
+                    verification_document=signup_request.verification_document
+                )
+                
+            signup_request.status = 'APPROVED'
+            signup_request.save()
+            messages.success(request, f"Signup request for {signup_request.username} has been approved.")
+        except Register.DoesNotExist:
+            messages.error(request, "Signup request not found or already processed.")
+    
+    return redirect("admin-dashboard")
