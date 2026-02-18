@@ -154,14 +154,14 @@
                             </div>
 
                             <div class="flex items-center gap-2 pl-6">
-                                <form method="POST" action="/approve_request/{{ request.id }}/">
+                                <form method="POST" action="/approve_signup_request/{{ request.id }}/">
                                     {% csrf_token %}
                                     <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs font-bold transition-all">
                                         <i data-lucide="check" class="w-4 h-4"></i> Approve
                                     </button>
                                 </form>
 
-                                <form method="POST" action="/reject_request/{{ request.id }}/">
+                                <form method="POST" action="/reject_signup_request/{{ request.id }}/">
                                     {% csrf_token %}
                                     <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs font-bold transition-all">
                                         <i data-lucide="trash-2" class="w-4 h-4"></i> Reject
