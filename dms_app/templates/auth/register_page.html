@@ -157,22 +157,6 @@
     {% include 'components/_footer.html' %}
 
     <script>
-        // Load stored image on page refresh (if error occurred)
-        window.onload = function() {
-            const savedImage = localStorage.getItem('temp_profile_preview');
-            if (savedImage) {
-                const preview = document.getElementById('image-preview');
-                const placeholder = document.getElementById('upload-placeholder');
-                const overlay = document.getElementById('change-overlay');
-                
-                preview.src = savedImage;
-                preview.classList.remove('hidden');
-                overlay.classList.remove('hidden');
-                overlay.classList.add('flex');
-                placeholder.classList.add('hidden');
-            }
-        };
-
         function previewImage(input) {
             const file = input.files[0];
             const preview = document.getElementById('image-preview');
@@ -182,23 +166,15 @@
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const base64Image = e.target.result;
-                    preview.src = base64Image;
+                    preview.src = e.target.result;
                     preview.classList.remove('hidden');
                     overlay.classList.remove('hidden');
                     overlay.classList.add('flex');
                     placeholder.classList.add('hidden');
-                    
-                    // Save to local storage to persist through errors
-                    localStorage.setItem('temp_profile_preview', base64Image);
                 }
                 reader.readAsDataURL(file);
             }
         }
-
-        // Clear local storage ONLY if form is successfully submitted or navigated away 
-        // Note: Real "Success" is handled by the redirect, so we clear it on valid login clicks
-        document.querySelector('a[href="/login/"]').onclick = () => localStorage.removeItem('temp_profile_preview');
 
         function toggleFields(role) {
             const nameLabel = document.getElementById('name-label');
