@@ -44,7 +44,7 @@ class Register(ContactInfo):
     approved_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.name} - {self.role} ({self.status})"
+        return f"{self.username} ({self.get_role_display()})"
 
 class NGOProfile(PendingChanges):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ngo_profile')
