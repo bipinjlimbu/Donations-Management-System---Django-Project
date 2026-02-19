@@ -31,11 +31,7 @@ class User(AbstractUser):
     address = models.TextField(blank=True, null=True)
     profile_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
 
-class Register(ContactInfo):
-    class Status(models.TextChoices):
-        PENDING = 'PENDING', 'Pending'
-        APPROVED = 'APPROVED', 'Approved'
-        
+class Register(ContactInfo):        
     username = models.CharField(max_length=150, unique=True)
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -44,7 +40,6 @@ class Register(ContactInfo):
     registration_number = models.CharField(max_length=50, blank=True, null=True)
     citizenship_number = models.CharField(max_length=20, blank=True, null=True)
     verification_document = models.FileField(upload_to='images/verification_docs/')
-    status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
     requested_at = models.DateTimeField(auto_now_add=True)
     approved_at = models.DateTimeField(blank=True, null=True)
 
