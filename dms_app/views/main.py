@@ -66,8 +66,7 @@ def approve_signup_request(request, request_id):
                     verification_document=signup_request.verification_document
                 )
                 
-            signup_request.status = 'APPROVED'
-            signup_request.save()
+            signup_request.delete()
             messages.success(request, f"Signup request for {signup_request.username} has been approved.")
         except Register.DoesNotExist:
             messages.error(request, "Signup request not found or already processed.")
