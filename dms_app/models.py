@@ -12,6 +12,7 @@ class ContactInfo(models.Model):
 
 class PendingChanges(models.Model):
     pending_name = models.CharField(max_length=100, blank=True, null=True)
+    pending_username = models.CharField(max_length=150, blank=True, null=True)
     pending_email = models.EmailField(blank=True, null=True)
     pending_phone = models.CharField(max_length=15, blank=True, null=True)
     pending_address = models.TextField(blank=True, null=True)
