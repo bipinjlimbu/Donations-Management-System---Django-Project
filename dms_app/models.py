@@ -46,7 +46,6 @@ class Register(ContactInfo):
     citizenship_number = models.CharField(max_length=20, blank=True, null=True)
     verification_document = models.FileField(upload_to='images/verification_docs/')
     requested_at = models.DateTimeField(auto_now_add=True)
-    approved_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"
