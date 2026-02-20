@@ -40,7 +40,7 @@ def admin_dashboard_view(request):
 def approve_signup_request(request, request_id):
     if request.method == "POST":
         try:
-            signup_request = Register.objects.get(id=request_id, status='PENDING')
+            signup_request = Register.objects.get(id=request_id)
             User.objects.create_user(
                 username=signup_request.username,
                 email=signup_request.email,
@@ -77,7 +77,7 @@ def approve_signup_request(request, request_id):
 def reject_signup_request(request, request_id):
     if request.method == "POST":
         try:
-            signup_request = Register.objects.get(id=request_id, status='PENDING')
+            signup_request = Register.objects.get(id=request_id)
             signup_request.delete()
             messages.success(request, f"Signup request for {signup_request.username} has been rejected.")
         except Register.DoesNotExist:
