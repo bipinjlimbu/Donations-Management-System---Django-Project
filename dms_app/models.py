@@ -30,6 +30,11 @@ class User(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     profile_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
+    
+    def save(self, *args, **kwargs):
+        if self.is_superuser:
+            self.role = self.Role.ADMIN
+        super().save(*args, **kwargs)
 
 class Register(ContactInfo):        
     username = models.CharField(max_length=150, unique=True)
