@@ -14,14 +14,12 @@ def admin_dashboard_view(request):
     
     context = {
         'section': section,
-        # Badge counts (Real counts from DB)
         'signup_count': Register.objects.filter().count(),
         'campaign_count': 5, # Replace with CampaignRequest.objects.filter(is_approved=False).count()
     }
 
-    # Data Fetching Logic
     if section == 'user-list':
-        context['data_list'] = User.objects.all().order_by('-date_joined')
+        context['users'] = User.objects.all().order_by('-date_joined')
         
     elif section == 'signup-requests':
         context['signup_requests'] = Register.objects.all().order_by('-requested_at')
