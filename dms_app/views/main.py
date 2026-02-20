@@ -19,7 +19,7 @@ def admin_dashboard_view(request):
     }
 
     if section == 'user-list':
-        context['users'] = User.objects.all().order_by('-date_joined')
+        context['users'] = User.objects.all().select_related('ngo_profile', 'donor_profile').all().order_by('-date_joined')
         
     elif section == 'signup-requests':
         context['signup_requests'] = Register.objects.all().order_by('-requested_at')
