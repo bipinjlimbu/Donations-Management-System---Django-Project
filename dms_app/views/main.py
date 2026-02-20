@@ -8,7 +8,7 @@ def home_view(request):
     return render(request,"main/home_page.html")
 
 User = get_user_model()
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(lambda u: u.is_superuser)
 def admin_dashboard_view(request):
     section = request.GET.get('section', 'user-list')
     
