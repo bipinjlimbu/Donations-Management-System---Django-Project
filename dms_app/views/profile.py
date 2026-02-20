@@ -76,6 +76,7 @@ def edit_profile_view(request, user_id):
                 donor_profile.save()
                 
             messages.success(request, "Profile updated successfully.")
+            return redirect('admin-dashboard')
         
         else:
             if user_to_edit.role == "NGO":
@@ -98,7 +99,6 @@ def edit_profile_view(request, user_id):
                 donor_profile.save()
             
             messages.success(request, "Profile update request submitted for admin approval.")
-        
-        return redirect('edit-profile', user_id=user_to_edit.id)
+            return redirect('profile')
     
     return render(request, 'main/edit_profile_page.html', {'user': user_to_edit})
