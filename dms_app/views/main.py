@@ -8,7 +8,7 @@ def home_view(request):
     return render(request,"main/home_page.html")
 
 User = get_user_model()
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role == 'ADMIN')
 def admin_dashboard_view(request):
     section = request.GET.get('section', 'user-list')
     
@@ -36,7 +36,7 @@ def admin_dashboard_view(request):
 
     return render(request, 'main/admin_dashboard.html', context)
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role == 'ADMIN')
 def approve_signup_request(request, request_id):
     if request.method == "POST":
         try:
@@ -73,7 +73,7 @@ def approve_signup_request(request, request_id):
     
     return redirect("admin-dashboard")
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.role == 'ADMIN')
 def reject_signup_request(request, request_id):
     if request.method == "POST":
         try:
