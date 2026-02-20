@@ -74,26 +74,76 @@
             
             {% if section == 'user-list' or not section %}
                 <div class="flex justify-between items-center mb-6">
-                    <h1 class="text-2xl font-bold text-slate-800">User List</h1>
-                    <span class="text-sm text-slate-500 font-medium">Total Users: 240</span>
+                    <h1 class="text-2xl font-bold text-slate-800">User Management</h1>
+                    <span class="text-sm text-slate-500 font-medium bg-blue-50 text-blue-700 px-4 py-1.5 rounded-full border border-blue-100">
+                        Total Users: {{ users.count }}
+                    </span>
                 </div>
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                    <table class="w-full text-left">
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
                         <thead class="bg-slate-50 border-b border-slate-200">
                             <tr>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Username</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Email</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Status</th>
-                                <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase">Action</th>
+                                <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Photo</th>
+                                <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Full Name</th>
+                                <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Username</th>
+                                <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Phone</th>
+                                <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Address</th>
+                                <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Docs</th>
+                                <th class="px-4 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
-                            <tr>
-                                <td class="px-6 py-4 text-sm font-medium text-slate-900">Aryan_Donor</td>
-                                <td class="px-6 py-4 text-sm text-slate-600">aryan@mail.com</td>
-                                <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded-md text-[10px] font-bold uppercase">Active</span></td>
-                                <td class="px-6 py-4"><button class="text-blue-600 font-bold text-xs hover:underline">Manage</button></td>
+                            {% for user in users %}
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="px-4 py-4">
+                                    {% if user.profile_image %}
+                                        <img src="{{ user.profile_image.url }}" alt="Profile" class="h-10 w-10 rounded-full object-cover border border-slate-200 shadow-sm">
+                                    {% else %}
+                                        <div class="h-10 w-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 text-xs font-bold">
+                                            {{ user.name|slice:":1" }}
+                                        </div>
+                                    {% endif %}
+                                </td>
+
+                                <td class="px-4 py-4 text-sm font-bold text-slate-900">{{ user.name }}</td>
+
+                                <td class="px-4 py-4 text-sm text-blue-600 font-medium">@{{ user.username }}</td>
+
+                                <td class="px-4 py-4 text-sm text-slate-600">{{ user.phone }}</td>
+
+                                <td class="px-4 py-4">
+                                    <p class="text-sm text-slate-600 truncate max-w-[120px]" title="{{ user.address }}">
+                                        {{ user.address }}
+                                    </p>
+                                </td>
+
+                                <td class="px-4 py-4 text-center">
+                                    {% if user.verification_document %}
+                                        <a href="{{ user.verification_document.url }}" target="_blank" class="inline-flex p-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all shadow-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                            </svg>
+                                        </a>
+                                    {% endif %}
+                                </td>
+
+                                <td class="px-4 py-4 text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <button class="p-2 text-amber-600 hover:bg-amber-50 rounded-lg transition-colors border border-transparent hover:border-amber-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                            </svg>
+                                        </button>
+                                        <button class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
