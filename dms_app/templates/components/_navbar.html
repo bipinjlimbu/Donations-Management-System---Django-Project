@@ -30,8 +30,8 @@
                     {% endif %}
                     <a href="/campaigns/" class="hover:text-white transition-colors duration-200">Campaigns</a>
                 {% endif %}
-                <a href="/about/" class="hover:text-white transition-colors duration-200">About</a>
                 <a href="/contact/" class="hover:text-white transition-colors duration-200">Contact</a>
+                <a href="/about/" class="hover:text-white transition-colors duration-200">About</a>
 
                 {% if user.is_authenticated %}
                     <a href="/profile/{{ user.id }}/" class="hover:text-white transition-colors duration-200">
