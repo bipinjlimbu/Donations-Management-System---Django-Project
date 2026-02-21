@@ -92,3 +92,32 @@ class Campaign(models.Model):
         if self.target_quantity > 0:
             return (self.collected_quantity / self.target_quantity) * 100
         return 0
+    
+    def is_active(self):
+        today = now().date()
+        return self.status == self.Status.APPROVED and self.start_date <= today <= self.end_date
+    
+    def is_completed(self):
+        return self.status == self.Status.COMPLETED or (self.end_date < now().date() and self.collected_quantity >= self.target_quantity)
+
+class Donation(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'PENDING', 'Pending'
+        DELIVERED = 'DELIVERED', 'Delivered'
+        REJECTED = 'REJECTED', 'Rejected'
+        
+    donor = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to={'role': User.Role.DONOR}, null=True, blank=True)
+    campaign = models.ForeignKey(Campaign, on_delete=models.SET_NULL, null=True, blank=True)
+    quantity = models.PositiveIntegerField()
+    status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
+    delivered_at = models.DateTimeField(auto_now_add=True)
+
+class Feedback(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.name} - {self.subject}"
