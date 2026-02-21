@@ -7,6 +7,9 @@ from ..models import DonorProfile, NGOProfile, Register
 def home_view(request):
     return render(request,"main/home_page.html")
 
+def contact_view(request):
+    return render(request,"main/contact_page.html")
+
 User = get_user_model()
 @user_passes_test(lambda u: u.role == 'ADMIN')
 def admin_dashboard_view(request):
