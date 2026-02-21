@@ -1,1 +1,173 @@
-<h1> Profile Page </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - {{ user.username }}</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#F8FAFC] font-sans antialiased min-h-screen flex flex-col">
+
+    {% include 'components/_navbar.html' %}
+
+    <main class="flex-grow p-6 md:p-12">
+        <div class="max-w-4xl mx-auto">
+            
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-black text-slate-800 tracking-tight">Account Overview</h2>
+                <div class="flex items-center gap-3">
+                    <form action="{% url 'logout' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="flex items-center gap-2 px-5 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-2xl transition-all transform active:scale-95">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                            <span>Logout</span>
+                        </button>
+                    </form>
+
+                    {% if user.role != 'ADMIN' %}
+                    <a href="/profile/edit/{{ user.id }}/" class="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/20 transition-all transform active:scale-95">
+                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                        <span>Edit Profile</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/60 border border-slate-200 overflow-hidden">
+                
+                <div class="bg-[#0F172A] p-8 md:p-12 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                    <div class="relative flex flex-col md:flex-row items-center gap-8">
+                        <div class="relative">
+                            {% if user.profile_image %}
+                                <img src="{{ user.profile_image.url }}" class="w-32 h-32 rounded-[2rem] object-cover ring-4 ring-slate-800 shadow-2xl">
+                            {% else %}
+                                <div class="w-32 h-32 rounded-[2rem] bg-slate-800 flex items-center justify-center text-5xl font-black text-slate-400 border border-slate-700">
+                                    {{ user.username|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                            <div class="absolute -bottom-2 -right-2 bg-green-500 w-6 h-6 rounded-full border-4 border-[#0F172A]"></div>
+                        </div>
+
+                        <div class="text-center md:text-left">
+                            <div class="flex flex-col md:flex-row md:items-center gap-3 mb-2">
+                                <h1 class="text-3xl font-black text-white tracking-tight">{{ user.username }}</h1>
+                                <span class="inline-flex px-3 py-1 bg-blue-500/20 border border-blue-500/30 text-blue-400 text-[10px] font-black uppercase tracking-widest rounded-full w-fit mx-auto md:mx-0">
+                                    {{ user.role }}
+                                </span>
+                            </div>
+                            <p class="text-slate-400 font-medium flex items-center justify-center md:justify-start gap-2">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                {{ user.email }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="space-y-8">
+                        <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Contact Details</h3>
+                        <div class="flex items-start gap-4">
+                            <div class="p-3 bg-slate-50 rounded-2xl text-blue-600">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider">Phone Number</p>
+                                <p class="text-slate-700 font-bold text-lg">{{ user.phone|default:"Not Provided" }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="p-3 bg-slate-50 rounded-2xl text-blue-600">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider">Address</p>
+                                <p class="text-slate-700 font-bold leading-relaxed">{{ user.address|default:"No address set" }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        {% if user.role != 'ADMIN' %}
+                        <h3 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Identity & Verification</h3>
+                        {% endif %}
+                        <div class="bg-slate-50 rounded-[2.5rem] p-8 border border-slate-100 space-y-6">
+                            <div>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">
+                                    {% if user.role == 'NGO' %}Organization Name{% else %}Full Name{% endif %}
+                                </p>
+                                <p class="text-slate-800 font-black text-xl">
+                                    {% if user.role == 'NGO' %}{{ user.ngo_profile.organization_name|default:user.username }}
+                                    {% elif user.role == 'DONOR' %}{{ user.donor_profile.full_name|default:user.username }}
+                                    {% else %}{{ user.username }}{% endif %}
+                                </p>
+                            </div>
+
+                            {% if user.role != 'ADMIN' %}
+                            <div class="pt-6 border-t border-slate-200 space-y-5">
+                                <div>
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1">Verification Number</p>
+                                    <p class="text-slate-700 font-bold">
+                                        {% if user.role == 'NGO' %}{{ user.ngo_profile.registration_number|default:"N/A" }}
+                                        {% else %}{{ user.donor_profile.id_number|default:"N/A" }}{% endif %}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">Verification Document</p>
+                                    {% if user.role == 'NGO' and user.ngo_profile.registration_document %}
+                                        <a href="{{ user.ngo_profile.registration_document.url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-black text-blue-600 hover:border-blue-600 shadow-sm">
+                                            <i data-lucide="file-text" class="w-4 h-4"></i> View Document
+                                        </a>
+                                    {% elif user.role == 'DONOR' and user.donor_profile.id_document %}
+                                        <a href="{{ user.donor_profile.id_document.url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-black text-blue-600 hover:border-blue-600 shadow-sm">
+                                            <i data-lucide="file-text" class="w-4 h-4"></i> View Document
+                                        </a>
+                                    {% else %}
+                                        <span class="text-xs font-bold text-slate-400 italic">No document uploaded</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 md:p-12 bg-red-50/30 border-t border-red-100 mt-4">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div>
+                            <h4 class="text-sm font-black text-red-600 uppercase tracking-widest mb-1">Danger Zone</h4>
+                            <p class="text-xs text-slate-500 font-medium">Permanently remove your account and all associated data.</p>
+                        </div>
+                        <button onclick="confirmDelete()" class="flex items-center gap-2 px-6 py-3 bg-white border-2 border-red-200 hover:bg-red-600 hover:text-white hover:border-red-600 text-red-600 font-black rounded-2xl transition-all">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            <span>Delete Account</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="px-8 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">DMS Security Protocol Active</span>
+                    <div class="flex gap-4 opacity-50">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-slate-400"></i>
+                        <i data-lucide="lock" class="w-4 h-4 text-slate-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script>
+        lucide.createIcons();
+
+        function confirmDelete() {
+            if (confirm("Are you absolutely sure you want to delete your account? This action cannot be undone.")) {
+                window.location.href = "/profile/delete/{{ user.id }}/";
+            }
+        }
+    </script>
+</body>
+</html>
