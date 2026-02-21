@@ -42,6 +42,9 @@ def contact_view(request):
         
     return render(request,"main/contact_page.html", {"errors": errors,"data": request.POST})
 
+def about_view(request):
+    return render(request,"main/about_page.html")
+
 User = get_user_model()
 @user_passes_test(lambda u: u.role == 'ADMIN')
 def admin_dashboard_view(request):
