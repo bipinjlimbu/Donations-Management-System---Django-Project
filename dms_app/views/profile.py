@@ -19,7 +19,7 @@ def edit_profile_view(request, user_id):
         return redirect('home')
     
     if request.method == "POST":
-        name = request.POST.get("name").strip()
+        name = request.POST.get("name", "").strip()
         username = request.POST.get("username").strip()
         email = request.POST.get("email").strip()
         phone = request.POST.get("phone").strip()
@@ -29,6 +29,7 @@ def edit_profile_view(request, user_id):
         errors = {}
         
         username_pattern = r'^[A-Z]{1}[a-zA-Z]{1,}[0-9]{1,}$'
+        
         if not username:
             errors["username"] = "Username is required."
         elif User.objects.filter(username=username).exclude(id=user_id).exists():
@@ -36,7 +37,7 @@ def edit_profile_view(request, user_id):
         elif not re.match(username_pattern, username):
             errors["username"] = "Username must start with an uppercase letter and end with at least 1 digits."
             
-        if not name:
+        if user_to_edit.role != "ADMIN" and not name:
             errors["name"] = "Name is required."
         
         email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -57,7 +58,7 @@ def edit_profile_view(request, user_id):
             errors["address"] = "Address is required."
                     
         if errors:
-            return render(request, 'main/edit_profile_page.html', {'user': user_to_edit, 'errors': errors})
+            return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'errors': errors})
         
         elif request.user.role == 'ADMIN':
             user_to_edit.username = username
@@ -101,4 +102,4 @@ def edit_profile_view(request, user_id):
             messages.success(request, "Profile update request submitted for admin approval.")
             return redirect('profile')
     
-    return render(request, 'main/edit_profile_page.html', {'user': user_to_edit})
+    return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit})
