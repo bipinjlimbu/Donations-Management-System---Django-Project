@@ -45,7 +45,7 @@
                                 </div>
                                 <div>
                                     <p class="text-[10px] font-black text-slate-500 uppercase tracking-wider">Email us</p>
-                                    <p class="font-bold text-lg">support@dms.com</p>
+                                    <p class="font-bold text-lg">sharehope@dms.com</p>
                                 </div>
                             </div>
 
@@ -55,7 +55,7 @@
                                 </div>
                                 <div>
                                     <p class="text-[10px] font-black text-slate-500 uppercase tracking-wider">Call us</p>
-                                    <p class="font-bold text-lg">+1 (555) 000-0000</p>
+                                    <p class="font-bold text-lg">+977 9812345678</p>
                                 </div>
                             </div>
 
@@ -65,7 +65,7 @@
                                 </div>
                                 <div>
                                     <p class="text-[10px] font-black text-slate-500 uppercase tracking-wider">Office</p>
-                                    <p class="font-bold text-lg">Kathmandu, Nepal</p>
+                                    <p class="font-bold text-lg">Morang, Nepal</p>
                                 </div>
                             </div>
                         </div>
@@ -95,14 +95,14 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="space-y-2">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Your Name</label>
-                                        <input type="text" name="name" placeholder="John Doe"
+                                        <input type="text" name="name" placeholder="Enter Your Name" value="{{ data.name|default:'' }}"
                                             class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all outline-none font-medium">
                                         <p class="text-red-500 text-xs mt-1">{{ errors.name}}</p>
                                     </div>
 
                                     <div class="space-y-2">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Email Address</label>
-                                        <input type="email" name="email" placeholder="john@example.com"
+                                        <input type="email" name="email" placeholder="Enter Your Email" value="{{ data.email|default:'' }}"
                                             class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all outline-none font-medium">
                                         <p class="text-red-500 text-xs mt-1">{{ errors.email}}</p>
                                     </div>
@@ -111,16 +111,16 @@
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Subject</label>
                                     <select name="subject" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all outline-none font-medium appearance-none">
-                                        <option value="general">General Inquiry</option>
-                                        <option value="technical">Technical Support</option>
-                                        <option value="feedback">Feedback / Suggestion</option>
-                                        <option value="other">Other</option>
+                                        <option value="general" {% if data.subject == "general" %}selected{% endif %}>General Inquiry</option>
+                                        <option value="technical" {% if data.subject == "technical" %}selected{% endif %}>Technical Support</option>
+                                        <option value="feedback" {% if data.subject == "feedback" %}selected{% endif %}>Feedback / Suggestion</option>
+                                        <option value="other" {% if data.subject == "other" %}selected{% endif %}>Other</option>
                                     </select>
                                 </div>
 
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-4">Your Message</label>
-                                    <textarea name="message" rows="5" placeholder="How can we help you?"
+                                    <textarea name="message" rows="5" placeholder="How can we help you?" value="{{ data.message|default:'' }}"
                                         class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all outline-none font-medium resize-none"></textarea>
                                     <p class="text-red-500 text-xs mt-1">{{ errors.message}}</p>
                                 </div>
