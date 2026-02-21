@@ -6,7 +6,7 @@ import re
 
 @login_required
 def profile_view(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+    user = get_object_or_404(User, id=user)
     return render(request, 'main/profile_page.html', {'user': user})
 
 @login_required
