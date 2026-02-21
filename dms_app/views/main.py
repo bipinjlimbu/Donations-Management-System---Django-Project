@@ -1,14 +1,46 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from ..models import DonorProfile, NGOProfile, Register
+from ..models import DonorProfile, Feedback, NGOProfile, Register
+import re
 
 def home_view(request):
     return render(request,"main/home_page.html")
 
 def contact_view(request):
-    return render(request,"main/contact_page.html")
+    errors = {}
+    
+    if request.method == "POST":
+        name = request.POST.get("name", "").strip()
+        email = request.POST.get("email", "").strip()
+        subject = request.POST.get("subject", "").strip()
+        message = request.POST.get("message", "").strip()
+        
+        if not name:
+            errors["name"] = "Name is required."
+        
+        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not email:
+            errors["email"] = "Email is required."
+        elif not re.match(email_pattern, email):
+            errors["email"] = "Invalid email format."
+        
+        if not message:
+            errors["message"] = "Message is required."
+        
+        if not errors:
+            Feedback.objects.create(
+                name=name,
+                email=email,
+                subject=subject,
+                message=message
+            )
+            
+            messages.success(request, "Your feedback has been submitted successfully!")
+            return redirect("contact")
+        
+    return render(request,"main/contact_page.html", {"errors": errors})
 
 User = get_user_model()
 @user_passes_test(lambda u: u.role == 'ADMIN')
