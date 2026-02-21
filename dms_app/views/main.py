@@ -40,7 +40,7 @@ def contact_view(request):
             messages.success(request, "Your feedback has been submitted successfully!")
             return redirect("contact")
         
-    return render(request,"main/contact_page.html", {"errors": errors})
+    return render(request,"main/contact_page.html", {"errors": errors,"data": request.POST})
 
 User = get_user_model()
 @user_passes_test(lambda u: u.role == 'ADMIN')
