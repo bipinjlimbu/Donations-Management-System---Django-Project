@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Donation Management System</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#F8FAFC] font-sans antialiased min-h-screen flex flex-col">
+
+    {% include 'components/_navbar.html' %}
+
+    <main class="flex-grow p-6 md:p-12">
+        <div class="max-w-6xl mx-auto">
+            
+            <div class="bg-[#0F172A] rounded-[3rem] p-12 md:p-20 relative overflow-hidden mb-16 shadow-2xl">
+                <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full -mr-48 -mt-48 blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 w-64 h-64 bg-emerald-500/5 rounded-full -ml-32 -mb-32 blur-3xl"></div>
+                
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block px-4 py-1.5 bg-blue-500/20 border border-blue-500/30 text-blue-400 text-[10px] font-black uppercase tracking-[0.2em] rounded-full mb-6">
+                        Our Mission
+                    </span>
+                    <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-6 leading-tight">
+                        Bridging the gap between <span class="text-blue-500">Kindness</span> and <span class="text-emerald-500">Need</span>.
+                    </h1>
+                    <p class="text-slate-400 text-lg font-medium leading-relaxed">
+                        ShareHope is a transparent, secure, and efficient platform designed to empower NGOs and simplify the donation process for individuals. We believe technology can maximize human impact.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl shadow-slate-200/50 text-center">
+                    <p class="text-4xl font-black text-slate-800 mb-2">10k+</p>
+                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest">Lives Impacted</p>
+                </div>
+                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl shadow-slate-200/50 text-center">
+                    <p class="text-4xl font-black text-blue-600 mb-2">500+</p>
+                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest">Verified NGOs</p>
+                </div>
+                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-xl shadow-slate-200/50 text-center">
+                    <p class="text-4xl font-black text-emerald-600 mb-2">100%</p>
+                    <p class="text-xs font-black text-slate-400 uppercase tracking-widest">Transparency</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
+                <div>
+                    <h2 class="text-3xl font-black text-slate-800 mb-6 tracking-tight">Why we built ShareHope?</h2>
+                    <div class="space-y-6">
+                        <div class="flex gap-5">
+                            <div class="shrink-0 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
+                                <i data-lucide="shield-check" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800 uppercase text-xs tracking-wider mb-1">Trust & Security</h4>
+                                <p class="text-slate-500 text-sm leading-relaxed font-medium">Every NGO on our platform undergoes a rigorous verification process to ensure your donations reach legitimate causes.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-5">
+                            <div class="shrink-0 w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600">
+                                <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800 uppercase text-xs tracking-wider mb-1">Real-time Tracking</h4>
+                                <p class="text-slate-500 text-sm leading-relaxed font-medium">Donors can track the status of their contributions from "Pending" to "Delivered" through their personal dashboard.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-5">
+                            <div class="shrink-0 w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600">
+                                <i data-lucide="zap" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-black text-slate-800 uppercase text-xs tracking-wider mb-1">Easy Management</h4>
+                                <p class="text-slate-500 text-sm leading-relaxed font-medium">NGOs can create campaigns and manage inventory with just a few clicks, reducing administrative overhead.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="bg-slate-200 aspect-square rounded-[3rem] overflow-hidden relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent"></div>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <i data-lucide="heart" class="w-24 h-24 text-white opacity-20 group-hover:scale-110 transition-transform duration-500"></i>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-2xl border border-slate-100 hidden md:block">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white">
+                                <i data-lucide="check" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-slate-400 uppercase tracking-widest">Verified System</p>
+                                <p class="text-slate-800 font-bold">ShareHope Protocol v2.4</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 rounded-[3rem] p-12 text-center border border-slate-100">
+                <h3 class="text-2xl font-black text-slate-800 mb-4">Ready to make a difference?</h3>
+                <p class="text-slate-500 mb-8 max-w-md mx-auto font-medium">Join our community of donors and NGOs today and help us create lasting change.</p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <a href="/register/" class="px-10 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl transition-all shadow-lg shadow-blue-500/20 active:scale-95">
+                        Get Started Now
+                    </a>
+                    <a href="/contact/" class="px-10 py-4 bg-white border border-slate-200 text-slate-600 font-bold rounded-2xl hover:bg-slate-50 transition-all active:scale-95">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
