@@ -105,6 +105,6 @@ def edit_profile_view(request, user_id):
                 donor_profile.save()
             
             messages.success(request, "Profile update request submitted for admin approval.")
-            return redirect('profile')
+            return redirect('profile', user_id=user_id)
     
     return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit})
