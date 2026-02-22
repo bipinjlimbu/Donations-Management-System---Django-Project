@@ -273,13 +273,77 @@
                 </div>
 
             {% elif section == 'profile-changes' %}
-                <h1 class="text-2xl font-bold text-slate-800 mb-6">Profile Change Requests</h1>
-                <div class="bg-white rounded-3xl p-12 border border-slate-200 text-center flex flex-col items-center">
-                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-400">
-                        <i data-lucide="check-square" class="w-8 h-8"></i>
+            <div class="mb-6 flex justify-between items-end">
+                <div>
+                    <h1 class="text-2xl font-black text-slate-800 tracking-tight">Profile Change Requests</h1>
+                    <p class="text-sm text-slate-500 font-medium">Review requested modifications to user accounts</p>
+                </div>
+                <span class="text-[11px] font-bold bg-amber-100 text-amber-700 px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200">
+                    1 Update Pending
+                </span>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-white border border-slate-200 rounded-[2rem] p-6 hover:border-blue-300 transition-all shadow-sm">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        
+                        <div class="lg:col-span-3 flex items-center gap-4 border-r border-slate-100 pr-4">
+                            <div class="relative flex shrink-0">
+                                <img src="https://ui-avatars.com/api/?name=John+Doe&background=cbd5e1&color=fff" class="w-10 h-10 rounded-xl object-cover opacity-40 border border-slate-200">
+                                <img src="https://ui-avatars.com/api/?name=John+Doe&background=0F172A&color=fff" class="w-12 h-12 rounded-xl object-cover ring-4 ring-blue-500/20 -ml-4 z-10 shadow-md">
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="font-black text-slate-900 leading-tight truncate">John Doe</p>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="text-[8px] font-black bg-slate-100 text-slate-500 px-2 py-0.5 rounded uppercase">Donor</span>
+                                    <span class="text-[10px] font-bold text-slate-400">ID: #4421</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-7 grid grid-cols-2 md:grid-cols-5 gap-4 px-2">
+                            <div class="overflow-hidden">
+                                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Username</p>
+                                <p class="text-[11px] text-slate-400 line-through truncate">johndoe_old</p>
+                                <p class="text-xs text-blue-600 font-bold truncate">@johndoe_2026</p>
+                            </div>
+
+                            <div>
+                                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Full Name</p>
+                                <p class="text-[11px] text-slate-400 line-through">John Old Doe</p>
+                                <p class="text-xs text-blue-600 font-bold">John New Doe</p>
+                            </div>
+
+                            <div>
+                                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Phone</p>
+                                <p class="text-[11px] text-slate-400 line-through">9841xxxxxx</p>
+                                <p class="text-xs text-blue-600 font-bold">9801234567</p>
+                            </div>
+
+                            <div class="overflow-hidden">
+                                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Email</p>
+                                <p class="text-[11px] text-slate-400 line-through truncate">old@mail.com</p>
+                                <p class="text-xs text-blue-600 font-bold truncate">new@mail.com</p>
+                            </div>
+
+                            <div class="overflow-hidden">
+                                <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Address</p>
+                                <p class="text-[11px] text-slate-400 line-through truncate">KTM, Nepal</p>
+                                <p class="text-xs text-blue-600 font-bold truncate">Lalitpur, Nepal</p>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-2 flex items-center justify-end gap-2 border-l border-slate-100 pl-4">
+                            <button class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-emerald-200">
+                                <i data-lucide="check" class="w-4 h-4"></i> Approve
+                            </button>
+                            <button class="p-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-all">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+
                     </div>
-                    <p class="text-slate-800 font-bold text-lg">System All Clear</p>
-                    <p class="text-slate-500 text-sm">No users have requested profile modifications at this time.</p>
+                </div>
                 </div>
 
             {% elif section == 'campaign-requests' %}
