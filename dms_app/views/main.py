@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from ..models import DonorProfile, Feedback, NGOProfile, Register, PendingChanges
+from ..models import DonorProfile, Feedback, NGOProfile, Register
 import re
 
 def home_view(request):
@@ -64,7 +64,7 @@ def admin_dashboard_view(request):
         context['signup_requests'] = Register.objects.all().order_by('-requested_at')
         
     elif section == 'profile-changes':
-        context['pending_changes_requests'] = PendingChanges.objects.filter(pending_status="PENDING").all().order_by('-changes_requested_at')
+        pass
         
     elif section == 'campaign-requests':
         # context['data_list'] = CampaignRequest.objects.all()
