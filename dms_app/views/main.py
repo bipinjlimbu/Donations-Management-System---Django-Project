@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from ..models import DonorProfile, Feedback, NGOProfile, Register
+from ..models import DonorProfile, Feedback, NGOProfile, Register, PendingChanges
 import re
 
 def home_view(request):
@@ -53,7 +53,8 @@ def admin_dashboard_view(request):
     context = {
         'section': section,
         'signup_count': Register.objects.filter().count(),
-        'campaign_count': 5, # Replace with CampaignRequest.objects.filter(is_approved=False).count()
+        'campaign_count': 5,
+        'pending_changes_count': PendingChanges.objects.filter(pending_status="PENDING").count(),
     }
 
     if section == 'user-list':
@@ -63,8 +64,7 @@ def admin_dashboard_view(request):
         context['signup_requests'] = Register.objects.all().order_by('-requested_at')
         
     elif section == 'profile-changes':
-        # context['data_list'] = ProfileChange.objects.filter(is_reviewed=False)
-        context['data_list'] = [] # Dummy placeholder
+        context['pending_changes_requests'] = PendingChanges.objects.filter(pending_status="PENDING").all()
         
     elif section == 'campaign-requests':
         # context['data_list'] = CampaignRequest.objects.all()
