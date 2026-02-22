@@ -23,6 +23,7 @@ class PendingChanges(models.Model):
     pending_address = models.TextField(blank=True, null=True)
     pending_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
     pending_status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
+    changes_requested_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         abstract = True
