@@ -11,12 +11,18 @@ class ContactInfo(models.Model):
         abstract = True
 
 class PendingChanges(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'PENDING', 'Pending'
+        APPROVED = 'APPROVED', 'Approved'
+        REJECTED = 'REJECTED', 'Rejected'
+        
     pending_name = models.CharField(max_length=100, blank=True, null=True)
     pending_username = models.CharField(max_length=150, blank=True, null=True)
     pending_email = models.EmailField(blank=True, null=True)
     pending_phone = models.CharField(max_length=15, blank=True, null=True)
     pending_address = models.TextField(blank=True, null=True)
     pending_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
+    pending_status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
 
     class Meta:
         abstract = True
