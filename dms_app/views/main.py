@@ -64,7 +64,7 @@ def admin_dashboard_view(request):
         context['signup_requests'] = Register.objects.all().order_by('-requested_at')
         
     elif section == 'profile-changes':
-        context['pending_changes_requests'] = PendingChanges.objects.filter(pending_status="PENDING").all()
+        context['pending_changes_requests'] = PendingChanges.objects.filter(pending_status="PENDING").all().order_by('-changes_requested_at')
         
     elif section == 'campaign-requests':
         # context['data_list'] = CampaignRequest.objects.all()
