@@ -48,13 +48,17 @@ def about_view(request):
 User = get_user_model()
 @user_passes_test(lambda u: u.role == 'ADMIN')
 def admin_dashboard_view(request):
+    
     section = request.GET.get('section', 'user-list')
+    
+    pending_ngo_count = NGOProfile.objects.filter(pending_status="PENDING").count()
+    pending_donor_count = DonorProfile.objects.filter(pending_status="PENDING").count()
     
     context = {
         'section': section,
         'signup_count': Register.objects.filter().count(),
         'campaign_count': 5,
-        'pending_changes_count': PendingChanges.objects.filter(pending_status="PENDING").count(),
+        'pending_changes_count': pending_ngo_count + pending_donor_count,
     }
 
     if section == 'user-list':
@@ -64,8 +68,12 @@ def admin_dashboard_view(request):
         context['signup_requests'] = Register.objects.all().order_by('-requested_at')
         
     elif section == 'profile-changes':
-        pass
-        
+        donor_pending = DonorProfile.objects.filter(pending_status="PENDING").select_related('user')
+        ngo_pending = NGOProfile.objects.filter(pending_status="PENDING").select_related('user')
+        combined = list(donor_pending) + list(ngo_pending)
+        combined.sort(key=lambda x: x.changes_requested_at, reverse=True)
+        context['pending_changes'] = combined
+
     elif section == 'campaign-requests':
         # context['data_list'] = CampaignRequest.objects.all()
         context['data_list'] = [] # Dummy placeholder
