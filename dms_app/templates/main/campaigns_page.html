@@ -32,10 +32,12 @@
                 <p class="text-gray-500 text-lg">Support ongoing initiatives for food, clothing, medical, and education.</p>
             </div>
             
+            {% if user.role == 'NGO' or user.role == 'ADMIN' %}
             <a href="/campaigns/create" class="inline-flex items-center gap-2 px-8 py-4 bg-green-600 text-white rounded-2xl text-sm font-bold uppercase tracking-wider shadow-lg hover:bg-gray-900 transition-all transform hover:-translate-y-1 active:scale-95">
                 <i data-lucide="plus-circle" class="w-5 h-5"></i>
                 Create Campaign
             </a>
+            {% endif %}
         </div>
 
         <div class="flex flex-wrap gap-3 mb-12">
