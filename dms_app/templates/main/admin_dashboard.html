@@ -358,14 +358,14 @@
                         </div>
 
                         <div class="lg:col-span-2 flex items-center justify-end gap-2 border-l border-slate-100 pl-4">
-                            <form method="POST" action="/approve_profile_change/{{ request.id }}/" class="flex-1">
+                            <form method="POST" action="/approve_profile_change/{{ request.user.id }}/" class="flex-1">
                                 {% csrf_token %}
                                 <button type="submit" class="w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-emerald-200">
                                     <i data-lucide="check" class="w-4 h-4"></i> Approve
                                 </button>
                             </form>
                             
-                            <form method="POST" action="/reject_profile_change/{{ request.id }}/">
+                            <form method="POST" action="/reject_profile_change/{{ request.user.id }}/">
                                 {% csrf_token %}
                                 <button type="submit" class="p-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-all">
                                     <i data-lucide="x" class="w-5 h-5"></i>
