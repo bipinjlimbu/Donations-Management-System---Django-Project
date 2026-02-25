@@ -22,7 +22,7 @@ class PendingChanges(models.Model):
     pending_phone = models.CharField(max_length=15, blank=True, null=True)
     pending_address = models.TextField(blank=True, null=True)
     pending_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
-    pending_status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
+    pending_status = models.CharField(max_length=15, choices=Status.choices, default=Status.APPROVED)
     changes_requested_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
