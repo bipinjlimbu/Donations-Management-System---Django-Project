@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from ..models import User, NGOProfile, DonorProfile
 import re
@@ -109,6 +109,7 @@ def edit_profile_view(request, user_id):
     
     return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit})
 
+@user_passes_test(lambda u: u.role == 'ADMIN')
 def approve_pending_changes(request, user_id):
     user = get_object_or_404(User, id=user_id)
     
@@ -141,6 +142,7 @@ def approve_pending_changes(request, user_id):
     messages.success(request, "Pending changes approved successfully.")
     return redirect('admin-dashboard')
 
+@user_passes_test(lambda u: u.role == 'ADMIN')
 def reject_profile_changes(request, user_id):
     user = get_object_or_404(User, id=user_id)
     
