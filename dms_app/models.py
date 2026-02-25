@@ -77,12 +77,19 @@ class Campaign(models.Model):
         REJECTED = 'REJECTED', 'Rejected'
         ACTIVE = 'ACTIVE', 'Active'
         COMPLETED = 'COMPLETED', 'Completed'
+        
+    class Category(models.TextChoices):
+        FOOD = 'FOOD', 'Food'
+        CLOTHING = 'CLOTHING', 'Clothing'
+        MEDICAL = 'MEDICAL', 'Medical Supplies'
+        EDUCATION = 'EDUCATION', 'Educational Materials'
+        OTHER = 'OTHER', 'Other'
     
     title = models.CharField(max_length=200)
     description = models.TextField()
     campaign_image = models.ImageField(upload_to='images/campaigns/', blank=True, null=True)
     ngo = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': User.Role.NGO})
-    category = models.CharField(max_length=100)
+    category = models.CharField(max_length=100, choices=Category.choices, default=Category.OTHER)
     item_type = models.CharField(max_length=100)
     unit = models.CharField(max_length=50)
     target_quantity = models.PositiveIntegerField()
