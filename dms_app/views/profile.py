@@ -93,6 +93,7 @@ def edit_profile_view(request, user_id):
                 if image:
                     ngo_profile.pending_image = image
                 ngo_profile.pending_name = name
+                ngo_profile.pending_status = "PENDING"
                 ngo_profile.save()
             else:
                 donor_profile.pending_username = username
@@ -102,6 +103,7 @@ def edit_profile_view(request, user_id):
                 if image:
                     donor_profile.pending_image = image
                 donor_profile.pending_name = name
+                donor_profile.pending_status = "PENDING"
                 donor_profile.save()
             
             messages.success(request, "Profile update request submitted for admin approval.")
