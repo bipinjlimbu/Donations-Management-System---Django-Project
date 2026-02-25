@@ -48,14 +48,23 @@
                         <i data-lucide="user-plus" class="w-5 h-5 group-hover:text-orange-400"></i>
                         <span class="text-sm font-medium">Sign Up Requests</span>
                     </div>
-                    <span class="bg-orange-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ signup_count|default:"0" }}</span>
+                    {% if signup_count > 0 %}
+                    <span class="bg-orange-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ signup_count }}</span>
+                    {% endif %}
                 </a>
 
                 <a href="?section=profile-changes" 
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all group
-                   {% if section == 'profile-changes' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
-                    <i data-lucide="refresh-ccw" class="w-5 h-5 group-hover:text-purple-400"></i>
-                    <span class="text-sm font-medium">Profile Changes</span>
+                class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                {% if section == 'profile-changes' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="refresh-cw" class="w-5 h-5 group-hover:text-amber-400"></i>
+                        <span class="text-sm font-medium">Profile Changes</span>
+                    </div>
+                    {% if pending_changes_count > 0 %}
+                    <span class="bg-purple-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">
+                        {{ pending_changes_count }}
+                    </span>
+                    {% endif %}
                 </a>
 
                 <a href="?section=campaign-requests" 
@@ -65,7 +74,7 @@
                         <i data-lucide="flame" class="w-5 h-5 group-hover:text-green-400"></i>
                         <span class="text-sm font-medium">Campaign Requests</span>
                     </div>
-                    <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_count|default:"0" }}</span>
+                    <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_count|default:"0" }}</span>
                 </a>
             </nav>
         </aside>
