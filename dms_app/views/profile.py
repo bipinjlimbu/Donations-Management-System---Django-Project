@@ -108,3 +108,35 @@ def edit_profile_view(request, user_id):
             return redirect('profile', user_id=user_id)
     
     return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit})
+
+def approve_pending_changes(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    
+    if user.role == "NGO":
+        profile = get_object_or_404(NGOProfile, user=user)
+    else:
+        profile = get_object_or_404(DonorProfile, user=user)
+    
+    if profile.pending_status != "PENDING":
+        messages.error(request, "No pending changes to approve.")
+        return redirect('admin-dashboard')
+    
+    user.username = profile.pending_username
+    user.email = profile.pending_email
+    user.phone = profile.pending_phone
+    user.address = profile.pending_address
+    
+    if user.role == "NGO":
+        profile.organization_name = profile.pending_name
+    else:
+        profile.full_name = profile.pending_name
+        
+    if profile.pending_image:
+        user.profile_image = profile.pending_image
+        
+    profile.pending_status = "APPROVED"
+    profile.save()
+    user.save()
+    
+    messages.success(request, "Pending changes approved successfully.")
+    return redirect('admin-dashboard')
