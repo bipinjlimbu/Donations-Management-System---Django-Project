@@ -140,3 +140,21 @@ def approve_pending_changes(request, user_id):
     
     messages.success(request, "Pending changes approved successfully.")
     return redirect('admin-dashboard')
+
+def reject_profile_changes(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    
+    if user.role == "NGO":
+        profile = get_object_or_404(NGOProfile, user=user)
+    else:
+        profile = get_object_or_404(DonorProfile, user=user)
+    
+    if profile.pending_status != "PENDING":
+        messages.error(request, "No pending changes to reject.")
+        return redirect('admin-dashboard')
+    
+    profile.pending_status = "REJECTED"
+    profile.save()
+    
+    messages.success(request, "Pending changes rejected.")
+    return redirect('admin-dashboard')
