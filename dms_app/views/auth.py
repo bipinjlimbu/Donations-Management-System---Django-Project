@@ -88,6 +88,9 @@ def register_view(request):
     return render(request,"auth/register_page.html")
 
 def login_view(request):
+    if request.user.is_authenticated:
+        messages.info(request, f"You are already logged in as {request.user.username}.")
+        return redirect("home")
     errors={}
     if request.method == "POST":
         username = request.POST.get("username").strip()
