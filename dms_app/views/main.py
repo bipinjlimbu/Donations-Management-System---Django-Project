@@ -75,7 +75,8 @@ def admin_dashboard_view(request):
         context['pending_changes'] = combined
 
     elif section == 'campaign-requests':
-        context['data_list'] = Campaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
+        context['campaign_requests'] = Campaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
+        print(context['campaign_requests'])
         
     return render(request, 'main/admin_dashboard.html', context)
 
