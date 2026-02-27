@@ -433,12 +433,12 @@
                             Please verify NGO credentials before approval.
                         </p>
                         <div class="flex gap-3 w-full sm:w-auto">
-                            <button class="flex-1 sm:flex-none px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-red-600 hover:bg-red-50 rounded-xl transition-all">
+                            <a href='/reject_campaign_request/{{ request.id }}/' class="flex-1 sm:flex-none px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-red-600 hover:bg-red-50 rounded-xl transition-all">
                                 Reject Request
-                            </button>
-                            <button class="flex-1 sm:flex-none px-8 py-3 bg-green-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-gray-900 shadow-lg shadow-green-600/20 transition-all">
+                            </a>
+                            <a href='/approve_campaign_request/{{ request.id }}/' class="flex-1 sm:flex-none px-8 py-3 bg-green-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-gray-900 shadow-lg shadow-green-600/20 transition-all">
                                 Approve Campaign
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
