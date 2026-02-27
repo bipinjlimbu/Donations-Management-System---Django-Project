@@ -1,7 +1,77 @@
+from datetime import date
 from django.shortcuts import render, redirect
+from ..models import Campaign
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def campaigns_page_view(request):
     return render(request,"main/campaigns_page.html")
 
+@login_required
 def create_campaign_view(request):
+    errors = {}
+    if request.method == "POST":
+        title = request.POST.get("title").strip()
+        description = request.POST.get("description").strip()
+        campaign_image = request.FILES.get("campaign_image")
+        ngo = request.user.ngo_profile
+        category = request.POST.get("category")
+        item_type = request.POST.get("item_type").strip()
+        unit = request.POST.get("unit").strip()
+        target_quantity = request.POST.get("target_quantity").strip()
+        start_date = request.POST.get("start_date").strip()
+        end_date = request.POST.get("end_date").strip()
+        
+        if not title:
+            errors["title"] = "Title is required."
+            
+        if not description:
+            errors["description"] = "Description is required."
+            
+        if not category:
+            errors["category"] = "Category is required."
+            
+        if not item_type:
+            errors["item_type"] = "Item type is required."
+            
+        if not unit:
+            errors["unit"] = "Unit is required."
+            
+        if not target_quantity:
+            errors["target_quantity"] = "Target quantity is required."
+        elif not target_quantity.isdigit():
+            errors["target_quantity"] = "Target quantity must be a positive integer."
+        elif int(target_quantity) <= 0:
+            errors["target_quantity"] = "Target quantity must be greater than zero."
+        
+        if not start_date:
+            errors["start_date"] = "Start date is required."
+        elif start_date < str(date.today()):
+            errors["start_date"] = "Start date cannot be in the past."
+            
+        if not end_date:
+            errors["end_date"] = "End date is required."
+        elif end_date < start_date:
+            errors["end_date"] = "End date must be after the start date."
+        
+        if errors:
+            return render(request, "main/create_campaign_page.html", {"errors": errors,"data": request.POST})
+        
+        Campaign.objects.create(
+            title = title,
+            description = description,
+            campaign_image = campaign_image,
+            ngo = ngo.user,
+            category = category,
+            item_type = item_type,
+            unit = unit,
+            target_quantity = target_quantity,
+            collected_quantity = 0,
+            start_date = start_date,
+            end_date = end_date,
+            status = Campaign.Status.PENDING
+        )
+        
+        messages.success(request, "Campaign created successfully and is pending approval.")
+        return redirect("campaigns")
     return render(request,"main/create_campaign_page.html")
