@@ -1,13 +1,13 @@
 from datetime import date
 from django.shortcuts import render, redirect
 from ..models import Campaign
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 
 def campaigns_page_view(request):
     return render(request,"main/campaigns_page.html")
 
-@login_required
+@user_passes_test(lambda u: u.role == 'NGO' or u.role == 'ADMIN')
 def create_campaign_view(request):
     errors = {}
     if request.method == "POST":
@@ -75,3 +75,12 @@ def create_campaign_view(request):
         messages.success(request, "Campaign created successfully and is pending approval.")
         return redirect("campaigns")
     return render(request,"main/create_campaign_page.html")
+
+@user_passes_test(lambda u: u.role == 'ADMIN' or u.role == 'NGO')
+def approve_campaign_request(request, campaign_id):
+    campaign = Campaign.objects.get(id=campaign_id)
+    campaign.status = Campaign.Status.APPROVED
+    campaign.approved_at = date.today()
+    campaign.save()
+    messages.success(request, f"Campaign '{campaign.title}' has been approved.")
+    return redirect("admin-dashboard")
