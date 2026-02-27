@@ -84,3 +84,11 @@ def approve_campaign_request(request, campaign_id):
     campaign.save()
     messages.success(request, f"Campaign '{campaign.title}' has been approved.")
     return redirect("admin-dashboard")
+
+@user_passes_test(lambda u: u.role == 'ADMIN' or u.role == 'NGO')
+def reject_campaign_request(request, campaign_id):
+    campaign = Campaign.objects.get(id=campaign_id)
+    campaign.status = Campaign.Status.REJECTED
+    campaign.save()
+    messages.info(request, f"Campaign '{campaign.title}' has been rejected.")
+    return redirect("admin-dashboard")
