@@ -92,7 +92,7 @@
                 <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                     <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
                         {% if campaign.campaign_image %}
-                        <img src="{{ campaign.campaign_image }}" class="w-full h-full object-cover opacity-60 grayscale" alt="Campaign">
+                        <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover opacity-60 grayscale" alt="Campaign">
                         {% else %}
                         <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover opacity-60 grayscale" alt="Campaign">
                         {% endif %}
@@ -121,7 +121,7 @@
                     <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                         <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
                             {% if campaign.campaign_image %}
-                            <img src="{{ campaign.campaign_image }}" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
+                            <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
                             {% else %}
                             <img src="https://images.unsplash.com/photo-1542060748-10c28b62716f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
                             {% endif %}
