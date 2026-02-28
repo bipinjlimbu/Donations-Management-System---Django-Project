@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 
 def campaigns_page_view(request):
-    return render(request,"main/campaigns_page.html")
+    campaigns = Campaign.objects.filter(status=Campaign.Status.APPROVED).order_by('-approved_at')
+    return render(request,"main/campaigns_page.html", {"campaigns": campaigns})
 
 @user_passes_test(lambda u: u.role == 'NGO' or u.role == 'ADMIN')
 def create_campaign_view(request):
