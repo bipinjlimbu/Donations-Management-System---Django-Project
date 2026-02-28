@@ -50,7 +50,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for campaign in campaigns %}
-            {% if campaign.is_active %}
+            {% if campaign.status == 'ACTIVE' %}
             <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
                     {% if campaign.campaign_image %}
@@ -87,7 +87,7 @@
                     </button>
                 </div>
             </div>
-            {% elif campaign.is_completed %}
+            {% elif campaign.status == 'COMPLETED' %}
             <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
                     {% if campaign.campaign_image %}
