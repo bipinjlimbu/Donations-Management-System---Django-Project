@@ -51,100 +51,102 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for campaign in campaigns %}
             {% if campaign.status == 'ACTIVE' %}
-            <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
-                    {% if campaign.campaign_image %}
-                    <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Campaign">
-                    {% else %}
-                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Campaign">
-                    {% endif %}
-                    <div class="absolute top-4 right-4 bg-green-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg">
-                        <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> Active
-                    </div>
-                </div>
-                
-                <div class="px-2 flex-grow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">{{ campaign.title }}</h3>
-                    <div class="flex items-center gap-2 mb-4 text-gray-400">
-                        <i data-lucide="calendar" class="w-4 h-4"></i>
-                        <span class="text-xs font-medium uppercase">Ends: {{ campaign.end_date }}</span>
-                    </div>
-                    
-                    <div class="bg-gray-50 p-4 rounded-2xl mb-6">
-                        <div class="flex justify-between items-end mb-2">
-                            <span class="text-xs font-bold text-green-600">{{ campaign.collected_quantity }} / {{ campaign.target_quantity }} {{ campaign.unit }}</span>
-                            <span class="text-xs font-bold text-gray-400">{{ campaign.progress_percentage }}%</span>
-                        </div>
-                        <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div class="h-full bg-green-500 rounded-full" style="width: {{ campaign.progress_percentage }}%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="px-2 pb-2">
-                    <button class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
-                        View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            </div>
-            {% elif campaign.status == 'COMPLETED' %}
-            <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
-                    {% if campaign.campaign_image %}
-                    <img src="{{ campaign.campaign_image }}" class="w-full h-full object-cover opacity-60 grayscale" alt="Campaign">
-                    {% else %}
-                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover opacity-60 grayscale" alt="Campaign">
-                    {% endif %}
-                    <div class="absolute top-4 right-4 bg-gray-800 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
-                        Completed
-                    </div>
-                </div>
-                
-                <div class="px-2 flex-grow">
-                    <h3 class="text-xl font-bold text-gray-700 mb-2">{{ campaign.title }}</h3>
-                    <div class="flex items-center gap-2 mb-4 text-green-600">
-                        <i data-lucide="check-circle" class="w-4 h-4"></i>
-                        <span class="text-xs font-bold uppercase">Goal Reached</span>
-                    </div>
-                    <p class="text-sm text-gray-500 mb-6 italic leading-relaxed">This campaign goal was reached. Thank you to all our generous donors.</p>
-                </div>
-                
-                <div class="px-2 pb-2">
-                    <button class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
-                        View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
-                </div>
-
-                {% else %}
                 <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                     <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
                         {% if campaign.campaign_image %}
-                        <img src="{{ campaign.campaign_image }}" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
+                        <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Campaign">
                         {% else %}
-                        <img src="https://images.unsplash.com/photo-1542060748-10c28b62716f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Campaign">
                         {% endif %}
-                        <div class="absolute top-4 right-4 bg-amber-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
-                            Coming Soon
+                        <div class="absolute top-4 right-4 bg-green-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg">
+                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> Active
                         </div>
                     </div>
                     
                     <div class="px-2 flex-grow">
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">{{ campaign.title }}</h3>
-                        <div class="flex items-center gap-2 mb-4 text-amber-600">
-                            <i data-lucide="bell" class="w-4 h-4"></i>
-                            <span class="text-xs font-bold uppercase">Starts: {{ campaign.start_date }}</span>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">{{ campaign.title }}</h3>
+                        <div class="flex items-center gap-2 mb-4 text-gray-400">
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                            <span class="text-xs font-medium uppercase">Ends: {{ campaign.end_date }}</span>
                         </div>
-                        <p class="text-sm text-gray-500 mb-6 leading-relaxed">{{ campaign.description }}</p>
+                        
+                        <div class="bg-gray-50 p-4 rounded-2xl mb-6">
+                            <div class="flex justify-between items-end mb-2">
+                                <span class="text-xs font-bold text-green-600">{{ campaign.collected_quantity }} / {{ campaign.target_quantity }} {{ campaign.unit }}</span>
+                                <span class="text-xs font-bold text-gray-400">{{ campaign.progress_percentage }}%</span>
+                            </div>
+                            <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-green-500 rounded-full" style="width: {{ campaign.progress_percentage }}%"></div>
+                            </div>
+                        </div>
                     </div>
-    
+
                     <div class="px-2 pb-2">
                         <button class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
                             View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </button>
                     </div>
                 </div>
+
+            {% elif campaign.status == 'COMPLETED' %}
+                <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
+                        {% if campaign.campaign_image %}
+                        <img src="{{ campaign.campaign_image }}" class="w-full h-full object-cover opacity-60 grayscale" alt="Campaign">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover opacity-60 grayscale" alt="Campaign">
+                        {% endif %}
+                        <div class="absolute top-4 right-4 bg-gray-800 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
+                            Completed
+                        </div>
+                    </div>
+                    
+                    <div class="px-2 flex-grow">
+                        <h3 class="text-xl font-bold text-gray-700 mb-2">{{ campaign.title }}</h3>
+                        <div class="flex items-center gap-2 mb-4 text-green-600">
+                            <i data-lucide="check-circle" class="w-4 h-4"></i>
+                            <span class="text-xs font-bold uppercase">Goal Reached</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-6 italic leading-relaxed">This campaign goal was reached. Thank you to all our generous donors.</p>
+                    </div>
+                    
+                    <div class="px-2 pb-2">
+                        <button class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
+                            View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                {% else %}
+                    <div class="group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                        <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
+                            {% if campaign.campaign_image %}
+                            <img src="{{ campaign.campaign_image }}" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
+                            {% else %}
+                            <img src="https://images.unsplash.com/photo-1542060748-10c28b62716f?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
+                            {% endif %}
+                            <div class="absolute top-4 right-4 bg-amber-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
+                                Coming Soon
+                            </div>
+                        </div>
+                        
+                        <div class="px-2 flex-grow">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">{{ campaign.title }}</h3>
+                            <div class="flex items-center gap-2 mb-4 text-amber-600">
+                                <i data-lucide="bell" class="w-4 h-4"></i>
+                                <span class="text-xs font-bold uppercase">Starts: {{ campaign.start_date }}</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-6 leading-relaxed">{{ campaign.description }}</p>
+                        </div>
+        
+                        <div class="px-2 pb-2">
+                            <button class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
+                                View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
                 {% endif %}
-            {% endfor %}
+                {% endfor %}
             </div>
 
         </div>
