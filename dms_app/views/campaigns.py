@@ -6,6 +6,10 @@ from django.contrib import messages
 
 def campaigns_page_view(request):
     campaigns = Campaign.objects.exclude(status=Campaign.Status.REJECTED).order_by('-approved_at')
+    for campaign in campaigns:
+        campaign.is_active = Campaign.is_active(campaign)
+        campaign.is_completed = Campaign.is_completed(campaign)
+        
     return render(request,"main/campaigns_page.html", {"campaigns": campaigns})
 
 @user_passes_test(lambda u: u.role == 'NGO' or u.role == 'ADMIN')
