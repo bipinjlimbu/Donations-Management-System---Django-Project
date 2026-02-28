@@ -109,11 +109,22 @@ class Campaign(models.Model):
     
     def is_active(self):
         today = now().date()
-        return self.status == self.Status.APPROVED and self.start_date <= today <= self.end_date
+        active_condition = self.status == self.Status.APPROVED and self.start_date <= today <= self.end_date
+        if active_condition and self.status != self.Status.ACTIVE:
+            self.status = self.Status.ACTIVE
+            self.save()
+        
+        return active_condition
     
     def is_completed(self):
-        return self.status == self.Status.COMPLETED or (self.end_date < now().date() and self.collected_quantity >= self.target_quantity)
-
+        today = now().date()
+        completed_condition = self.status in [self.Status.ACTIVE, self.Status.APPROVED] and today > self.end_date
+        if completed_condition and self.status != self.Status.COMPLETED:
+            self.status = self.Status.COMPLETED
+            self.save()
+            
+        return completed_condition
+        
 class Donation(models.Model):
     class Status(models.TextChoices):
         PENDING = 'PENDING', 'Pending'
