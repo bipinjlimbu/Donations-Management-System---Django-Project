@@ -21,10 +21,10 @@
             
             {% if request.user.is_superuser or request.user == campaign.ngo %}
                 <div class="flex items-center gap-3">
-                    <a href="/campaigns/{{ campaign.id }}/edit/" class="text-sm font-bold text-slate-600 bg-white px-4 py-2 rounded-xl border border-slate-200 hover:border-blue-300 hover:text-blue-600 flex items-center gap-2 transition-all">
+                    <a href="/campaigns/edit/{{ campaign.id }}/" class="text-sm font-bold text-slate-600 bg-white px-4 py-2 rounded-xl border border-slate-200 hover:border-blue-300 hover:text-blue-600 flex items-center gap-2 transition-all">
                         <i data-lucide="edit" class="w-4 h-4"></i> Edit
                     </a>
-                    <form action="/campaigns/{{ campaign.id }}/delete/" method="POST" onsubmit="return confirm('Are you sure you want to delete this campaign?');">
+                    <form action="/campaigns/delete/{{ campaign.id }}/" method="POST" onsubmit="return confirm('Are you sure you want to delete this campaign?');">
                         {% csrf_token %}
                         <button type="submit" class="text-sm font-bold text-slate-600 bg-white px-4 py-2 rounded-xl border border-slate-200 hover:border-red-300 hover:text-red-600 flex items-center gap-2 transition-all">
                             <i data-lucide="trash-2" class="w-4 h-4"></i> Delete
