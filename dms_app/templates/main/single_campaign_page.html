@@ -1,1 +1,131 @@
-<h1> Single Campaign Page </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Preview | ShareHope</title>
+    {% load static %}
+    <link href="{% static 'src/styles.css' %}" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+    {% include 'components/_navbar.html' %}
+
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        
+        <div class="mb-12">
+            <a href="/campaigns" class="inline-flex items-center gap-2 text-gray-500 hover:text-green-600 transition-colors font-medium">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Explore
+            </a>
+        </div>
+
+        <div class="mb-24">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="h-px flex-1 bg-gray-200"></span>
+                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-green-600">Preview: Active State</h2>
+                <span class="h-px flex-1 bg-gray-200"></span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2 bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                    <div class="relative h-80 md:h-[450px] mb-8 rounded-3xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1200" class="w-full h-full object-cover" alt="Active">
+                        <div class="absolute top-6 left-6 bg-green-500 text-white text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest shadow-xl flex items-center gap-2">
+                            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span> Live Now
+                        </div>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black mb-6 tracking-tighter text-gray-900">Emergency Food Relief Drive</h1>
+                    <p class="text-gray-600 text-lg leading-relaxed">We are collecting essential food items including rice, lentils, and cooking oil for families affected by the recent monsoon floods. Our goal is to provide a month of nutrition to 200 households.</p>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="bg-white p-8 rounded-[2.5rem] border-2 border-green-100 shadow-xl shadow-green-600/5 sticky top-6">
+                        <div class="mb-8">
+                            <div class="flex justify-between items-end mb-3">
+                                <span class="text-3xl font-black text-green-600 tracking-tight">145 <span class="text-sm text-gray-400 font-bold">/ 200 Packs</span></span>
+                                <span class="text-sm font-black text-gray-900 bg-gray-100 px-3 py-1 rounded-full">72%</span>
+                            </div>
+                            <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-green-500" style="width: 72%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <input type="number" placeholder="Number of packs" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-2xl outline-none focus:border-green-600 font-bold">
+                            <button class="w-full bg-green-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest hover:bg-gray-900 transition-all shadow-lg shadow-green-600/20">Donate Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-24">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="h-px flex-1 bg-gray-200"></span>
+                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-amber-600">Preview: Coming Soon State</h2>
+                <span class="h-px flex-1 bg-gray-200"></span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2 bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm opacity-90">
+                    <div class="relative h-80 md:h-[450px] mb-8 rounded-3xl overflow-hidden grayscale">
+                        <img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?q=80&w=1200" class="w-full h-full object-cover" alt="Soon">
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black mb-6 tracking-tighter text-gray-400">Rural Education Kits 2026</h1>
+                    <p class="text-gray-500 text-lg leading-relaxed">This campaign will provide school bags, notebooks, and stationery to students in remote mountain schools. We are currently finalizing the logistics with local distributors.</p>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="bg-amber-50 p-10 rounded-[2.5rem] border border-amber-100 text-center flex flex-col justify-center h-full">
+                        <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-600">
+                            <i data-lucide="calendar-days" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-amber-900 mb-2">Starts Soon</h3>
+                        <p class="text-amber-700 font-bold text-lg mb-8">Launching: April 15, 2026</p>
+                        <p class="text-amber-600/60 text-sm leading-relaxed italic">The NGO is finalizing campaign requirements. Donations will open on the start date mentioned above.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-12">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="h-px flex-1 bg-gray-200"></span>
+                <h2 class="text-xs font-black uppercase tracking-[0.3em] text-gray-400">Preview: Completed State</h2>
+                <span class="h-px flex-1 bg-gray-200"></span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2 bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm opacity-75">
+                    <div class="relative h-80 md:h-[450px] mb-8 rounded-3xl overflow-hidden grayscale">
+                        <img src="https://images.unsplash.com/photo-1542060748-10c28b62716f?q=80&w=1200" class="w-full h-full object-cover" alt="Completed">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                             <div class="text-white font-black text-3xl md:text-5xl uppercase tracking-[0.3em] border-8 border-white px-10 py-6">Mission Accomplished</div>
+                        </div>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-black mb-6 tracking-tighter text-gray-400">Solar Lamp Distribution</h1>
+                    <p class="text-gray-400 text-lg leading-relaxed">Thank you for making this a success. We have distributed 500 solar lamps to off-grid villages, helping children study after sunset and reducing kerosene costs for families.</p>
+                </div>
+
+                <div class="lg:col-span-1">
+                    <div class="bg-gray-900 p-10 rounded-[2.5rem] shadow-2xl text-center flex flex-col justify-center h-full">
+                        <div class="w-20 h-20 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="check-circle-2" class="w-12 h-12 text-green-500"></i>
+                        </div>
+                        <h3 class="text-4xl font-black text-white mb-2">500 Units</h3>
+                        <p class="text-green-500 font-bold uppercase tracking-[0.2em] text-xs mb-8">100% Goal Achieved</p>
+                        <a href="/campaigns" class="block w-full py-4 rounded-2xl bg-white/10 text-white font-bold hover:bg-white/20 transition-all border border-white/10">View Other Missions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
