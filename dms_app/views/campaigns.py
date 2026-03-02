@@ -100,4 +100,6 @@ def reject_campaign_request(request, campaign_id):
 
 def single_campaign_page_view(request, campaign_id):
     campaign = Campaign.objects.get(id=campaign_id)
+    campaign.is_active = Campaign.is_active(campaign)
+    campaign.is_completed = Campaign.is_completed(campaign)
     return render(request,"main/single_campaign_page.html", {"campaign": campaign})
