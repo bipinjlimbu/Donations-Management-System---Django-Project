@@ -73,10 +73,13 @@ def admin_dashboard_view(request):
         combined = list(donor_pending) + list(ngo_pending)
         combined.sort(key=lambda x: x.changes_requested_at, reverse=True)
         context['pending_changes'] = combined
+        
+    elif section == 'campaign-list':
+        context['campaigns'] = Campaign.objects.exclude(status=Campaign.Status.PENDING).order_by('-approved_at')
+        
 
     elif section == 'campaign-requests':
         context['campaign_requests'] = Campaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
-        print(context['campaign_requests'])
         
     return render(request, 'main/admin_dashboard.html', context)
 
