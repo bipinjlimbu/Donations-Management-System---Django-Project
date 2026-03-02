@@ -67,6 +67,13 @@
                     {% endif %}
                 </a>
 
+                <a href="?section=campaign-list" 
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all
+                   {% if section == 'campaign-list' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <i data-lucide="list" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Campaign List</span>
+                </a>
+
                 <a href="?section=campaign-requests" 
                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
                    {% if section == 'campaign-requests' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
