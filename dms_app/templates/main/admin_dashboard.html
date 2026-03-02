@@ -388,73 +388,109 @@
             </div>
 
             {% elif section == 'campaign-requests' %}
-                <h1 class="text-2xl font-bold text-slate-800 mb-6">Campaign Creation Requests</h1>
-                
-                {% for request in campaign_requests %}
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden mb-6">
-                    <div class="p-6 md:p-8 border-b border-slate-100 flex flex-col md:flex-row justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-3 mb-2">
-                                <span class="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-lg">
-                                    {{ request.category|default:"Category" }}
-                                </span>
-                                <span class="text-slate-300">•</span>
-                                <p class="text-xs font-bold text-slate-500 italic">Proposed by: <span class="text-slate-900 not-italic">{{ request.ngo.ngo_profile.organization_name }}</span></p>
+                <div class="mb-8 flex justify-between items-end">
+                    <div>
+                        <h1 class="text-2xl font-black text-slate-800 tracking-tight">Campaign Creation Requests</h1>
+                        <p class="text-sm text-slate-500 font-medium">Verify and launch new NGO initiatives</p>
+                    </div>
+                    <span class="text-[11px] font-bold bg-green-100 text-green-700 px-3 py-1 rounded-full uppercase tracking-wider border border-green-200">
+                        {{ campaign_requests|length }} New Requests
+                    </span>
+                </div>
+
+                <div class="space-y-6">
+                    {% for request in campaign_requests %}
+                    
+                    <div class="bg-white border border-slate-200 rounded-[2rem] overflow-hidden hover:border-blue-300 transition-all shadow-sm group">
+                        <div class="flex flex-col lg:flex-row">
+                            
+                            <div class="w-full lg:w-72 h-64 lg:h-auto relative shrink-0 overflow-hidden bg-slate-100">
+                                
+                                {% if request.campaign_image %}
+                                    <img src="{{ request.campaign_image.url }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                {% else %}
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 bg-slate-50">
+                                        <div class="p-4 rounded-full bg-white shadow-inner border border-slate-100 mb-3">
+                                            <i data-lucide="package" class="w-10 h-10 text-blue-500"></i>
+                                        </div>
+                                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Campaign</span>
+                                    </div>
+                                {% endif %}
+
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span class="px-3 py-1 bg-white/90 backdrop-blur text-[9px] font-black uppercase tracking-widest rounded-lg shadow-sm text-blue-600">
+                                        {{ request.category }}
+                                    </span>
+                                </div>
                             </div>
-                            <h3 class="text-xl font-extrabold text-slate-900 tracking-tight">{{ request.title }}</h3>
-                            <p class="text-sm text-slate-500 mt-2 leading-relaxed">{{ request.description }}</p>
-                        </div>
-                        
-                        <div class="md:text-right flex flex-col justify-center bg-slate-50 md:bg-transparent p-4 md:p-0 rounded-2xl">
-                            <p class="text-2xl font-black text-green-600">{{ request.target_quantity }} <span class="text-sm font-bold text-slate-400"> {{ request.unit }}</span></p>
-                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em]">Target: {{ request.item_type }}</p>
+
+                            <div class="flex-1 p-6 md:p-8">
+                                <div class="flex flex-col md:flex-row justify-between gap-4 mb-6">
+                                    <div class="flex-1">
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 italic">
+                                            Proposed by: <span class="text-blue-600 not-italic">{{ request.ngo.ngo_profile.organization_name }}</span>
+                                        </p>
+                                        <h3 class="text-2xl font-black text-slate-900 tracking-tight mb-2">{{ request.title }}</h3>
+                                        <p class="text-sm text-slate-500 leading-relaxed line-clamp-2">{{ request.description }}</p>
+                                    </div>
+                                    
+                                    <div class="bg-slate-50 px-6 py-4 rounded-2xl border border-slate-100 flex flex-col justify-center items-center md:items-end shrink-0">
+                                        <p class="text-2xl font-black text-green-600 leading-none">{{ request.target_quantity }}</p>
+                                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">{{ request.unit }} Required</p>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-t border-slate-50 mb-6">
+                                    <div>
+                                        <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Item Type</p>
+                                        <p class="text-xs font-bold text-slate-700">{{ request.item_type }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Category</p>
+                                        <p class="text-xs font-bold text-slate-700">{{ request.category }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[9px] text-emerald-500 font-black uppercase tracking-widest mb-1">Start Date</p>
+                                        <p class="text-xs font-bold text-slate-700">{{ request.start_date|date:"M d, Y" }}</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[9px] text-rose-500 font-black uppercase tracking-widest mb-1">End Date</p>
+                                        <p class="text-xs font-bold text-slate-700">{{ request.end_date|date:"M d, Y" }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                    <p class="text-[10px] text-slate-400 font-medium italic">
+                                        <i data-lucide="info" class="w-3 h-3 inline mr-1"></i> Verify all dates and NGO credentials.
+                                    </p>
+                                    <div class="flex gap-3 w-full sm:w-auto">
+                                        <form method="POST" action="/reject_campaign_request/{{ request.id }}/" class="flex-1 sm:flex-none">
+                                            {% csrf_token %}
+                                            <button type="submit" class="w-full px-6 py-2.5 text-xs font-bold text-slate-400 hover:text-red-600 transition-colors">
+                                                Reject
+                                            </button>
+                                        </form>
+                                        <form method="POST" action="/approve_campaign_request/{{ request.id }}/" class="flex-1 sm:flex-none">
+                                            {% csrf_token %}
+                                            <button type="submit" class="w-full px-8 py-2.5 bg-[#0F172A] text-white text-xs font-bold rounded-xl hover:bg-blue-600 transition-all shadow-lg shadow-slate-900/10">
+                                                Approve
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-4 border-b border-slate-100">
-                        <div class="p-6 border-r border-slate-100">
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Item Type</p>
-                            <p class="text-sm font-bold text-slate-700">{{ request.item_type }}</p>
-                        </div>
-                        <div class="p-6 border-r md:border-r border-slate-100">
-                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Category</p>
-                            <p class="text-sm font-bold text-slate-700">{{ request.category }}</p>
-                        </div>
-                        <div class="p-6 border-r border-slate-100">
-                            <p class="text-[10px] font-black text-green-600 uppercase tracking-widest mb-1">Start Date</p>
-                            <p class="text-sm font-bold text-slate-700">{{ request.start_date }}</p>
-                        </div>
-                        <div class="p-6">
-                            <p class="text-[10px] font-black text-rose-500 uppercase tracking-widest mb-1">End Date</p>
-                            <p class="text-sm font-bold text-slate-700">{{ request.end_date }}</p>
-                        </div>
+                    {% empty %}
+                    <div class="bg-white border-2 border-dashed border-slate-200 rounded-[2.5rem] p-16 text-center">
+                        <i data-lucide="coffee" class="w-10 h-10 text-slate-300 mx-auto mb-4"></i>
+                        <p class="text-slate-500 font-bold">No campaign requests at the moment.</p>
                     </div>
-
-                    <div class="p-4 bg-gray-50/50 flex flex-col sm:flex-row gap-3 justify-end items-center">
-                        <p class="text-[10px] text-slate-400 font-medium italic mr-auto px-4 hidden sm:block">
-                            Please verify NGO credentials before approval.
-                        </p>
-                        <div class="flex gap-3 w-full sm:w-auto">
-                            <a href='/reject_campaign_request/{{ request.id }}/' class="flex-1 sm:flex-none px-6 py-3 text-xs font-black text-slate-400 uppercase tracking-widest hover:text-red-600 hover:bg-red-50 rounded-xl transition-all">
-                                Reject Request
-                            </a>
-                            <a href='/approve_campaign_request/{{ request.id }}/' class="flex-1 sm:flex-none px-8 py-3 bg-green-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-gray-900 shadow-lg shadow-green-600/20 transition-all">
-                                Approve Campaign
-                            </a>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% empty %}
-                <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl p-16 text-center">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
-                        <i data-lucide="coffee" class="w-8 h-8 text-slate-300"></i>
-                    </div>
-                    <p class="text-slate-500 font-bold text-lg">No campaign requests!</p>
-                    <p class="text-slate-400 text-sm">All campaign creation requests have been reviewed.</p>
-                </div>
-                {% endfor %}
             {% endif %}
-
+            
         </main>
     </div>
 
