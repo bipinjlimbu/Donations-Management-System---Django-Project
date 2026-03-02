@@ -108,3 +108,6 @@ def single_campaign_page_view(request, campaign_id):
     campaign.is_active = Campaign.is_active(campaign)
     campaign.is_completed = Campaign.is_completed(campaign)
     return render(request,"main/single_campaign_page.html", {"campaign": campaign})
+
+def edit_campaign_view(request, campaign_id):
+    return render(request,"main/edit_campaign_page.html", {"campaign_id": campaign_id})
