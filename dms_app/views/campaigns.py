@@ -97,3 +97,7 @@ def reject_campaign_request(request, campaign_id):
     campaign.save()
     messages.info(request, f"Campaign '{campaign.title}' has been rejected.")
     return redirect("admin-dashboard")
+
+def single_campaign_page_view(request, campaign_id):
+    campaign = Campaign.objects.get(id=campaign_id)
+    return render(request,"main/single_campaign_page.html", {"campaign": campaign})
