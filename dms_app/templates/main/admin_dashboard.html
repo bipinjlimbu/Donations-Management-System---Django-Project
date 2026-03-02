@@ -487,9 +487,11 @@
                                 </div>
 
                                 <div class="flex gap-3 w-full sm:w-auto">
+                                    {% if campaign.status != 'REJECTED' %}
                                     <a href="/edit_campaign/{{ campaign.id }}/" class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:border-slate-300 hover:bg-slate-50 transition-all">
                                         <i data-lucide="edit-3" class="w-4 h-4"></i> Edit
                                     </a>
+                                    {% endif %}
                                     
                                     <form method="POST" action="/delete_campaign/{{ campaign.id }}/" onsubmit="return confirm('Are you sure you want to delete this campaign?');" class="flex-1 sm:flex-none">
                                         {% csrf_token %}
