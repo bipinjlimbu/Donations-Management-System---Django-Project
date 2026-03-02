@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
 
 def campaigns_page_view(request):
-    campaigns = Campaign.objects.exclude(status=Campaign.Status.REJECTED).order_by('-approved_at')
+    campaigns = Campaign.objects.exclude(status__in=[Campaign.Status.REJECTED, Campaign.Status.PENDING]).order_by('-approved_at')
     for campaign in campaigns:
         campaign.is_active = Campaign.is_active(campaign)
         campaign.is_completed = Campaign.is_completed(campaign)
@@ -100,6 +100,11 @@ def reject_campaign_request(request, campaign_id):
 
 def single_campaign_page_view(request, campaign_id):
     campaign = Campaign.objects.get(id=campaign_id)
+    
+    if campaign.status in [Campaign.Status.PENDING, Campaign.Status.REJECTED]:
+        messages.warning(request, "This campaign is not available for viewing.")
+        return redirect("campaigns")
+    
     campaign.is_active = Campaign.is_active(campaign)
     campaign.is_completed = Campaign.is_completed(campaign)
     return render(request,"main/single_campaign_page.html", {"campaign": campaign})
