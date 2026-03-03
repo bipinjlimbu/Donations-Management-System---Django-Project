@@ -160,7 +160,7 @@ def edit_campaign_view(request, campaign_id):
         else:
             if not end_date:
                 errors["end_date"] = "End date is required."
-            elif end_date < start_date:
+            elif end_date < str(campaign.start_date):
                 errors["end_date"] = "End date must be after the start date."
         
         if errors:
