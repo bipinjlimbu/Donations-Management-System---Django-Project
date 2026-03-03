@@ -130,7 +130,9 @@ class Donation(models.Model):
         REJECTED = 'REJECTED', 'Rejected'
         
     donor = models.ForeignKey(User, on_delete=models.SET_NULL, limit_choices_to={'role': User.Role.DONOR}, null=True, blank=True)
+    donor_name = models.CharField(max_length=100)
     campaign = models.ForeignKey(Campaign, on_delete=models.SET_NULL, null=True, blank=True)
+    campaign_title = models.CharField(max_length=200)
     quantity = models.PositiveIntegerField()
     status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
     delivered_at = models.DateTimeField(auto_now_add=True)
