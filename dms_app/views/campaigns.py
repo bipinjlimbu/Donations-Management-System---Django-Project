@@ -123,8 +123,11 @@ def edit_campaign_view(request, campaign_id):
         item_type = request.POST.get("item_type").strip()
         unit = request.POST.get("unit").strip()
         target_quantity = request.POST.get("target_quantity").strip()
-        start_date = request.POST.get("start_date").strip()
-        end_date = request.POST.get("end_date").strip()
+        
+        if campaign.status == Campaign.Status.APPROVED:
+            start_date = request.POST.get("start_date").strip()
+        else:
+            end_date = request.POST.get("end_date").strip()
         
         if not title:
             errors["title"] = "Title is required."
@@ -148,15 +151,17 @@ def edit_campaign_view(request, campaign_id):
         elif int(target_quantity) <= 0:
             errors["target_quantity"] = "Target quantity must be greater than zero."
         
-        if not start_date:
-            errors["start_date"] = "Start date is required."
-        elif start_date < str(date.today()):
-            errors["start_date"] = "Start date cannot be in the past."
-            
-        if not end_date:
-            errors["end_date"] = "End date is required."
-        elif end_date < start_date:
-            errors["end_date"] = "End date must be after the start date."
+        
+        if campaign.status == Campaign.Status.APPROVED:
+            if not start_date:
+                errors["start_date"] = "Start date is required."
+            elif start_date < str(date.today()):
+                errors["start_date"] = "Start date cannot be in the past."
+        else:
+            if not end_date:
+                errors["end_date"] = "End date is required."
+            elif end_date < start_date:
+                errors["end_date"] = "End date must be after the start date."
         
         if errors:
             return render(request, "main/edit_campaign_page.html", {"errors": errors,"data": request.POST, "campaign": campaign})
@@ -169,8 +174,10 @@ def edit_campaign_view(request, campaign_id):
         campaign.item_type = item_type
         campaign.unit = unit
         campaign.target_quantity = target_quantity
-        campaign.start_date = start_date
-        campaign.end_date = end_date
+        if campaign.status == Campaign.Status.APPROVED:
+            campaign.start_date = start_date
+        else:
+            campaign.end_date = end_date
         campaign.save()
         
         messages.success(request, "Campaign updated successfully.")
