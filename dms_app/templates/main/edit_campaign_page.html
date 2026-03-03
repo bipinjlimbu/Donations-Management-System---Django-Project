@@ -18,7 +18,7 @@
             <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
                 Edit <span class="text-green-600">Campaign</span>
             </h1>
-            <p class="text-gray-500 text-lg">Update details for: <span class="font-semibold text-gray-700">Winter Blanket Drive</span></p>
+            <p class="text-gray-500 text-lg">Update details for: <span class="font-semibold text-gray-700">{{ campaign.title }}</span></p>
         </div>
 
         <div class="bg-white rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
@@ -34,23 +34,29 @@
                             <label class="text-sm font-bold text-gray-700 ml-1">Campaign Title</label>
                             <input type="text" name="title" placeholder="e.g. Winter Blanket Drive" {% if data %}value="{{data.title}}"{% else %}value="{{campaign.title}}"{% endif %} 
                                 class="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-green-500/10 focus:border-green-600 focus:bg-white outline-none transition-all font-medium">
+                            {% if errors.title %}
+                                <p class="text-red-500 text-sm mt-1 ml-1">{{ errors.title }}</p>
+                            {% endif %}
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
                                 <label class="text-sm font-bold text-gray-700 ml-1">Category</label>
                                 <select name="category" class="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-green-600 outline-none transition-all font-medium appearance-none">
-                                    <option value="FOOD">Food</option>
-                                    <option value="CLOTHING" {% if data %} {% if data.category == "CLOTHING" %}selected{% endif %} {% else %} {% if campaign.category == "CLOTHING" %}selected{% endif %} {% endif %}>Clothing</option>
-                                    <option value="MEDICAL" {% if data %} {% if data.category == "MEDICAL" %}selected{% endif %} {% else %} {% if campaign.category == "MEDICAL" %}selected{% endif %} {% endif %}>Medical Supplies</option>
-                                    <option value="EDUCATION" {% if data %} {% if data.category == "EDUCATION" %}selected{% endif %} {% else %} {% if campaign.category == "EDUCATION" %}selected{% endif %} {% endif %}>Education</option>
-                                    <option value="OTHER" {% if data %} {% if data.category == "OTHER" %}selected{% endif %} {% else %} {% if campaign.category == "OTHER" %}selected{% endif %} {% endif %}>Other</option>
+                                    <option value="FOOD" {% if data %}{% if data.category == "FOOD" %}selected{% endif %}{% else %}{% if campaign.category == "FOOD" %}selected{% endif %}{% endif %}>Food</option>
+                                    <option value="CLOTHING" {% if data %}{% if data.category == "CLOTHING" %}selected{% endif %}{% else %}{% if campaign.category == "CLOTHING" %}selected{% endif %}{% endif %}>Clothing</option>
+                                    <option value="MEDICAL" {% if data %}{% if data.category == "MEDICAL" %}selected{% endif %}{% else %}{% if campaign.category == "MEDICAL" %}selected{% endif %}{% endif %}>Medical Supplies</option>
+                                    <option value="EDUCATION" {% if data %}{% if data.category == "EDUCATION" %}selected{% endif %}{% else %}{% if campaign.category == "EDUCATION" %}selected{% endif %}{% endif %}>Education</option>
+                                    <option value="OTHER" {% if data %}{% if data.category == "OTHER" %}selected{% endif %}{% else %}{% if campaign.category == "OTHER" %}selected{% endif %}{% endif %}>Other</option>
                                 </select>
                             </div>
                             <div class="space-y-2">
                                 <label class="text-sm font-bold text-gray-700 ml-1">Target Item</label>
                                 <input type="text" name="item_type" placeholder="e.g. Warm Blankets" {% if data %}value="{{data.item_type}}"{% else %}value="{{campaign.item_type}}"{% endif %} 
                                     class="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-green-600 outline-none transition-all font-medium">
+                                {% if errors.item_type %}
+                                    <p class="text-red-500 text-sm mt-1 ml-1">{{ errors.item_type }}</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -67,11 +73,17 @@
                             <label class="text-sm font-bold text-gray-700 ml-1">Target Quantity</label>
                             <input type="number" name="target_quantity" placeholder="0" {% if data %}value="{{data.target_quantity}}"{% else %}value="{{campaign.target_quantity}}"{% endif %}
                                 class="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-green-600 outline-none transition-all font-medium">
+                            {% if errors.target_quantity %}
+                                <p class="text-red-500 text-sm mt-1 ml-1">{{ errors.target_quantity }}</p>
+                            {% endif %}
                         </div>
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-gray-700 ml-1">Unit (e.g. Kgs, Sets, Pieces)</label>
                             <input type="text" name="unit" placeholder="e.g. Pieces" {% if data %}value="{{data.unit}}"{% else %}value="{{campaign.unit}}"{% endif %}
                                 class="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-green-600 outline-none transition-all font-medium">
+                            {% if errors.unit %}
+                                <p class="text-red-500 text-sm mt-1 ml-1">{{ errors.unit }}</p>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -80,12 +92,19 @@
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-gray-700 ml-1">Start Date</label>
                             <input type="date" name="start_date" {% if data %}value="{{data.start_date}}"{% else %}value="{{campaign.start_date | date:'Y-m-d' }}"{% endif %} class="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-green-600 outline-none transition-all font-medium">
+                            {% if errors.start_date %}
+                                <p class="text-red-500 text-sm mt-1 ml-1">{{ errors.start_date }}</p>
+                            {% endif %}
                         </div>
                         {% endif %}
+                        
                         {% if campaign.status != 'APPROVED' %}
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-gray-700 ml-1">End Date</label>
                             <input type="date" name="end_date" {% if data %}value="{{data.end_date}}"{% else %}value="{{campaign.end_date | date:'Y-m-d'}}"{% endif %} class="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:border-green-600 outline-none transition-all font-medium">
+                            {% if errors.end_date %}
+                                <p class="text-red-500 text-sm mt-1 ml-1">{{ errors.end_date }}</p>
+                            {% endif %}
                         </div>
                         {% endif %}
                     </div>
@@ -102,23 +121,34 @@
                             <label class="text-sm font-bold text-gray-700 ml-1">Description</label>
                             <textarea name="description" rows="5" placeholder="Explain the impact of this campaign..." 
                                 class="w-full px-6 py-4 bg-gray-50 border border-gray-200 rounded-3xl focus:border-green-600 outline-none transition-all font-medium resize-none">{% if data %}{{data.description}}{% else %}{{campaign.description}}{% endif %}</textarea>
+                            {% if errors.description %}
+                                <p class="text-red-500 text-sm mt-1 ml-1">{{ errors.description }}</p>
+                            {% endif %}
                         </div>
 
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-gray-700 ml-1">Campaign Image</label>
                             
-                            {% if campaign.campaign_image %}
-                            <div class="mb-4">
-                                <p class="text-xs text-gray-500 mb-2">Current Image:</p>
-                                <img src="{{ campaign.campaign_image.url }}" alt="Current Image" class="h-32 rounded-2xl shadow-sm">
-                            </div>
-                            {% endif %}
+                            <div id="upload-box" class="border-2 border-dashed border-gray-200 rounded-3xl p-8 hover:border-green-600 hover:bg-green-50 transition-all text-center cursor-pointer group relative overflow-hidden min-h-[240px] flex items-center justify-center">
+                                
+                                <div id="placeholder-content" class="{% if campaign.campaign_image %}hidden{% endif %}">
+                                    <i data-lucide="image" class="w-10 h-10 text-gray-300 group-hover:text-green-600 mx-auto mb-3"></i>
+                                    <p class="text-sm font-bold text-gray-500 group-hover:text-green-700">Click to update cover photo</p>
+                                    <p class="text-xs text-gray-400 mt-1">Recommended size: 1200x800px</p>
+                                </div>
 
-                            <div class="border-2 border-dashed border-gray-200 rounded-3xl p-8 hover:border-green-600 hover:bg-green-50 transition-all text-center cursor-pointer group relative">
-                                <i data-lucide="image" class="w-8 h-8 text-gray-300 group-hover:text-green-600 mx-auto mb-2"></i>
-                                <p class="text-sm font-bold text-gray-500 group-hover:text-green-700">Click to update cover photo</p>
-                                <p class="text-xs text-gray-400 mt-1">Recommended size: 1200x800px</p>
-                                <input type="file" name="campaign_image" class="absolute inset-0 opacity-0 cursor-pointer">
+                                <img id="image-preview" 
+                                     src="{% if campaign.campaign_image %}{{ campaign.campaign_image.url }}{% endif %}" 
+                                     class="absolute inset-0 w-full h-full object-cover {% if not campaign.campaign_image %}hidden{% endif %}" 
+                                     alt="Campaign Preview">
+
+                                <div id="upload-overlay" class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity {% if not campaign.campaign_image %}hidden{% endif %} z-20">
+                                    <div class="bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 text-white font-bold flex items-center gap-2">
+                                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Change Photo
+                                    </div>
+                                </div>
+
+                                <input type="file" id="campaign_image_input" name="campaign_image" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer z-30">
                             </div>
                         </div>
                     </div>
@@ -140,6 +170,31 @@
 
     <script>
         lucide.createIcons();
+
+        // Real-time Image Preview Logic
+        const imageInput = document.getElementById('campaign_image_input');
+        const imagePreview = document.getElementById('image-preview');
+        const placeholder = document.getElementById('placeholder-content');
+        const overlay = document.getElementById('upload-overlay');
+
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // 1. Update the image source
+                    imagePreview.src = e.target.result;
+                    
+                    // 2. Adjust visibility
+                    imagePreview.classList.remove('hidden');
+                    overlay.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                }
+                
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 </body>
 </html>
