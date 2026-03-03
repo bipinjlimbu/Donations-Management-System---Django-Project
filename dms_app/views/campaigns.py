@@ -184,3 +184,9 @@ def edit_campaign_view(request, campaign_id):
         return redirect("campaigns")
     
     return render(request,"main/edit_campaign_page.html", {"campaign": campaign})
+
+def delete_campaign_view(request, campaign_id):
+    campaign = Campaign.objects.get(id=campaign_id)
+    campaign.delete()
+    messages.success(request, "Campaign deleted successfully.")
+    return redirect("campaigns")
