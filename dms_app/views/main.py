@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from ..models import DonorProfile, Feedback, NGOProfile, Register, Campaign
+from ..models import Donation, DonorProfile, Feedback, NGOProfile, Register, Campaign
 import re
 
 def home_view(request):
@@ -136,3 +136,24 @@ def reject_signup_request(request, request_id):
             messages.error(request, "Signup request not found or already processed.")
     
     return redirect("admin-dashboard")
+
+def donate_view(request, campaign_id):
+    if request.method == "POST":
+        campaign = Campaign.objects.get(id=campaign_id)
+        quantity = request.POST.get("quantity").strip()
+        
+        if not quantity.isdigit() or int(quantity) <= 0:
+            messages.error(request, "Please enter a valid donation amount.")
+            return redirect("campaigns")
+        
+        Donation.objects.create(
+            donor=request.user,
+            donor_name=request.user.donor_profile.full_name,
+            campaign=campaign,
+            campaign_title=campaign.title,
+            quantity=quantity,
+            status = Donation.Status.PENDING
+        )
+        messages.success(request, "Your donation has been submitted successfully.")
+
+    return redirect("campaigns")
