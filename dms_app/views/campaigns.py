@@ -110,4 +110,5 @@ def single_campaign_page_view(request, campaign_id):
     return render(request,"main/single_campaign_page.html", {"campaign": campaign})
 
 def edit_campaign_view(request, campaign_id):
-    return render(request,"main/edit_campaign_page.html", {"campaign_id": campaign_id})
+    campaign = Campaign.objects.get(id=campaign_id)
+    return render(request,"main/edit_campaign_page.html", {"campaign": campaign})
