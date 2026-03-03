@@ -111,4 +111,69 @@ def single_campaign_page_view(request, campaign_id):
 
 def edit_campaign_view(request, campaign_id):
     campaign = Campaign.objects.get(id=campaign_id)
+    campaign.is_active = Campaign.is_active(campaign)
+    campaign.is_completed = Campaign.is_completed(campaign)
+    errors = {}
+    
+    if request.method == "POST":
+        title = request.POST.get("title").strip()
+        description = request.POST.get("description").strip()
+        campaign_image = request.FILES.get("campaign_image")
+        category = request.POST.get("category")
+        item_type = request.POST.get("item_type").strip()
+        unit = request.POST.get("unit").strip()
+        target_quantity = request.POST.get("target_quantity").strip()
+        start_date = request.POST.get("start_date").strip()
+        end_date = request.POST.get("end_date").strip()
+        
+        if not title:
+            errors["title"] = "Title is required."
+            
+        if not description:
+            errors["description"] = "Description is required."
+            
+        if not category:
+            errors["category"] = "Category is required."
+            
+        if not item_type:
+            errors["item_type"] = "Item type is required."
+            
+        if not unit:
+            errors["unit"] = "Unit is required."
+            
+        if not target_quantity:
+            errors["target_quantity"] = "Target quantity is required."
+        elif not target_quantity.isdigit():
+            errors["target_quantity"] = "Target quantity must be a positive integer."
+        elif int(target_quantity) <= 0:
+            errors["target_quantity"] = "Target quantity must be greater than zero."
+        
+        if not start_date:
+            errors["start_date"] = "Start date is required."
+        elif start_date < str(date.today()):
+            errors["start_date"] = "Start date cannot be in the past."
+            
+        if not end_date:
+            errors["end_date"] = "End date is required."
+        elif end_date < start_date:
+            errors["end_date"] = "End date must be after the start date."
+        
+        if errors:
+            return render(request, "main/edit_campaign_page.html", {"errors": errors,"data": request.POST, "campaign": campaign})
+        
+        campaign.title = title
+        campaign.description = description
+        if campaign_image:
+            campaign.campaign_image = campaign_image
+        campaign.category = category
+        campaign.item_type = item_type
+        campaign.unit = unit
+        campaign.target_quantity = target_quantity
+        campaign.start_date = start_date
+        campaign.end_date = end_date
+        campaign.save()
+        
+        messages.success(request, "Campaign updated successfully.")
+        return redirect("campaigns")
+    
     return render(request,"main/edit_campaign_page.html", {"campaign": campaign})
