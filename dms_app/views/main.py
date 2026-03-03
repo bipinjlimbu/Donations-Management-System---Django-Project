@@ -151,6 +151,7 @@ def donate_view(request, campaign_id):
             donor_name=request.user.donor_profile.full_name,
             campaign=campaign,
             campaign_title=campaign.title,
+            ngo_name=campaign.ngo.organization_name,
             quantity=quantity,
             status = Donation.Status.PENDING
         )
