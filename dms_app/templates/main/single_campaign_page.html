@@ -12,6 +12,16 @@
 
     {% include 'components/_navbar.html' %}
 
+    {% if messages %}
+        <div class="fixed top-4 right-4 z-50">
+            {% for message in messages %}
+                <script>
+                    alert("{{ message }}");
+                </script>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12">
         
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
