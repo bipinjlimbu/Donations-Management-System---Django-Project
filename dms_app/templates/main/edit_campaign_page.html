@@ -183,10 +183,8 @@
                 const reader = new FileReader();
                 
                 reader.onload = function(e) {
-                    // 1. Update the image source
                     imagePreview.src = e.target.result;
                     
-                    // 2. Adjust visibility
                     imagePreview.classList.remove('hidden');
                     overlay.classList.remove('hidden');
                     placeholder.classList.add('hidden');
