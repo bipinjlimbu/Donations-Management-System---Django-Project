@@ -133,6 +133,7 @@ class Donation(models.Model):
     donor_name = models.CharField(max_length=100)
     campaign = models.ForeignKey(Campaign, on_delete=models.SET_NULL, null=True, blank=True)
     campaign_title = models.CharField(max_length=200)
+    ngo_name = models.CharField(max_length=100)
     quantity = models.PositiveIntegerField()
     status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
     delivered_at = models.DateTimeField(auto_now_add=True)
