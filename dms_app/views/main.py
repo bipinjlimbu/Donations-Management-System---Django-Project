@@ -187,3 +187,13 @@ def ngo_dashboard_view(request):
         context['pending_profile_changes'] = NGOProfile.objects.filter(user=request.user, pending_status="PENDING").order_by('-changes_requested_at')
     
     return render(request, 'main/ngo_dashboard.html', context)
+
+def approve_donation_request(request, donation_id):
+    donation = Donation.objects.get(id=donation_id)
+    campaign = Campaign.objects.get(title=donation.campaign_title)
+    campaign.collected_quantity += int(donation.quantity)
+    campaign.save()
+    donation.status = Donation.Status.APPROVED
+    donation.save()
+    messages.success(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been approved.")
+    return redirect("ngo-dashboard")
