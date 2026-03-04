@@ -16,6 +16,15 @@
 </head>
 <body class="bg-gray-50 font-sans overflow-hidden">
 
+    {% if messages%}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="dashboard-container">
         
         <aside class="w-72 bg-[#064E3B] text-emerald-100 flex flex-col shadow-xl shrink-0">
@@ -34,7 +43,9 @@
                         <i data-lucide="hand-heart" class="w-5 h-5 group-hover:text-amber-400"></i>
                         <span class="text-sm font-medium">Donation Requests</span>
                     </div>
+                    {% if context.donation_request_count > 0 %}
                     <span class="bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ context.donation_request_count }}</span>
+                    {% endif %}
                 </a>
 
                 <a href="?section=pending-requests" class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group hover:bg-emerald-800/50 hover:text-white text-emerald-200">
@@ -42,7 +53,9 @@
                         <i data-lucide="clock" class="w-5 h-5 group-hover:text-blue-400"></i>
                         <span class="text-sm font-medium">Pending Requests</span>
                     </div>
+                    {% if context.pending_request_count > 0 %}
                     <span class="bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ context.pending_request_count }}</span>
+                    {% endif %}
                 </a>
             </nav>
 
