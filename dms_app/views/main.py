@@ -158,3 +158,6 @@ def donate_view(request, campaign_id):
         messages.success(request, "Your donation has been submitted successfully.")
 
     return redirect("campaigns")
+
+def ngo_dashboard_view(request):
+    return render(request, 'main/ngo_dashboard.html')
