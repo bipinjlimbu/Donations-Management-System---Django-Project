@@ -194,7 +194,7 @@ def approve_donation_view(request, donation_id):
     campaign = Campaign.objects.get(title=donation.campaign_title)
     campaign.collected_quantity += int(donation.quantity)
     campaign.save()
-    donation.status = Donation.Status.APPROVED
+    donation.status = Donation.Status.DELIVERED
     donation.updated_at = date.today()
     donation.save()
     messages.success(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been approved.")
