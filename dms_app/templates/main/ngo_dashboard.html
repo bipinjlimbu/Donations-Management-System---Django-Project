@@ -60,7 +60,7 @@
             </nav>
 
             <div class="p-6 border-t border-emerald-800">
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white text-emerald-900 hover:bg-emerald-50 transition-all font-bold text-sm mb-3">
+                <a href="/campaigns/create" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-white text-emerald-900 hover:bg-emerald-50 transition-all font-bold text-sm mb-3">
                     <i data-lucide="plus-circle" class="w-5 h-5"></i>
                     Create Campaign
                 </a>
@@ -120,12 +120,12 @@
                         </div>
 
                         <div class="flex items-center gap-2 pl-6">
-                            <button class="p-3 bg-slate-50 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded-xl transition-all border border-slate-100">
+                            <a href="/campaigns/edit/{{ campaign.id }}/" class="p-3 bg-slate-50 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 rounded-xl transition-all border border-slate-100">
                                 <i data-lucide="edit-3" class="w-5 h-5"></i>
-                            </button>
-                            <button class="p-3 bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-xl transition-all border border-slate-100">
-                                <i data-lucide="eye" class="w-5 h-5"></i>
-                            </button>
+                            </a>
+                            <a href="/campaigns/delete/{{ campaign.id }}/" onclick="return confirm('Are you sure you want to delete this campaign?');" class="p-3 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-xl transition-all border border-slate-100">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
