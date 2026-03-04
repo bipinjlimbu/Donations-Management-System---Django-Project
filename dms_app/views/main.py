@@ -1,3 +1,4 @@
+from datetime import date
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import get_user_model
@@ -194,6 +195,7 @@ def approve_donation_view(request, donation_id):
     campaign.collected_quantity += int(donation.quantity)
     campaign.save()
     donation.status = Donation.Status.APPROVED
+    donation.updated_at = date.today()
     donation.save()
     messages.success(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been approved.")
     return redirect("ngo-dashboard")
