@@ -199,3 +199,11 @@ def approve_donation_view(request, donation_id):
     donation.save()
     messages.success(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been approved.")
     return redirect("ngo-dashboard")
+
+def reject_donation_view(request, donation_id):
+    donation = Donation.objects.get(id=donation_id)
+    donation.status = Donation.Status.REJECTED
+    donation.updated_at = date.today()
+    donation.save()
+    messages.info(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been rejected.")
+    return redirect("ngo-dashboard")
