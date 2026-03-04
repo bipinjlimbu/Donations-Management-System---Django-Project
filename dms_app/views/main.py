@@ -160,4 +160,30 @@ def donate_view(request, campaign_id):
     return redirect("campaigns")
 
 def ngo_dashboard_view(request):
-    return render(request, 'main/ngo_dashboard.html')
+    section = request.GET.get('section', 'campaign-list')
+    
+    pending_ngo_count = NGOProfile.objects.filter(pending_status="PENDING").count()
+    pending_campaign_count = Campaign.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).count()
+    total_pending = pending_ngo_count + pending_campaign_count
+    
+    context = {
+        'section': section,
+        'donation_request_count': Donation.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).count(),
+        'pending_request_count': total_pending,
+    }
+    
+    if section == 'campaign-list':
+        campaigns = Campaign.objects.filter(ngo=request.user).exclude(status=Campaign.Status.PENDING).order_by('-approved_at')
+        for campaign in campaigns:
+            campaign.is_active = Campaign.is_active(campaign)
+            campaign.is_completed = Campaign.is_completed(campaign)
+        context['campaigns'] = campaigns
+        
+    elif section == 'donation-requests':
+        context['donation_requests'] = Donation.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).order_by('-requested_at')
+        
+    elif section == 'pending-requests':
+        context['pending_campaigns'] = Campaign.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).order_by('-requested_at')
+        context['pending_profile_changes'] = NGOProfile.objects.filter(user=request.user, pending_status="PENDING").order_by('-changes_requested_at')
+    
+    return render(request, 'main/ngo_dashboard.html', context)
