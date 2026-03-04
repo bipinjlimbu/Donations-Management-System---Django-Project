@@ -136,7 +136,8 @@ class Donation(models.Model):
     ngo_name = models.CharField(max_length=100)
     quantity = models.PositiveIntegerField()
     status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
-    delivered_at = models.DateTimeField(auto_now_add=True)
+    requested_at = models.DateTimeField(auto_now_add=True)
+    delivered_at = models.DateTimeField(blank=True, null=True)
 
 class Feedback(models.Model):
     name = models.CharField(max_length=100)
