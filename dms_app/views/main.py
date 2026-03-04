@@ -188,7 +188,7 @@ def ngo_dashboard_view(request):
     
     return render(request, 'main/ngo_dashboard.html', context)
 
-def approve_donation_request(request, donation_id):
+def approve_donation_view(request, donation_id):
     donation = Donation.objects.get(id=donation_id)
     campaign = Campaign.objects.get(title=donation.campaign_title)
     campaign.collected_quantity += int(donation.quantity)
