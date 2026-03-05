@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from ..models import User, NGOProfile, DonorProfile
 import re
@@ -11,6 +11,9 @@ def profile_view(request, user_id):
 
 @login_required
 def edit_profile_view(request, user_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect('home')
     
     user_to_edit = get_object_or_404(User, id=user_id)
     
@@ -111,8 +114,12 @@ def edit_profile_view(request, user_id):
     
     return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit})
 
-@user_passes_test(lambda u: u.role == 'ADMIN')
+@login_required
 def approve_pending_changes(request, user_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect('home')
+    
     user = get_object_or_404(User, id=user_id)
     
     if user.role == "NGO":
@@ -144,8 +151,12 @@ def approve_pending_changes(request, user_id):
     messages.success(request, "Pending changes approved successfully.")
     return redirect('admin-dashboard')
 
-@user_passes_test(lambda u: u.role == 'ADMIN')
+@login_required
 def reject_profile_changes(request, user_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect('home')
+
     user = get_object_or_404(User, id=user_id)
     
     if user.role == "NGO":
