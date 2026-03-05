@@ -257,4 +257,21 @@ def reject_donation_view(request, donation_id):
 
 @login_required
 def donor_dashboard_view(request):
-    return render(request, 'main/donor_dashboard.html')
+    section = request.GET.get('section', 'my-donations')
+    
+    profile_change_count = DonorProfile.objects.filter(user=request.user, pending_status="PENDING").count()
+    pending_donation_count = Donation.objects.filter(donor=request.user, status=Donation.Status.PENDING).count()
+    total_pending = profile_change_count + pending_donation_count
+    
+    context = {
+        'section': section,
+        'pending_requests_count': total_pending,
+    }
+    
+    if section == 'my-donations':
+        context['donations'] = Donation.objects.filter(donor=request.user).exclude(status=Donation.Status.PENDING).order_by('-requested_at')
+    elif section == 'pending-requests':
+        context['pending_donations'] = Donation.objects.filter(donor=request.user, status=Donation.Status.PENDING).order_by('-requested_at')
+        context['pending_profile_changes'] = DonorProfile.objects.filter(user=request.user, pending_status="PENDING").order_by('-changes_requested_at')
+        
+    return render(request, 'main/donor_dashboard.html', context )
