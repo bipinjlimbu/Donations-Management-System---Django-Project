@@ -77,7 +77,7 @@
                             <span class="text-[10px] font-bold text-slate-400">• {{ donation.updated_at|date:"M d, Y" }}</span>
                         </div>
                         <h3 class="text-xl font-black text-slate-800 leading-tight">{{ donation.quantity }} {{ donation.campaign.unit}} of {{ donation.campaign.item_type }}</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1">Delivered to <span class="text-blue-600 font-bold">{{ donation.campaign.ngo.ngo_profile.organization_name }}</span> for "{{ donation.campaign_title }}" Campaign</p>
+                        <p class="text-xs text-slate-500 font-medium mt-1">Delivered to <span class="text-blue-600 font-bold">{{ donation.ngo_name }}</span> for "{{ donation.campaign_title }}" Campaign</p>
                     </div>
                     <div class="shrink-0 text-center px-6 border-l border-slate-100">
                         <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Receipt ID</p>
@@ -120,7 +120,7 @@
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-base font-black text-slate-900 tracking-tight">{{request.organization_name}}</h3>
+                                <h3 class="text-base font-black text-slate-900 tracking-tight">{{request.full_name}}</h3>
                                 <div class="flex items-center gap-2 mt-1">
                                     <span class="bg-emerald-50 text-emerald-600 text-[9px] font-black px-1.5 py-0.5 rounded border border-emerald-100 uppercase">{{request.user.role}}</span>
                                     <span class="text-[10px] font-bold text-slate-400">ID: #{{request.user.id}}</span>
@@ -135,8 +135,8 @@
                                 <p class="text-xs font-black text-blue-600 leading-tight">@{{request.pending_username}}</p>
                             </div>
                             <div>
-                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">ORG NAME</p>
-                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.organization_name}}</p>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">FULL NAME</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.full_name}}</p>
                                 <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_name}}</p>
                             </div>
                             <div>
@@ -179,6 +179,7 @@
                 </div>
                 
                 <div class="space-y-4">
+                    {% for request in pending_donations %}
                     <div class="bg-white border border-slate-200 rounded-[2.5rem] p-6 shadow-sm flex items-center gap-8 relative overflow-hidden group hover:border-blue-300 transition-all">
                         <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-600"></div>
 
@@ -188,9 +189,9 @@
                             </div>
                             <div>
                                 <p class="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">Target NGO</p>
-                                <h3 class="text-lg font-black text-slate-900 tracking-tight leading-none">Red Cross Nepal</h3>
+                                <h3 class="text-lg font-black text-slate-900 tracking-tight leading-none">{{request.campaign.ngo.ngo_profile.organization_name}}</h3>
                                 <div class="flex items-center gap-1 mt-2">
-                                    <span class="text-[10px] font-bold text-slate-400">ID: #NGO-882</span>
+                                    <span class="text-[10px] font-bold text-slate-400">ID: #{{request.campaign.ngo.id}}</span>
                                 </div>
                             </div>
                         </div>
@@ -202,11 +203,11 @@
                             <div class="grid grid-cols-2 gap-8 flex-grow">
                                 <div>
                                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Your Contribution</p>
-                                    <p class="text-sm font-black text-slate-800">14 Sets of Healthy Foods</p>
+                                    <p class="text-sm font-black text-slate-800">{{request.quantity}} {{request.campaign.unit}} of {{request.campaign_title}}</p>
                                 </div>
                                 <div>
                                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Active Campaign</p>
-                                    <p class="text-sm font-black text-blue-600">Healthy Foods Campaign</p>
+                                    <p class="text-sm font-black text-blue-600">{{request.campaign_title}}</p>
                                 </div>
                             </div>
                         </div>
@@ -215,11 +216,11 @@
                             <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">NGO CONTACT</p>
                             <div class="flex items-center gap-2 text-slate-500">
                                 <i data-lucide="phone" class="w-3.5 h-3.5"></i>
-                                <span class="text-[11px] font-bold">01-4270650</span>
+                                <span class="text-[11px] font-bold">{{request.campaign.ngo.phone}}</span>
                             </div>
                             <div class="flex items-center gap-2 text-slate-500">
                                 <i data-lucide="mail" class="w-3.5 h-3.5"></i>
-                                <span class="text-[11px] font-bold">contact@redcross.org.np</span>
+                                <span class="text-[11px] font-bold">{{request.campaign.ngo.email}}</span>
                             </div>
                         </div>
 
@@ -233,10 +234,16 @@
                         <div class="absolute top-0 right-0">
                             <div class="bg-blue-600 text-white text-[8px] font-black px-4 py-1.5 rounded-bl-2xl uppercase tracking-widest flex items-center gap-2">
                                 <i data-lucide="clock" class="w-3 h-3"></i>
-                                Submitted Mar 05
+                                Submitted {{request.requested_at|timesince}} ago
                             </div>
                         </div>
                     </div>
+                    {% empty %}
+                    <div class="bg-white border-2 border-dashed border-slate-200 rounded-[2.5rem] p-16 text-center">
+                        <i data-lucide="file-text" class="w-12 h-12 text-slate-300 mx-auto mb-4"></i>
+                        <p class="text-slate-500 italic">No pending campaign proposals.</p>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
             {% endif %}
