@@ -201,6 +201,9 @@ def ngo_dashboard_view(request):
             campaign.is_completed = Campaign.is_completed(campaign)
         context['campaigns'] = campaigns
         
+    elif section == 'donations':
+        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name).exclude(status=Donation.Status.PENDING).order_by('-updated_at')
+        
     elif section == 'donation-requests':
         context['donation_requests'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Campaign.Status.PENDING).order_by('-requested_at')
         
