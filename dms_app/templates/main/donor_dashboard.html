@@ -94,49 +94,148 @@
 
             {% elif section == 'pending-requests' %}
             <div class="mb-10">
-                <h1 class="text-3xl font-black text-slate-800 tracking-tight">Pending Approvals</h1>
-                <p class="text-sm text-slate-500 font-medium">Tracking your contributions currently awaiting NGO confirmation</p>
+                <h1 class="text-2xl font-black text-slate-800 tracking-tight">Pending Submissions</h1>
+                <p class="text-sm text-slate-500 font-medium">Monitoring your requests currently under administrator or NGO review</p>
             </div>
 
-            <div class="space-y-6">
-                <div class="bg-white border border-slate-200 rounded-[2.5rem] p-6 shadow-sm flex items-center gap-8 relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500"></div>
-
-                    <div class="flex items-center gap-4 min-w-[260px] shrink-0 ml-2">
-                        <div class="w-16 h-16 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-sm">
-                            <i data-lucide="package-plus" class="w-8 h-8"></i>
+            <div class="mb-12">
+                <div class="flex items-center gap-2 mb-6 px-2">
+                    <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
+                    <h2 class="text-sm font-black text-slate-700 uppercase tracking-[0.2em]">Profile Updates</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    {% for request in pending_profile_changes %}
+                    <div class="bg-white border border-slate-200 rounded-[2.5rem] p-5 shadow-sm flex items-center gap-6 relative overflow-hidden group hover:border-blue-300 transition-all">
+                        
+                        <div class="flex items-center gap-4 min-w-[240px] shrink-0">
+                            <div class="relative">
+                                <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm opacity-40 absolute -left-2 top-0"></div>
+                                <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden border-2 border-blue-100 shadow-md relative z-10">
+                                    {% if request.pending_image %}
+                                        <img src="{{request.pending_image.url}}" class="w-full h-full object-cover">
+                                    {% else %}
+                                        <img src="{{request.user.profile_image.url}}" class="w-full h-full object-cover">
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-black text-slate-900 tracking-tight">{{request.organization_name}}</h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-emerald-50 text-emerald-600 text-[9px] font-black px-1.5 py-0.5 rounded border border-emerald-100 uppercase">{{request.user.role}}</span>
+                                    <span class="text-[10px] font-bold text-slate-400">ID: #{{request.user.id}}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <h3 class="text-lg font-black text-slate-900 tracking-tight leading-none">Emergency Food Relief</h3>
-                            <div class="flex items-center gap-2 mt-2">
-                                <span class="bg-blue-50 text-blue-600 text-[9px] font-black px-2 py-0.5 rounded border border-blue-100 uppercase">HEALTH</span>
-                                <span class="text-[10px] font-bold text-slate-400">Ref: #PEND-99</span>
+
+                        <div class="flex-grow grid grid-cols-5 gap-4 border-l border-slate-100 pl-6">
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">USERNAME</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">@{{request.user.username}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">@{{request.pending_username}}</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">ORG NAME</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.organization_name}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_name}}</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">PHONE</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.user.phone}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_phone}}</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">EMAIL</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.user.email}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_email}}</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">ADDRESS</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.user.address}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_address}}</p>
+                            </div>
+                        </div>
+
+                        <div class="shrink-0 ml-4">
+                            <div class="px-4 py-2 bg-blue-50 rounded-xl border border-blue-100 flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+                                <span class="text-[10px] font-black text-blue-600 uppercase tracking-widest">Admin Review</span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="flex-grow grid grid-cols-4 gap-4 border-l border-slate-100 pl-8">
-                        <div>
-                            <p class="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-tighter">DONATING</p>
-                            <p class="text-xs font-black text-blue-600 leading-tight">10 Units</p>
-                        </div>
-                        <div>
-                            <p class="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-tighter">TARGET NGO</p>
-                            <p class="text-xs font-black text-slate-800 leading-tight">ShareHope Nepal</p>
-                        </div>
-                        <div>
-                            <p class="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-tighter">TYPE</p>
-                            <p class="text-xs font-black text-slate-800 leading-tight">Dry Foods</p>
-                        </div>
-                        <div>
-                            <p class="text-[9px] font-black text-slate-400 uppercase mb-1 tracking-tighter">SENT ON</p>
-                            <p class="text-xs font-black text-slate-800 leading-tight">Mar 05, 2026</p>
-                        </div>
+                    {% empty %}
+                    <div class="bg-white border-2 border-dashed border-slate-200 rounded-[2.5rem] p-16 text-center">
+                        <i data-lucide="user-check" class="w-12 h-12 text-slate-300 mx-auto mb-4"></i>
+                        <p class="text-slate-500 italic">No pending profile changes.</p>
                     </div>
+                    {% endfor %}
+                </div>
+            </div>
 
-                    <div class="shrink-0 flex items-center gap-3 px-6 py-4 bg-amber-50 rounded-2xl border border-amber-100">
-                        <div class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
-                        <span class="text-[10px] font-black text-amber-600 uppercase tracking-widest">Awaiting NGO</span>
+            <div>
+                <div class="flex items-center gap-2 mb-6 px-2">
+                    <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
+                    <h2 class="text-sm font-black text-slate-700 uppercase tracking-[0.2em]">Donation Submissions</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="bg-white border border-slate-200 rounded-[2.5rem] p-6 shadow-sm flex items-center gap-8 relative overflow-hidden group hover:border-blue-300 transition-all">
+                        <div class="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-600"></div>
+
+                        <div class="flex items-center gap-4 min-w-[220px] shrink-0 ml-2">
+                            <div class="w-14 h-14 rounded-2xl overflow-hidden border-2 border-slate-100 shadow-sm bg-slate-50 flex items-center justify-center">
+                                <i data-lucide="building-2" class="w-7 h-7 text-blue-600"></i>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">Target NGO</p>
+                                <h3 class="text-lg font-black text-slate-900 tracking-tight leading-none">Red Cross Nepal</h3>
+                                <div class="flex items-center gap-1 mt-2">
+                                    <span class="text-[10px] font-bold text-slate-400">ID: #NGO-882</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow bg-slate-50/50 border border-slate-100 rounded-2xl p-4 flex items-center gap-6">
+                            <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-emerald-600 shadow-sm border border-slate-100">
+                                <i data-lucide="package" class="w-6 h-6"></i>
+                            </div>
+                            <div class="grid grid-cols-2 gap-8 flex-grow">
+                                <div>
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Your Contribution</p>
+                                    <p class="text-sm font-black text-slate-800">14 Sets of Healthy Foods</p>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Active Campaign</p>
+                                    <p class="text-sm font-black text-blue-600">Healthy Foods Campaign</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="shrink-0 grid grid-cols-1 gap-1 border-l border-slate-100 pl-8 min-w-[200px]">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">NGO CONTACT</p>
+                            <div class="flex items-center gap-2 text-slate-500">
+                                <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+                                <span class="text-[11px] font-bold">01-4270650</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-slate-500">
+                                <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                                <span class="text-[11px] font-bold">contact@redcross.org.np</span>
+                            </div>
+                        </div>
+
+                        <div class="shrink-0 ml-4">
+                            <div class="px-5 py-2.5 bg-amber-50 rounded-2xl border border-amber-100 flex items-center gap-2">
+                                <div class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+                                <span class="text-[10px] font-black text-amber-600 uppercase tracking-[0.1em]">Awaiting NGO</span>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute top-0 right-0">
+                            <div class="bg-blue-600 text-white text-[8px] font-black px-4 py-1.5 rounded-bl-2xl uppercase tracking-widest flex items-center gap-2">
+                                <i data-lucide="clock" class="w-3 h-3"></i>
+                                Submitted Mar 05
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -914,6 +914,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 14rem;
 }
 
+.h-7 {
+  height: 1.75rem;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1020,6 +1024,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .w-1\/4 {
   width: 25%;
+}
+
+.w-7 {
+  width: 1.75rem;
 }
 
 .min-w-\[250px\] {
@@ -1796,6 +1804,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(30 58 138 / var(--tw-bg-opacity));
 }
 
+.bg-emerald-100\/50 {
+  background-color: rgb(209 250 229 / 0.5);
+}
+
 .bg-gradient-to-tr {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
@@ -2228,6 +2240,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .tracking-tighter {
   letter-spacing: -0.05em;
+}
+
+.tracking-\[0\.1em\] {
+  letter-spacing: 0.1em;
 }
 
 .text-blue-600 {
