@@ -137,7 +137,7 @@
                 <p class="text-sm text-slate-500 font-medium">No campaigns found. Create your first campaign to start making a difference!</p>
                 {% endfor %}
 
-            {% elif section == 'my-donations'%}
+            {% elif section == 'my-donations' %}
             <div class="flex justify-between items-end mb-10">
                 <div>
                     <h1 class="text-3xl font-black text-slate-800 tracking-tight">Your Impact</h1>
@@ -149,37 +149,92 @@
                 </div>
             </div>
 
+            <div class="bg-white border border-slate-200 rounded-[2rem] p-2 mb-8 flex items-center gap-2 shadow-sm">
+                <div class="flex items-center gap-1 bg-slate-50 rounded-[1.5rem] p-1">
+                    <a href="?section=my-donations&status=all" 
+                    class="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all 
+                    {% if current_status == 'all' or not current_status %} bg-white text-blue-600 shadow-sm {% else %} text-slate-400 hover:text-slate-600 {% endif %}">
+                        All
+                    </a>
+                    <a href="?section=my-donations&status=delivered" 
+                    class="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all 
+                    {% if current_status == 'delivered' %} bg-emerald-500 text-white shadow-lg shadow-emerald-200 {% else %} text-slate-400 hover:text-slate-600 {% endif %}">
+                        Delivered
+                    </a>
+                    <a href="?section=my-donations&status=rejected" 
+                    class="px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all 
+                    {% if current_status == 'rejected' %} bg-rose-500 text-white shadow-lg shadow-rose-200 {% else %} text-slate-400 hover:text-slate-600 {% endif %}">
+                        Rejected
+                    </a>
+                </div>
+
+                <div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+
+                <div class="relative flex-grow mr-2">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" name="search" placeholder="Search by campaign or item..." 
+                        class="w-full bg-transparent border-none pl-11 pr-4 py-2 text-sm font-medium focus:ring-0 outline-none text-slate-700">
+                </div>
+            </div>
+
             <div class="space-y-4">
                 {% for donation in donations %}
-                <div class="bg-white border border-slate-200 rounded-[2rem] p-6 flex items-center gap-8 hover:border-blue-300 transition-all shadow-sm group">
-                    <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 shrink-0">
+                <div class="bg-white border border-slate-200 rounded-[2rem] p-6 flex items-center gap-8 hover:border-blue-300 transition-all shadow-sm group relative overflow-hidden">
+                    
+                    <div class="absolute left-0 top-0 bottom-0 w-1.5 {% if donation.status == 'DELIVERED' %} bg-emerald-500 {% else %} bg-rose-500 {% endif %}"></div>
+
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 shadow-sm
+                        {% if donation.status == 'DELIVERED' %} bg-emerald-50 text-emerald-600 {% else %} bg-rose-50 text-rose-600 {% endif %}">
                         {% if donation.status == 'DELIVERED' %}
-                        <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+                            <i data-lucide="check-circle-2" class="w-8 h-8"></i>
                         {% else %}
-                        <i data-lucide="x" class="w-8 h-8"></i>
+                            <i data-lucide="x-circle" class="w-8 h-8"></i>
                         {% endif %}
                     </div>
+
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{{ donation.status }}</span>
+                            <span class="text-[10px] font-black uppercase tracking-widest 
+                                {% if donation.status == 'DELIVERED' %} text-emerald-600 {% else %} text-rose-600 {% endif %}">
+                                {{ donation.status }}
+                            </span>
                             <span class="text-[10px] font-bold text-slate-400">• {{ donation.updated_at|date:"M d, Y" }}</span>
                         </div>
-                        <h3 class="text-xl font-black text-slate-800 leading-tight">{{ donation.quantity }} {{ donation.unit}} of {{ donation.item_type }}</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1">Delivered by <span class="text-blue-600 font-bold">{{ donation.donor_name }}</span> for "{{ donation.campaign_title }}" Campaign</p>
+                        
+                        <h3 class="text-xl font-black text-slate-800 leading-tight tracking-tight">
+                            {{ donation.quantity }} {{ donation.unit }} of {{ donation.item_type }}
+                        </h3>
+                        
+                        <p class="text-xs text-slate-500 font-medium mt-1">
+                            Received by <span class="text-blue-600 font-bold">{{ donation.campaign.user.organization_name }}</span> 
+                            for the <span class="text-slate-700 font-bold">"{{ donation.campaign.title }}"</span> Campaign
+                        </p>
                     </div>
-                    <div class="shrink-0 text-center px-6 border-l border-slate-100">
-                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Receipt ID</p>
-                        <p class="text-sm font-bold text-slate-700">#{{ donation.id }}</p>
+
+                    <div class="shrink-0 flex items-center gap-6">
+                        <div class="text-center px-6 border-l border-slate-100">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Receipt ID</p>
+                            <p class="text-sm font-black text-slate-700">#{{ donation.id }}</p>
+                        </div>
+                        
+                        <button class="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center border border-slate-100">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                        </button>
                     </div>
                 </div>
                 {% empty %}
-                <div class="bg-white border-2 border-dashed border-slate-200 rounded-[2.5rem] p-16 text-center">
-                    <i data-lucide="gift" class="w-12 h-12 text-slate-300 mx-auto mb-4"></i>
-                    <p class="text-slate-500 italic">You haven't made any donations yet. Explore campaigns and make a difference today!</p>
+                <div class="bg-white border-2 border-dashed border-slate-200 rounded-[2.5rem] p-20 text-center">
+                    <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="gift" class="w-10 h-10 text-slate-300"></i>
+                    </div>
+                    <h3 class="text-lg font-black text-slate-800">No donations found</h3>
+                    <p class="text-slate-500 italic text-sm mt-1">Try adjusting your filters or search terms.</p>
+                    <a href="/" class="inline-block mt-6 px-8 py-3 bg-blue-600 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200">
+                        Explore Campaigns
+                    </a>
                 </div>
                 {% endfor %}
             </div>
-
 
             {% elif section == 'donation-requests' %}
             <div class="flex justify-between items-end mb-8">
