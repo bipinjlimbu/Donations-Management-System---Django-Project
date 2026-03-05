@@ -254,3 +254,7 @@ def reject_donation_view(request, donation_id):
     donation.save()
     messages.info(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been rejected.")
     return redirect("ngo-dashboard")
+
+@login_required
+def donor_dashboard_view(request):
+    return render(request, 'main/donor_dashboard.html')
