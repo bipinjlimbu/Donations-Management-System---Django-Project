@@ -1,9 +1,8 @@
 from datetime import date
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from ..models import Donation, DonorProfile, Feedback, NGOProfile, Register, Campaign
+from ..models import User, Donation, DonorProfile, Feedback, NGOProfile, Register, Campaign
 import re
 
 def home_view(request):
@@ -46,9 +45,11 @@ def contact_view(request):
 def about_view(request):
     return render(request,"main/about_page.html")
 
-User = get_user_model()
-@user_passes_test(lambda u: u.role == 'ADMIN')
+@login_required
 def admin_dashboard_view(request):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to access the admin dashboard.")
+        return redirect("home")
     
     section = request.GET.get('section', 'user-list')
     
@@ -89,8 +90,12 @@ def admin_dashboard_view(request):
         
     return render(request, 'main/admin_dashboard.html', context)
 
-@user_passes_test(lambda u: u.role == 'ADMIN')
+@login_required
 def approve_signup_request(request, request_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("home")
+    
     if request.method == "POST":
         try:
             signup_request = Register.objects.get(id=request_id)
@@ -126,8 +131,12 @@ def approve_signup_request(request, request_id):
     
     return redirect("admin-dashboard")
 
-@user_passes_test(lambda u: u.role == 'ADMIN')
+@login_required
 def reject_signup_request(request, request_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("home")
+
     if request.method == "POST":
         try:
             signup_request = Register.objects.get(id=request_id)
@@ -138,7 +147,12 @@ def reject_signup_request(request, request_id):
     
     return redirect("admin-dashboard")
 
+@login_required
 def donate_view(request, campaign_id):
+    if request.user.role != 'DONOR':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("home")
+
     if request.method == "POST":
         campaign = Campaign.objects.get(id=campaign_id)
         quantity = request.POST.get("quantity").strip()
@@ -160,7 +174,12 @@ def donate_view(request, campaign_id):
 
     return redirect("campaigns")
 
+@login_required
 def ngo_dashboard_view(request):
+    if request.user.role != 'NGO':
+        messages.error(request, "You do not have permission to access the NGO dashboard.")
+        return redirect("home")
+
     section = request.GET.get('section', 'campaign-list')
     
     pending_ngo_count = NGOProfile.objects.filter(pending_status="PENDING").count()
@@ -189,9 +208,23 @@ def ngo_dashboard_view(request):
     
     return render(request, 'main/ngo_dashboard.html', context)
 
+@login_required
 def approve_donation_view(request, donation_id):
+    if request.user.role != 'NGO':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("home")
+
     donation = Donation.objects.get(id=donation_id)
     campaign = Campaign.objects.get(title=donation.campaign_title)
+    
+    if campaign.ngo != request.user:
+        messages.error(request, "You do not have permission to approve this donation.")
+        return redirect("ngo-dashboard")
+    
+    if campaign.is_completed():
+        messages.error(request, "This campaign has already been completed. Cannot approve more donations.")
+        return redirect("ngo-dashboard")
+    
     campaign.collected_quantity += int(donation.quantity)
     campaign.save()
     donation.status = Donation.Status.DELIVERED
@@ -200,8 +233,22 @@ def approve_donation_view(request, donation_id):
     messages.success(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been approved.")
     return redirect("ngo-dashboard")
 
+@login_required
 def reject_donation_view(request, donation_id):
+    if request.user.role != 'NGO':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("home")
+
     donation = Donation.objects.get(id=donation_id)
+    
+    if donation.campaign.ngo != request.user:
+        messages.error(request, "You do not have permission to reject this donation.")
+        return redirect("ngo-dashboard")
+    
+    if donation.campaign.is_completed():
+        messages.error(request, "This campaign has already been completed. Cannot reject donations.")
+        return redirect("ngo-dashboard")
+
     donation.status = Donation.Status.REJECTED
     donation.updated_at = date.today()
     donation.save()
