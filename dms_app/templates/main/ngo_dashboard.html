@@ -229,6 +229,127 @@
                 </div>
                 {% endfor %}
             </div>
+
+            {% elif section == 'pending-requests' %}
+            <div class="mb-10">
+                <h1 class="text-2xl font-black text-slate-800 tracking-tight">Pending Submissions</h1>
+                <p class="text-sm text-slate-500 font-medium">Monitoring your requests currently under administrator review</p>
+            </div>
+
+            <div class="mb-12">
+                <div class="flex items-center gap-2 mb-6 px-2">
+                    <div class="w-1 h-6 bg-blue-500 rounded-full"></div>
+                    <h2 class="text-sm font-black text-slate-700 uppercase tracking-[0.2em]">Profile & NGO Updates</h2>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-white border border-slate-200 rounded-[2.5rem] p-5 shadow-sm flex items-center gap-6 relative overflow-hidden group hover:border-blue-300 transition-all">
+                        
+                        <div class="flex items-center gap-4 min-w-[240px] shrink-0">
+                            <div class="relative">
+                                <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm opacity-40 absolute -left-2 top-0"></div>
+                                <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden border-2 border-blue-100 shadow-md relative z-10">
+                                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=200&h=200&auto=format&fit=crop" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-black text-slate-900 tracking-tight">BLOrganization</h3>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="bg-emerald-50 text-emerald-600 text-[9px] font-black px-1.5 py-0.5 rounded border border-emerald-100 uppercase">NGO</span>
+                                    <span class="text-[10px] font-bold text-slate-400">ID: #2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow grid grid-cols-5 gap-4 border-l border-slate-100 pl-6">
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">USERNAME</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">@BipinNGO712</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">@BipinNGO712</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">ORG NAME</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">BLOrganization</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">BLOrganization</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">PHONE</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">9836572548</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">9836572548</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">EMAIL</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">bipinngo@gmail.com</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">bipinngo@gmail.com</p>
+                            </div>
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">ADDRESS</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">Sundarharaicha</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">Sundarharaicha</p>
+                            </div>
+                        </div>
+
+                        <div class="shrink-0 ml-4">
+                            <div class="px-4 py-2 bg-blue-50 rounded-xl border border-blue-100 flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+                                <span class="text-[10px] font-black text-blue-600 uppercase tracking-widest">In Review</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex items-center gap-2 mb-6 px-2">
+                    <div class="w-1 h-6 bg-emerald-500 rounded-full"></div>
+                    <h2 class="text-sm font-black text-slate-700 uppercase tracking-[0.2em]">Campaign Proposals</h2>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-white border border-slate-200 rounded-[2rem] overflow-hidden shadow-sm flex items-stretch h-60 group hover:border-emerald-300 transition-all">
+                        <div class="w-1/4 relative shrink-0">
+                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=500&auto=format&fit=crop" class="w-full h-full object-cover">
+                            <div class="absolute top-4 left-4">
+                                <span class="bg-white/90 backdrop-blur-sm text-blue-600 text-[10px] font-black px-3 py-1 rounded shadow-sm uppercase">EDUCATION</span>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow p-8 flex flex-col justify-between">
+                            <div>
+                                <p class="text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-1">PROPOSED BY: BLORGANIZATION</p>
+                                <h3 class="text-2xl font-black text-slate-800 tracking-tight mb-2">School Materials Campaign</h3>
+                                <p class="text-xs text-slate-500 font-medium italic mb-6">This Campaign is created to request donor to donate school materials.</p>
+                                
+                                <div class="grid grid-cols-4 gap-8">
+                                    <div>
+                                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">ITEM TYPE</p>
+                                        <p class="text-xs font-bold text-slate-700">School Materials</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">CATEGORY</p>
+                                        <p class="text-xs font-bold text-slate-700 uppercase">EDUCATION</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">START DATE</p>
+                                        <p class="text-xs font-bold text-slate-700">Mar 07, 2026</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">END DATE</p>
+                                        <p class="text-xs font-bold text-slate-700">Mar 14, 2026</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-48 border-l border-slate-50 bg-slate-50/30 flex flex-col items-center justify-center p-6 shrink-0">
+                            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 text-center w-full">
+                                <p class="text-3xl font-black text-emerald-500 leading-none mb-1">20</p>
+                                <p class="text-[9px] font-black text-slate-400 uppercase">SETS REQUIRED</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endif %}
 
             </div>
