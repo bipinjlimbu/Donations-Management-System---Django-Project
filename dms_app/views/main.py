@@ -1,6 +1,6 @@
-from datetime import date
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from django.contrib import messages
 from ..models import User, Donation, DonorProfile, Feedback, NGOProfile, Register, Campaign
 import re
@@ -233,7 +233,7 @@ def approve_donation_view(request, donation_id):
     campaign.collected_quantity += int(donation.quantity)
     campaign.save()
     donation.status = Donation.Status.DELIVERED
-    donation.updated_at = date.today()
+    donation.updated_at = timezone.now()
     donation.save()
     messages.success(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been approved.")
     return redirect("ngo-dashboard")
@@ -255,7 +255,7 @@ def reject_donation_view(request, donation_id):
         return redirect("ngo-dashboard")
 
     donation.status = Donation.Status.REJECTED
-    donation.updated_at = date.today()
+    donation.updated_at = timezone.now()
     donation.save()
     messages.info(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been rejected.")
     return redirect("ngo-dashboard")
