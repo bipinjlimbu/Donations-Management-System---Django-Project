@@ -153,7 +153,11 @@
                 {% for donation in donations %}
                 <div class="bg-white border border-slate-200 rounded-[2rem] p-6 flex items-center gap-8 hover:border-blue-300 transition-all shadow-sm group">
                     <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 shrink-0">
+                        {% if donation.status == 'DELIVERED' %}
                         <i data-lucide="check-circle-2" class="w-8 h-8"></i>
+                        {% else %}
+                        <i data-lucide="x" class="w-8 h-8"></i>
+                        {% endif %}
                     </div>
                     <div class="flex-grow">
                         <div class="flex items-center gap-2 mb-1">
@@ -161,7 +165,7 @@
                             <span class="text-[10px] font-bold text-slate-400">• {{ donation.updated_at|date:"M d, Y" }}</span>
                         </div>
                         <h3 class="text-xl font-black text-slate-800 leading-tight">{{ donation.quantity }} {{ donation.unit}} of {{ donation.item_type }}</h3>
-                        <p class="text-xs text-slate-500 font-medium mt-1">Delivered to <span class="text-blue-600 font-bold">{{ donation.ngo_name }}</span> for "{{ donation.campaign_title }}" Campaign</p>
+                        <p class="text-xs text-slate-500 font-medium mt-1">Delivered by <span class="text-blue-600 font-bold">{{ donation.donor_name }}</span> for "{{ donation.campaign_title }}" Campaign</p>
                     </div>
                     <div class="shrink-0 text-center px-6 border-l border-slate-100">
                         <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter mb-1">Receipt ID</p>
