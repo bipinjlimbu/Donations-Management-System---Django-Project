@@ -37,6 +37,11 @@
                     <span class="text-sm font-semibold">My Campaigns</span>
                 </a>
 
+                <a href="?section=donations" {% if section == 'donations' %} class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all bg-emerald-600 text-white shadow-lg shadow-emerald-900/20" {% else %} class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all group hover:bg-emerald-800/50 hover:text-white text-emerald-200" {% endif %}>
+                    <i data-lucide="archive" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Donation History</span>
+                </a>
+
                 <a href="?section=donation-requests" {% if section == 'donation-requests' %} class="flex items-center justify-between px-4 py-3 rounded-xl transition-all bg-emerald-600 text-white shadow-lg shadow-emerald-900/20" {% else %} class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group hover:bg-emerald-800/50 hover:text-white text-emerald-200" {% endif %}>
                     <div class="flex items-center gap-3">
                         <i data-lucide="hand-heart" class="w-5 h-5 group-hover:text-amber-400"></i>
