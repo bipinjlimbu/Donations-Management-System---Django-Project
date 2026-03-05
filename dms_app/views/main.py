@@ -168,6 +168,8 @@ def donate_view(request, campaign_id):
             campaign_title=campaign.title,
             ngo_name=campaign.ngo.ngo_profile.organization_name,
             quantity=quantity,
+            item_type=campaign.item_type,
+            unit=campaign.unit,
             status = Donation.Status.PENDING
         )
         messages.success(request, "Your donation has been submitted successfully.")
