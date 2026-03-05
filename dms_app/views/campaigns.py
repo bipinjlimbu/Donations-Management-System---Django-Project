@@ -1,7 +1,7 @@
 from datetime import date
 from django.shortcuts import render, redirect
 from ..models import Campaign
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 def campaigns_page_view(request):
@@ -12,8 +12,13 @@ def campaigns_page_view(request):
         
     return render(request,"main/campaigns_page.html", {"campaigns": campaigns})
 
-@user_passes_test(lambda u: u.role == 'NGO' or u.role == 'ADMIN')
+@login_required
 def create_campaign_view(request):
+    
+    if request.user.role == 'DONOR':
+        messages.error(request, "You do not have permission to create a campaign.")
+        return redirect("campaigns")
+    
     errors = {}
     if request.method == "POST":
         title = request.POST.get("title").strip()
@@ -81,8 +86,12 @@ def create_campaign_view(request):
         return redirect("campaigns")
     return render(request,"main/create_campaign_page.html")
 
-@user_passes_test(lambda u: u.role == 'ADMIN' or u.role == 'NGO')
+@login_required
 def approve_campaign_request(request, campaign_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("campaigns")
+    
     campaign = Campaign.objects.get(id=campaign_id)
     campaign.status = Campaign.Status.APPROVED
     campaign.approved_at = date.today()
@@ -90,8 +99,12 @@ def approve_campaign_request(request, campaign_id):
     messages.success(request, f"Campaign '{campaign.title}' has been approved.")
     return redirect("admin-dashboard")
 
-@user_passes_test(lambda u: u.role == 'ADMIN' or u.role == 'NGO')
+@login_required
 def reject_campaign_request(request, campaign_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("campaigns")
+
     campaign = Campaign.objects.get(id=campaign_id)
     campaign.status = Campaign.Status.REJECTED
     campaign.save()
@@ -109,10 +122,20 @@ def single_campaign_page_view(request, campaign_id):
     campaign.is_completed = Campaign.is_completed(campaign)
     return render(request,"main/single_campaign_page.html", {"campaign": campaign})
 
+@login_required
 def edit_campaign_view(request, campaign_id):
+    if request.user.role == 'DONOR':
+        messages.error(request, "You do not have permission to edit a campaign.")
+        return redirect("campaigns")
+    
     campaign = Campaign.objects.get(id=campaign_id)
     campaign.is_active = Campaign.is_active(campaign)
     campaign.is_completed = Campaign.is_completed(campaign)
+    
+    if campaign.status == Campaign.Status.APPROVED and campaign.ngo.user != request.user:
+        messages.error(request, "You do not have permission to edit this campaign.")
+        return redirect("campaigns")
+    
     errors = {}
     
     if request.method == "POST":
@@ -185,8 +208,18 @@ def edit_campaign_view(request, campaign_id):
     
     return render(request,"main/edit_campaign_page.html", {"campaign": campaign})
 
+@login_required
 def delete_campaign_view(request, campaign_id):
+    if request.user.role == 'DONOR':
+        messages.error(request, "You do not have permission to delete a campaign.")
+        return redirect("campaigns")
+    
     campaign = Campaign.objects.get(id=campaign_id)
+    
+    if campaign.status == Campaign.Status.APPROVED and campaign.ngo.user != request.user:
+        messages.error(request, "You do not have permission to delete this campaign.")
+        return redirect("campaigns")
+    
     campaign.delete()
     messages.success(request, "Campaign deleted successfully.")
     return redirect("campaigns")
