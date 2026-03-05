@@ -76,7 +76,7 @@
                             <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{{ donation.status }}</span>
                             <span class="text-[10px] font-bold text-slate-400">• {{ donation.updated_at|date:"M d, Y" }}</span>
                         </div>
-                        <h3 class="text-xl font-black text-slate-800 leading-tight">{{ donation.quantity }} {{ donation.campaign.unit}} of {{ donation.campaign.item_type }}</h3>
+                        <h3 class="text-xl font-black text-slate-800 leading-tight">{{ donation.quantity }} {{ donation.unit}} of {{ donation.item_type }}</h3>
                         <p class="text-xs text-slate-500 font-medium mt-1">Delivered to <span class="text-blue-600 font-bold">{{ donation.ngo_name }}</span> for "{{ donation.campaign_title }}" Campaign</p>
                     </div>
                     <div class="shrink-0 text-center px-6 border-l border-slate-100">
@@ -189,7 +189,7 @@
                             </div>
                             <div>
                                 <p class="text-[9px] font-black text-blue-600 uppercase tracking-widest mb-1">Target NGO</p>
-                                <h3 class="text-lg font-black text-slate-900 tracking-tight leading-none">{{request.campaign.ngo.ngo_profile.organization_name}}</h3>
+                                <h3 class="text-lg font-black text-slate-900 tracking-tight leading-none">{{request.ngo_name}}</h3>
                                 <div class="flex items-center gap-1 mt-2">
                                     <span class="text-[10px] font-bold text-slate-400">ID: #{{request.campaign.ngo.id}}</span>
                                 </div>
@@ -203,7 +203,7 @@
                             <div class="grid grid-cols-2 gap-8 flex-grow">
                                 <div>
                                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Your Contribution</p>
-                                    <p class="text-sm font-black text-slate-800">{{request.quantity}} {{request.campaign.unit}} of {{request.campaign_title}}</p>
+                                    <p class="text-sm font-black text-slate-800">{{request.quantity}} {{request.unit}} of {{request.item_type}}</p>
                                 </div>
                                 <div>
                                     <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Active Campaign</p>

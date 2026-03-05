@@ -135,6 +135,8 @@ class Donation(models.Model):
     campaign_title = models.CharField(max_length=200)
     ngo_name = models.CharField(max_length=100)
     quantity = models.PositiveIntegerField()
+    item_type = models.CharField(max_length=100)
+    unit = models.CharField(max_length=50)
     status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
     requested_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, null=True)
