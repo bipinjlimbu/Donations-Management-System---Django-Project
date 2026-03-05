@@ -190,7 +190,7 @@ def ngo_dashboard_view(request):
     
     context = {
         'section': section,
-        'donation_request_count': Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Campaign.Status.PENDING).count(),
+        'donation_request_count': Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.PENDING).count(),
         'pending_request_count': total_pending,
     }
     
@@ -201,11 +201,11 @@ def ngo_dashboard_view(request):
             campaign.is_completed = Campaign.is_completed(campaign)
         context['campaigns'] = campaigns
         
-    elif section == 'donations':
+    elif section == 'my-donations':
         context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name).exclude(status=Donation.Status.PENDING).order_by('-updated_at')
         
     elif section == 'donation-requests':
-        context['donation_requests'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Campaign.Status.PENDING).order_by('-requested_at')
+        context['donation_requests'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.PENDING).order_by('-requested_at')
         
     elif section == 'pending-requests':
         context['pending_campaigns'] = Campaign.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).order_by('-requested_at')
