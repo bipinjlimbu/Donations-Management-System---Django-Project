@@ -11,10 +11,6 @@ def profile_view(request, user_id):
 
 @login_required
 def edit_profile_view(request, user_id):
-    if request.user.role != 'ADMIN':
-        messages.error(request, "You do not have permission to perform this action.")
-        return redirect('home')
-    
     user_to_edit = get_object_or_404(User, id=user_id)
     
     if user_to_edit.role == "NGO":
