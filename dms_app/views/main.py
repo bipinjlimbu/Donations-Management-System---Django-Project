@@ -63,7 +63,7 @@ def admin_dashboard_view(request):
         'signup_request_count': Register.objects.filter().count(),
         'campaign_request_count': Campaign.objects.filter(status=Campaign.Status.PENDING).count(),
         'pending_changes_count': pending_ngo_count + pending_donor_count,
-        'feedback_count': Feedback.objects.filter(status=Feedback.status.UNREAD).count(),
+        'feedback_count': Feedback.objects.filter(status=Feedback.Status.UNREAD).count(),
     }
 
     if section == 'user-list':
@@ -96,6 +96,9 @@ def admin_dashboard_view(request):
         
     elif section == 'campaign-requests':
         context['campaign_requests'] = Campaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
+        
+    elif section == 'feedback':
+        context['feedback'] = Feedback.objects.all().order_by('-submitted_at')
         
     return render(request, 'main/admin_dashboard.html', context)
 
