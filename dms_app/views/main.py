@@ -63,6 +63,7 @@ def admin_dashboard_view(request):
         'signup_request_count': Register.objects.filter().count(),
         'campaign_request_count': Campaign.objects.filter(status=Campaign.Status.PENDING).count(),
         'pending_changes_count': pending_ngo_count + pending_donor_count,
+        'feedback_count': Feedback.objects.filter(status=Feedback.status.UNREAD).count(),
     }
 
     if section == 'user-list':
