@@ -203,8 +203,12 @@ def ngo_dashboard_view(request):
             campaign.is_completed = Campaign.is_completed(campaign)
         context['campaigns'] = campaigns
         
-    elif section == 'my-donations':
+    elif section == 'my-donations' and current_status == 'all':
         context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name).exclude(status=Donation.Status.PENDING).order_by('-updated_at')
+    elif section == 'my-donations' and current_status == 'delivered':
+        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.DELIVERED).order_by('-updated_at')
+    elif section == 'my-donations' and current_status == 'rejected':
+        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.REJECTED).order_by('-updated_at')
         
     elif section == 'donation-requests':
         context['donation_requests'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.PENDING).order_by('-requested_at')
@@ -213,13 +217,6 @@ def ngo_dashboard_view(request):
         context['pending_campaigns'] = Campaign.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).order_by('-requested_at')
         context['pending_profile_changes'] = NGOProfile.objects.filter(user=request.user, pending_status="PENDING").order_by('-changes_requested_at')
         
-    if current_status == 'all':
-        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name).exclude(status=Donation.Status.PENDING).order_by('-updated_at')
-    elif current_status == 'delivered':
-        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.DELIVERED).order_by('-updated_at')
-    elif current_status == 'rejected':
-        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.REJECTED).order_by('-updated_at')
-
     return render(request, 'main/ngo_dashboard.html', context)
 
 @login_required
