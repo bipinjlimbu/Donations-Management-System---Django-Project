@@ -183,6 +183,7 @@ def ngo_dashboard_view(request):
         return redirect("home")
 
     section = request.GET.get('section', 'campaign-list')
+    current_status = request.GET.get('status', 'all')
     
     pending_ngo_count = NGOProfile.objects.filter(pending_status="PENDING").count()
     pending_campaign_count = Campaign.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).count()
@@ -190,6 +191,7 @@ def ngo_dashboard_view(request):
     
     context = {
         'section': section,
+        'current_status': current_status,
         'donation_request_count': Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.PENDING).count(),
         'pending_request_count': total_pending,
     }
@@ -210,7 +212,14 @@ def ngo_dashboard_view(request):
     elif section == 'pending-requests':
         context['pending_campaigns'] = Campaign.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).order_by('-requested_at')
         context['pending_profile_changes'] = NGOProfile.objects.filter(user=request.user, pending_status="PENDING").order_by('-changes_requested_at')
-    
+        
+    if current_status == 'all':
+        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name).exclude(status=Donation.Status.PENDING).order_by('-updated_at')
+    elif current_status == 'delivered':
+        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.DELIVERED).order_by('-updated_at')
+    elif current_status == 'rejected':
+        context['donations'] = Donation.objects.filter(ngo_name=request.user.ngo_profile.organization_name, status=Donation.Status.REJECTED).order_by('-updated_at')
+
     return render(request, 'main/ngo_dashboard.html', context)
 
 @login_required
