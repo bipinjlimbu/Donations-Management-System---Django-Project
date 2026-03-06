@@ -52,12 +52,14 @@ def admin_dashboard_view(request):
         return redirect("home")
     
     section = request.GET.get('section', 'user-list')
+    current_status = request.GET.get('status', 'all')
     
     pending_ngo_count = NGOProfile.objects.filter(pending_status="PENDING").count()
     pending_donor_count = DonorProfile.objects.filter(pending_status="PENDING").count()
     
     context = {
         'section': section,
+        'current_status': current_status,
         'signup_request_count': Register.objects.filter().count(),
         'campaign_request_count': Campaign.objects.filter(status=Campaign.Status.PENDING).count(),
         'pending_changes_count': pending_ngo_count + pending_donor_count,
@@ -84,8 +86,12 @@ def admin_dashboard_view(request):
             
         context['campaigns'] = campaigns
         
-    elif section == 'donations':
+    elif section == 'donations' and current_status == 'all':
         context['donations'] = Donation.objects.exclude(status=Donation.Status.PENDING).order_by('-requested_at')
+    elif section == 'donations' and current_status == 'delivered':
+        context['donations'] = Donation.objects.filter(status=Donation.Status.DELIVERED).order_by('-requested_at')
+    elif section == 'donations' and current_status == 'rejected':
+        context['donations'] = Donation.objects.filter(status=Donation.Status.REJECTED).order_by('-requested_at')
         
     elif section == 'campaign-requests':
         context['campaign_requests'] = Campaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
