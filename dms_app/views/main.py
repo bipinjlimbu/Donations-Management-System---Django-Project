@@ -98,7 +98,7 @@ def admin_dashboard_view(request):
         context['campaign_requests'] = Campaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
         
     elif section == 'feedback':
-        context['feedback'] = Feedback.objects.all().order_by('-submitted_at')
+        context['feedbacks'] = Feedback.objects.all().order_by('-submitted_at')
         
     return render(request, 'main/admin_dashboard.html', context)
 
