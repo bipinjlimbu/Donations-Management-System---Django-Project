@@ -84,7 +84,9 @@ def admin_dashboard_view(request):
             
         context['campaigns'] = campaigns
         
-
+    elif section == 'donations':
+        context['donations'] = Donation.objects.exclude(status=Donation.Status.PENDING).order_by('-requested_at')
+        
     elif section == 'campaign-requests':
         context['campaign_requests'] = Campaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
         
