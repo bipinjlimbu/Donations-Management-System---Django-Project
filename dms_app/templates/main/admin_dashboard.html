@@ -758,6 +758,85 @@
                     </tbody>
                 </table>
             </div>
+
+            {% elif section == 'feedback' %}
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <h1 class="text-3xl font-black text-slate-800 tracking-tight">User Feedback</h1>
+                    <p class="text-sm text-slate-500 font-medium">Manage inquiries and suggestions from donors and NGOs</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Unread Messages</p>
+                    <p class="text-2xl font-black text-blue-600 leading-none">4 New</p>
+                </div>
+            </div>
+
+            <div class="bg-white border border-slate-200 rounded-[2.5rem] overflow-hidden shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50/50 border-b border-slate-100">
+                            <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">S.N.</th>
+                            <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">User Details</th>
+                            <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Subject</th>
+                            <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest w-[30%]">Message Preview</th>
+                            <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        <tr class="hover:bg-slate-50/40 transition-colors group">
+                            <td class="px-8 py-5">
+                                <span class="text-xs font-black text-slate-400">01</span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <p class="text-sm font-black text-slate-800">Aayush Shrestha</p>
+                                <p class="text-[11px] font-medium text-slate-500">aayush@example.com</p>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-tight">Campaign Issue</span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <p class="text-sm text-slate-600 line-clamp-1 italic">"I'm unable to upload images for my new campaign request..."</p>
+                            </td>
+                            <td class="px-8 py-5 text-right">
+                                <div class="flex justify-end gap-2">
+                                    <button title="Mark as Read" class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center">
+                                        <i data-lucide="check" class="w-4 h-4"></i>
+                                    </button>
+                                    <button title="Delete" class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-rose-500 hover:text-white transition-all flex items-center justify-center">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-slate-50/40 transition-colors group">
+                            <td class="px-8 py-5">
+                                <span class="text-xs font-black text-slate-400">02</span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <p class="text-sm font-black text-slate-800">Sita Thapa</p>
+                                <p class="text-[11px] font-medium text-slate-500">sita.donor@gmail.com</p>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span class="px-3 py-1 bg-amber-50 text-amber-600 rounded-lg text-[10px] font-black uppercase tracking-tight">Suggestion</span>
+                            </td>
+                            <td class="px-6 py-5">
+                                <p class="text-sm text-slate-600 line-clamp-1 italic">"It would be great if we could get SMS notifications for delivery..."</p>
+                            </td>
+                            <td class="px-8 py-5 text-right">
+                                <div class="flex justify-end gap-2">
+                                    <button class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center">
+                                        <i data-lucide="check" class="w-4 h-4"></i>
+                                    </button>
+                                    <button class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-rose-500 hover:text-white transition-all flex items-center justify-center">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             {% endif %}
             
         </main>
