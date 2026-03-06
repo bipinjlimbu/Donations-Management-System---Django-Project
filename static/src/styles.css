@@ -1850,6 +1850,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(248 250 252 / 0.8);
 }
 
+.bg-yellow-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(202 138 4 / var(--tw-bg-opacity));
+}
+
 .bg-gradient-to-tr {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
@@ -3203,6 +3208,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .group:hover .group-hover\:text-pink-400 {
   --tw-text-opacity: 1;
   color: rgb(244 114 182 / var(--tw-text-opacity));
+}
+
+.group:hover .group-hover\:text-yellow-400 {
+  --tw-text-opacity: 1;
+  color: rgb(250 204 21 / var(--tw-text-opacity));
 }
 
 .group:hover .group-hover\:opacity-100 {

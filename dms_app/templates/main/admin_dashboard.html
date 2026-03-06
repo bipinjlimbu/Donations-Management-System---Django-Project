@@ -92,6 +92,18 @@
                         <span class="text-sm font-medium">Donation History</span>
                     </div>
                 </a>
+
+                <a href='?section=feedback' 
+                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                   {% if section == 'feedback' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="message-square" class="w-5 h-5 group-hover:text-yellow-400"></i>
+                        <span class="text-sm font-medium">User Feedback</span>
+                    </div>
+                    {% if feedback_count > 0 %}
+                        <span class="bg-yellow-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ feedback_count }}</span>
+                    {% endif %}
+                </a>
             </nav>
 
             <div class="p-6 border-t border-slate-800">
