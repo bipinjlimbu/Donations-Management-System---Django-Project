@@ -783,20 +783,20 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-50">
-                        {% for fb in feedback %}
+                        {% for feedback in feedbacks %}
                         <tr class="hover:bg-slate-50/40 transition-colors group">
                             <td class="px-8 py-5">
                                 <span class="text-xs font-black text-slate-400">{{forloop.counter}}</span>
                             </td>
                             <td class="px-6 py-5">
-                                <p class="text-sm font-black text-slate-800">{{ fb.name }}</p>
-                                <p class="text-[11px] font-medium text-slate-500">{{ fb.email }}</p>
+                                <p class="text-sm font-black text-slate-800">{{ feedback.name }}</p>
+                                <p class="text-[11px] font-medium text-slate-500">{{ feedback.email }}</p>
                             </td>
                             <td class="px-6 py-5">
-                                <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-tight">{{ fb.subject }}</span>
+                                <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-tight">{{ feedback.subject }}</span>
                             </td>
                             <td class="px-6 py-5">
-                                <p class="text-sm text-slate-600 line-clamp-1 italic">"{{ fb.message }}"</p>
+                                <p class="text-sm text-slate-600 line-clamp-1 italic">"{{ feedback.message }}"</p>
                             </td>
                             <td class="px-8 py-5 text-right">
                                 <div class="flex justify-end gap-2">
