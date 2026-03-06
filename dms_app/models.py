@@ -142,10 +142,15 @@ class Donation(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
 class Feedback(models.Model):
+    class status(models.TextChoices):
+        READ = 'READ', 'Read'
+        UNREAD = 'UNREAD', 'Unread'
+        
     name = models.CharField(max_length=100)
     email = models.EmailField()
     subject = models.CharField(max_length=200)
     message = models.TextField()
+    status = models.CharField(max_length=10, choices=status.choices, default=status.UNREAD)
     submitted_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
