@@ -4,19 +4,22 @@ from ..models import Campaign
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-def campaigns_page_view(request):    
+def campaigns_page_view(request):
+    campaigns = Campaign.objects.exclude(status__in=[Campaign.Status.REJECTED, Campaign.Status.PENDING]).order_by('-approved_at')
+        
     category = request.GET.get("category", "all")
     status = request.GET.get("status", "all")
     
+    for campaign in campaigns:
+        campaign.is_active = Campaign.is_active(campaign)
+        campaign.is_completed = Campaign.is_completed(campaign)
+        
     if category != "all":
-        campaigns = Campaign.objects.filter(category=category).exclude(status__in=[Campaign.Status.REJECTED, Campaign.Status.PENDING]).order_by('-approved_at')
-    else:
-        campaigns = Campaign.objects.exclude(status__in=[Campaign.Status.REJECTED, Campaign.Status.PENDING]).order_by('-approved_at')
+        campaigns = campaigns.filter(category=category)
         
     if status != "all":
         campaigns = campaigns.filter(status=status)
-    else:
-        campaigns = campaigns.filter()
+        
         
     return render(request,"main/campaigns_page.html", {"campaigns": campaigns})
 
