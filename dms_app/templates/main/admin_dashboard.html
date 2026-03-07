@@ -39,6 +39,22 @@
                     <span class="text-sm font-semibold">User List</span>
                 </a>
 
+                <a href="?section=campaign-list" 
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all
+                   {% if section == 'campaign-list' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <i data-lucide="list" class="w-5 h-5"></i>
+                    <span class="text-sm font-medium">Campaign List</span>
+                </a>
+
+                <a href='?section=donations' 
+                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                   {% if section == 'donations' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="archive" class="w-5 h-5 group-hover:text-pink-400"></i>
+                        <span class="text-sm font-medium">Donation History</span>
+                    </div>
+                </a>
+
                 <a href="?section=signup-requests" 
                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
                    {% if section == 'signup-requests' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
@@ -65,13 +81,6 @@
                     {% endif %}
                 </a>
 
-                <a href="?section=campaign-list" 
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all
-                   {% if section == 'campaign-list' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
-                    <i data-lucide="list" class="w-5 h-5"></i>
-                    <span class="text-sm font-medium">Campaign List</span>
-                </a>
-
                 <a href="?section=campaign-requests" 
                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
                    {% if section == 'campaign-requests' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
@@ -82,15 +91,6 @@
                     {% if campaign_request_count > 0 %}
                         <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_request_count }}</span>
                     {% endif %}
-                </a>
-
-                <a href='?section=donations' 
-                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
-                   {% if section == 'donations' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="archive" class="w-5 h-5 group-hover:text-pink-400"></i>
-                        <span class="text-sm font-medium">Donation History</span>
-                    </div>
                 </a>
 
                 <a href='?section=feedback' 
