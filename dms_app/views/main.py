@@ -176,6 +176,21 @@ def mark_feedback_read(request, feedback_id):
     return redirect("admin-dashboard")
 
 @login_required
+def delete_feedback_view(request, feedback_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("home")
+
+    try:
+        feedback = Feedback.objects.get(id=feedback_id)
+        feedback.delete()
+        messages.success(request, f"Feedback from {feedback.name} has been deleted.")
+    except Feedback.DoesNotExist:
+        messages.error(request, "Feedback not found or already processed.")
+    
+    return redirect("admin-dashboard")
+
+@login_required
 def donate_view(request, campaign_id):
     if request.user.role != 'DONOR':
         messages.error(request, "You do not have permission to perform this action.")
