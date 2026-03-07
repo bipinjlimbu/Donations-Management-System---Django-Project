@@ -112,6 +112,7 @@ class Campaign(models.Model):
         active_condition = self.status == self.Status.APPROVED and self.start_date <= today <= self.end_date
         if active_condition and self.status != self.Status.ACTIVE:
             self.status = self.Status.ACTIVE
+            self.save()
         
         return active_condition
     
@@ -120,6 +121,7 @@ class Campaign(models.Model):
         completed_condition = self.status in [self.Status.ACTIVE, self.Status.APPROVED] and (today > self.end_date or self.collected_quantity >= self.target_quantity)
         if completed_condition and self.status != self.Status.COMPLETED:
             self.status = self.Status.COMPLETED
+            self.save()
             
         return completed_condition
         
