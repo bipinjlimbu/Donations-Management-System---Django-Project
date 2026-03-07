@@ -40,29 +40,28 @@
             {% endif %}
         </div>
 
-        <div class="flex flex-col md:flex-row gap-4 mb-12">
-            <select id="categoryFilter" class="bg-white border border-gray-200 text-gray-700 p-4 rounded-2xl text-sm font-semibold focus:ring-2 focus:ring-green-300 w-full md:w-64">
-                <option value="all">All Categories</option>
-                <option value="FOOD">Food</option>
-                <option value="CLOTHING">Clothing</option>
-                <option value="MEDICAL">Medical</option>
-                <option value="EDUCATION">Education</option>
-                <option value="OTHER">Other</option>
+        <form method="GET" action="" class="flex flex-col md:flex-row gap-4 mb-12">
+            <select name="category" onchange="this.form.submit()" class="bg-white border border-gray-200 text-gray-700 p-4 rounded-2xl text-sm font-semibold focus:ring-2 focus:ring-green-300 w-full md:w-64">
+                <option value="all" {% if request.GET.category == 'all' %}selected{% endif %}>All Categories</option>
+                <option value="FOOD" {% if request.GET.category == 'food' %}selected{% endif %}>Food</option>
+                <option value="CLOTHING" {% if request.GET.category == 'clothing' %}selected{% endif %}>Clothing</option>
+                <option value="MEDICAL" {% if request.GET.category == 'medical' %}selected{% endif %}>Medical</option>
+                <option value="EDUCATION" {% if request.GET.category == 'education' %}selected{% endif %}>Education</option>
+                <option value="OTHER" {% if request.GET.category == 'other' %}selected{% endif %}>Other</option>
             </select>
             
-            <select id="statusFilter" class="bg-white border border-gray-200 text-gray-700 p-4 rounded-2xl text-sm font-semibold focus:ring-2 focus:ring-green-300 w-full md:w-64">
-                <option value="all">All Statuses</option>
-                <option value="ACTIVE">Active</option>
-                <option value="COMPLETED">Completed</option>
-                <option value="COMING_SOON">Coming Soon</option>
+            <select name="status" onchange="this.form.submit()" class="bg-white border border-gray-200 text-gray-700 p-4 rounded-2xl text-sm font-semibold focus:ring-2 focus:ring-green-300 w-full md:w-64">
+                <option value="all" {% if request.GET.status == 'all' %}selected{% endif %}>All Statuses</option>
+                <option value="ACTIVE" {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
+                <option value="COMPLETED" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
+                <option value="COMING_SOON" {% if request.GET.status == 'coming_soon' %}selected{% endif %}>Coming Soon</option>
             </select>
-        </div>
+        </form>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for campaign in campaigns %}
             {% if campaign.status == 'ACTIVE' %}
-                <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1" 
-                     data-category="{{ campaign.category }}" data-status="ACTIVE">
+                <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                     <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
                         {% if campaign.campaign_image %}
                             <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Campaign">
@@ -105,8 +104,7 @@
                 </div>
 
             {% elif campaign.status == 'COMPLETED' %}
-                <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1" 
-                     data-category="{{ campaign.category }}" data-status="COMPLETED">
+                <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                     <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
                         {% if campaign.campaign_image %}
                         <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover opacity-60 grayscale" alt="Campaign">
@@ -139,44 +137,45 @@
                     </div>
                 </div>
 
-                {% else %}
-                    <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1" 
-                         data-category="{{ campaign.category }}" data-status="COMING_SOON">
-                        <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
-                            {% if campaign.campaign_image %}
-                            <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
-                            {% else %}
-                            <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 bg-slate-50">
-                                <div class="p-4 rounded-full bg-white shadow-inner border border-slate-100 mb-3">
-                                    <i data-lucide="package" class="w-10 h-10 text-blue-500"></i>
-                                </div>
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Campaign</span>
+            {% else %}
+                <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
+                        {% if campaign.campaign_image %}
+                        <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
+                        {% else %}
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 bg-slate-50">
+                            <div class="p-4 rounded-full bg-white shadow-inner border border-slate-100 mb-3">
+                                <i data-lucide="package" class="w-10 h-10 text-blue-500"></i>
                             </div>
-                            {% endif %}
-                            <div class="absolute top-4 right-4 bg-amber-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
-                                Coming Soon
-                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Campaign</span>
                         </div>
-                        
-                        <div class="px-2 flex-grow">
-                            <h3 class="text-xl font-bold text-gray-900 mb-2">{{ campaign.title }}</h3>
-                            <div class="flex items-center gap-2 mb-4 text-amber-600">
-                                <i data-lucide="bell" class="w-4 h-4"></i>
-                                <span class="text-xs font-bold uppercase">Starts: {{ campaign.start_date }}</span>
-                            </div>
-                            <p class="text-sm text-gray-500 mb-6 leading-relaxed">{{ campaign.description }}</p>
-                        </div>
-        
-                        <div class="px-2 pb-2">
-                            <a href="/campaigns/{{ campaign.id }}/" class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
-                                View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                            </a>
+                        {% endif %}
+                        <div class="absolute top-4 right-4 bg-amber-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
+                            Coming Soon
                         </div>
                     </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-
+                    
+                    <div class="px-2 flex-grow">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">{{ campaign.title }}</h3>
+                        <div class="flex items-center gap-2 mb-4 text-amber-600">
+                            <i data-lucide="bell" class="w-4 h-4"></i>
+                            <span class="text-xs font-bold uppercase">Starts: {{ campaign.start_date }}</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mb-6 leading-relaxed">{{ campaign.description }}</p>
+                    </div>
+    
+                    <div class="px-2 pb-2">
+                        <a href="/campaigns/{{ campaign.id }}/" class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
+                            View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            {% empty %}
+                <div class="col-span-full py-20 text-center">
+                    <p class="text-gray-400 text-lg">No campaigns found matching your criteria.</p>
+                </div>
+            {% endfor %}
         </div>
     </main>
 
@@ -184,35 +183,6 @@
 
     <script>
         lucide.createIcons();
-
-        // Filtering Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            const categoryFilter = document.getElementById('categoryFilter');
-            const statusFilter = document.getElementById('statusFilter');
-            const cards = document.querySelectorAll('.campaign-card');
-
-            function filterCampaigns() {
-                const selectedCategory = categoryFilter.value;
-                const selectedStatus = statusFilter.value;
-
-                cards.forEach(card => {
-                    const category = card.getAttribute('data-category');
-                    const status = card.getAttribute('data-status');
-
-                    const categoryMatch = (selectedCategory === 'all' || category === selectedCategory);
-                    const statusMatch = (selectedStatus === 'all' || status === selectedStatus);
-
-                    if (categoryMatch && statusMatch) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
-
-            categoryFilter.addEventListener('change', filterCampaigns);
-            statusFilter.addEventListener('change', filterCampaigns);
-        });
     </script>
 </body>
 </html>
