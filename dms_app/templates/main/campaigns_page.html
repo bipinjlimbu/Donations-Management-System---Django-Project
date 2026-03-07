@@ -43,18 +43,18 @@
         <form method="GET" action="" class="flex flex-col md:flex-row gap-4 mb-12">
             <select name="category" onchange="this.form.submit()" class="bg-white border border-gray-200 text-gray-700 p-4 rounded-2xl text-sm font-semibold focus:ring-2 focus:ring-green-300 w-full md:w-64">
                 <option value="all" {% if request.GET.category == 'all' %}selected{% endif %}>All Categories</option>
-                <option value="FOOD" {% if request.GET.category == 'food' %}selected{% endif %}>Food</option>
-                <option value="CLOTHING" {% if request.GET.category == 'clothing' %}selected{% endif %}>Clothing</option>
-                <option value="MEDICAL" {% if request.GET.category == 'medical' %}selected{% endif %}>Medical</option>
-                <option value="EDUCATION" {% if request.GET.category == 'education' %}selected{% endif %}>Education</option>
-                <option value="OTHER" {% if request.GET.category == 'other' %}selected{% endif %}>Other</option>
+                <option value="FOOD" {% if request.GET.category == 'FOOD' %}selected{% endif %}>Food</option>
+                <option value="CLOTHING" {% if request.GET.category == 'CLOTHING' %}selected{% endif %}>Clothing</option>
+                <option value="MEDICAL" {% if request.GET.category == 'MEDICAL' %}selected{% endif %}>Medical</option>
+                <option value="EDUCATION" {% if request.GET.category == 'EDUCATION' %}selected{% endif %}>Education</option>
+                <option value="OTHER" {% if request.GET.category == 'OTHER' %}selected{% endif %}>Other</option>
             </select>
             
             <select name="status" onchange="this.form.submit()" class="bg-white border border-gray-200 text-gray-700 p-4 rounded-2xl text-sm font-semibold focus:ring-2 focus:ring-green-300 w-full md:w-64">
                 <option value="all" {% if request.GET.status == 'all' %}selected{% endif %}>All Statuses</option>
-                <option value="ACTIVE" {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
-                <option value="COMPLETED" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
-                <option value="COMING_SOON" {% if request.GET.status == 'coming_soon' %}selected{% endif %}>Coming Soon</option>
+                <option value="ACTIVE" {% if request.GET.status == 'ACTIVE' %}selected{% endif %}>Active</option>
+                <option value="COMPLETED" {% if request.GET.status == 'COMPLETED' %}selected{% endif %}>Completed</option>
+                <option value="APPROVED" {% if request.GET.status == 'APPROVED' %}selected{% endif %}>Coming Soon</option>
             </select>
         </form>
 
