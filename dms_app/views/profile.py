@@ -111,7 +111,7 @@ def edit_profile_view(request, user_id):
     return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit})
 
 @login_required
-def approve_pending_changes(request, user_id):
+def approve_profile_changes(request, user_id):
     if request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to perform this action.")
         return redirect('home')
