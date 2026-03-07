@@ -1,7 +1,10 @@
 from django.urls import path
 from .views.auth import register_view, login_view, logout_view
-from .views.main import home_view, contact_view, about_view, admin_dashboard_view, approve_signup_request, reject_signup_request, mark_feedback_read, delete_feedback_view, donate_view, ngo_dashboard_view, approve_donation_view, reject_donation_view, donor_dashboard_view
-from .views.profile import profile_view, edit_profile_view, approve_pending_changes, reject_profile_changes
+from .views.main import home_view, contact_view, about_view
+from .views.admin_dashboard import admin_dashboard_view, approve_signup_request, reject_signup_request, mark_feedback_read, delete_feedback_view
+from .views.donor_dashboard import donor_dashboard_view, donate_view
+from .views.ngo_dashboard import ngo_dashboard_view, approve_donation_view, reject_donation_view
+from .views.profile import profile_view, edit_profile_view, approve_profile_changes, reject_profile_changes
 from .views.campaigns import campaigns_page_view, create_campaign_view, edit_campaign_view, delete_campaign_view, approve_campaign_request, reject_campaign_request, single_campaign_page_view
 
 urlpatterns = [
@@ -28,7 +31,7 @@ urlpatterns = [
     path("reject_signup_request/<int:request_id>/", reject_signup_request, name="reject_signup_request"),
     path("mark_feedback_read/<int:feedback_id>/", mark_feedback_read, name="mark_feedback_read"),
     path("delete_feedback/<int:feedback_id>/", delete_feedback_view, name="delete_feedback"),
-    path("approve_profile_change/<int:user_id>/", approve_pending_changes, name="approve_profile_change"),
+    path("approve_profile_change/<int:user_id>/", approve_profile_changes, name="approve_profile_change"),
     path("reject_profile_change/<int:user_id>/", reject_profile_changes, name="reject_profile_change"),
     path("approve_campaign_request/<int:campaign_id>/", approve_campaign_request, name="approve_campaign_request"),
     path("reject_campaign_request/<int:campaign_id>/", reject_campaign_request, name="reject_campaign_request"),
