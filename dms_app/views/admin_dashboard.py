@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from dms_project.dms_app.models import NGOProfile, DonorProfile, Register, Campaign, Feedback, Donation, User
+from ..models import NGOProfile, DonorProfile, Register, Campaign, Feedback, Donation, User
 
 @login_required
 def admin_dashboard_view(request):
