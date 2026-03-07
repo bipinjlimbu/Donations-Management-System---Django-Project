@@ -762,69 +762,86 @@
             {% elif section == 'feedback' %}
             <div class="flex justify-between items-end mb-10">
                 <div>
-                    <h1 class="text-3xl font-black text-slate-800 tracking-tight">User Feedback</h1>
-                    <p class="text-sm text-slate-500 font-medium">Manage inquiries and suggestions from donors and NGOs</p>
+                    <h1 class="text-3xl font-black text-slate-800 tracking-tight">System Feedback</h1>
+                    <p class="text-sm text-slate-500 font-medium">Review and manage user inquiries</p>
                 </div>
                 <div class="text-right">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Unread Messages</p>
-                    <p class="text-2xl font-black text-blue-600 leading-none">{{ feedback_count }} New</p>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Inbox Density</p>
+                    <p class="text-2xl font-black text-blue-600 leading-none">{{ feedbacks | length }} Entries</p>
                 </div>
             </div>
 
-            <div class="bg-white border border-slate-200 rounded-[2.5rem] overflow-hidden shadow-sm">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-slate-50/50 border-b border-slate-100">
-                            <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">S.N.</th>
-                            <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">User Details</th>
-                            <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Subject</th>
-                            <th class="px-6 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest w-[30%]">Message Preview</th>
-                            <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50">
-                        {% for feedback in feedbacks %}
-                        <tr class="hover:bg-slate-50/40 transition-colors group">
-                            <td class="px-8 py-5">
-                                <span class="text-xs font-black text-slate-400">{{forloop.counter}}</span>
-                            </td>
-                            <td class="px-6 py-5">
-                                <p class="text-sm font-black text-slate-800">{{ feedback.name }}</p>
-                                <p class="text-[11px] font-medium text-slate-500">{{ feedback.email }}</p>
-                            </td>
-                            <td class="px-6 py-5">
-                                <span class="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black uppercase tracking-tight">{{ feedback.subject }}</span>
-                            </td>
-                            <td class="px-6 py-5">
-                                <p class="text-sm text-slate-600 line-clamp-1 italic">"{{ feedback.message }}"</p>
-                            </td>
-                            <td class="px-8 py-5 text-right">
-                                <div class="flex justify-end gap-2">
-                                    <button title="Mark as Read" class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-emerald-500 hover:text-white transition-all flex items-center justify-center">
-                                        <i data-lucide="check" class="w-4 h-4"></i>
-                                    </button>
-                                    <button title="Delete" class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-rose-500 hover:text-white transition-all flex items-center justify-center">
-                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="5" class="px-8 py-24 text-center">
-                                <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-dashed border-slate-200">
-                                    <i data-lucide="mail" class="w-10 h-10 text-slate-300"></i>
-                                </div>
-                                <h3 class="text-lg font-black text-slate-800">No feedback received yet</h3>
-                                <p class="text-slate-500 font-medium italic">Once users start sending their feedback, you'll see them listed here.</p>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="space-y-4">
+                {% for feedback in feedbacks %}
+                <div class="bg-white border border-slate-200 rounded-[2rem] p-4 flex items-center justify-between hover:border-blue-400 transition-all shadow-sm relative group">
+                    
+                    <div class="flex items-center gap-4 min-w-[220px]">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 shadow-sm">
+                            <i data-lucide="user" class="w-6 h-6 text-blue-600"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Full Name</p>
+                            <h3 class="text-base font-black text-slate-800 leading-none mb-1 truncate">{{ feedback.name }}</h3>
+                        </div>
+                    </div>
+
+                    <div class="h-10 w-[1px] bg-slate-100 mx-2"></div>
+
+                    <div class="min-w-[180px] px-4">
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Email</p>
+                        <p class="text-sm font-bold text-slate-600 truncate">{{ feedback.email }}</p>
+                    </div>
+
+                    <div class="h-10 w-[1px] bg-slate-100 mx-2"></div>
+
+                    <div class="min-w-[140px] px-4">
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Subject</p>
+                        <p class="text-sm font-black text-slate-800 uppercase tracking-tighter">{{ feedback.subject }}</p>
+                    </div>
+
+                    <div class="h-10 w-[1px] bg-slate-100 mx-2"></div>
+
+                    <div class="flex-grow px-4 max-w-[30%]">
+                        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-2 px-4">
+                            <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Message Preview</p>
+                            <p class="text-sm font-black text-slate-700 truncate italic">
+                                "{{ feedback.message }}"
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 pl-6">
+                        <button title="Mark as Read" class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-black hover:bg-blue-700 transition-all shadow-md shadow-blue-100">
+                            <i data-lucide="check-circle" class="w-4 h-4"></i>
+                            Mark as Read
+                        </button>
+                        
+                        <button title="Remove" class="flex items-center gap-2 px-5 py-2.5 bg-rose-50 text-rose-600 rounded-xl text-xs font-black hover:bg-rose-600 hover:text-white transition-all">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            Remove
+                        </button>
+                    </div>
+
+                    {% if feedback.status == 'UNREAD' %}
+                    <div class="absolute -top-3 right-8">
+                        <div class="bg-emerald-600 text-white px-4 py-1 rounded-full flex items-center gap-2 shadow-lg shadow-emerald-100">
+                            <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                            <span class="text-[8px] font-black uppercase tracking-widest">Unread Message</span>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <div class="bg-white border-2 border-dashed border-slate-200 rounded-[3rem] p-20 text-center">
+                    <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300">
+                        <i data-lucide="mail-check" class="w-8 h-8"></i>
+                    </div>
+                    <p class="text-slate-500 font-medium italic">All feedback has been addressed!</p>
+                </div>
+                {% endfor %}
             </div>
-            {% endif %}
-            
+            {% endif %}            
+
         </main>
     </div>
 
