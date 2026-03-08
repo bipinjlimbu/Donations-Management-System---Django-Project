@@ -39,10 +39,6 @@ def admin_dashboard_view(request):
         
     elif section == 'campaign-list':
         campaigns = Campaign.objects.exclude(status=Campaign.Status.PENDING).order_by('-approved_at')
-        for campaign in campaigns:
-            campaign.is_active = Campaign.is_active(campaign)
-            campaign.is_completed = Campaign.is_completed(campaign)
-            
         context['campaigns'] = campaigns
         
     elif section == 'donations' and current_status == 'all':
