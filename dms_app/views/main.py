@@ -9,6 +9,10 @@ def home_view(request):
     context = {}
     
     campaigns = Campaign.objects.exclude(status__in=[Campaign.Status.PENDING, Campaign.Status.REJECTED]).order_by('-approved_at')[:3]
+    for campaign in campaigns:
+        campaign.is_active = Campaign.is_active(campaign)
+        campaign.is_completed = Campaign.is_completed(campaign)
+        
     context["campaigns"] = campaigns
     
     return render(request,"main/home_page.html", context)
