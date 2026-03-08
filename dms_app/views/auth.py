@@ -5,6 +5,10 @@ from django.contrib import messages
 import re
 
 def register_view(request):
+    if request.user.is_authenticated:
+        messages.info(request, f"You are already logged in as {request.user.username}.")
+        return redirect("home")
+    
     errors = {}
     if request.method == "POST":
         image = request.FILES.get("profile_image")
