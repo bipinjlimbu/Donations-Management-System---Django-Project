@@ -12,7 +12,7 @@
 
     {% include 'components/_navbar.html' %}
 
-    <section class="relative h-screen min-h-[700px] flex items-center justify-center text-white overflow-hidden">
+    <section class="relative h-[80vh] min-h-[600px] flex items-center justify-center text-white overflow-hidden">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" 
                 class="w-full h-full object-cover" alt="Hero Background">
@@ -37,109 +37,143 @@
         </div>
     </section>
     
-    <section class="bg-gray-100 py-20 px-4">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-12">Latest Campaigns</h2>
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-left">
-                    <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Campaign">
-                        <div class="absolute top-4 right-4 bg-green-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg">
-                            <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> Active
-                        </div>
-                    </div>
-                    <div class="px-2 flex-grow">
-                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">School Supplies for Rural Kids</h3>
-                        <div class="flex items-center gap-2 mb-4 text-gray-400">
-                            <i data-lucide="calendar" class="w-4 h-4"></i>
-                            <span class="text-xs font-medium uppercase">Ends: Dec 31, 2024</span>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-2xl mb-6">
-                            <div class="flex justify-between items-end mb-2">
-                                <span class="text-xs font-bold text-green-600">400 / 500 Sets</span>
-                                <span class="text-xs font-bold text-gray-400">80%</span>
-                            </div>
-                            <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                                <div class="h-full bg-green-500 rounded-full" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-2 pb-2">
-                        <a href="#" class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
-                            View Details <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </a>
-                    </div>
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div>
+                    <h2 class="text-4xl font-black text-gray-900 mb-4">Latest <span class="text-green-600">Campaigns</span></h2>
+                    <p class="text-gray-500 text-lg max-w-xl">Small acts of kindness make a big difference. Explore our newest initiatives and contribute to a cause that matters to you.</p>
                 </div>
-
-                <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-left">
-                    <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale opacity-60" alt="Campaign">
-                        <div class="absolute top-4 right-4 bg-gray-800 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
-                            Completed
-                        </div>
-                    </div>
-                    <div class="px-2 flex-grow">
-                        <h3 class="text-xl font-bold text-gray-700 mb-2">Emergency Medical Fund</h3>
-                        <div class="flex items-center gap-2 mb-4 text-green-600">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i>
-                            <span class="text-xs font-bold uppercase">Goal Reached</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mb-6 italic leading-relaxed">This campaign goal was reached. Thank you to all our generous donors.</p>
-                    </div>
-                    <div class="px-2 pb-2">
-                        <a href="#" class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
-                            View Details <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="campaign-card group bg-white rounded-3xl p-4 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-left">
-                    <div class="relative h-60 mb-6 rounded-2xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0" alt="Campaign">
-                        <div class="absolute top-4 right-4 bg-amber-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
-                            Coming Soon
-                        </div>
-                    </div>
-                    <div class="px-2 flex-grow">
-                        <h3 class="text-xl font-bold text-gray-900 mb-2">Winter Blanket Drive</h3>
-                        <div class="flex items-center gap-2 mb-4 text-amber-600">
-                            <i data-lucide="bell" class="w-4 h-4"></i>
-                            <span class="text-xs font-bold uppercase">Starts: Nov 15, 2024</span>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-2xl mb-6">
-                            <div class="flex justify-between items-end mb-2">
-                                <span class="text-xs font-bold text-amber-600">0 / 1000 Units</span>
-                                <span class="text-xs font-bold text-gray-400">0%</span>
-                            </div>
-                            <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                                <div class="h-full bg-amber-400 rounded-full" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="px-2 pb-2">
-                        <a href="#" class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2">
-                            View Details <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                        </a>
-                    </div>
-                </div>
-
+                <a href="/campaigns" class="hidden md:flex items-center gap-2 text-green-600 font-bold hover:text-gray-900 transition-colors group">
+                    View All Campaigns 
+                    <i data-lucide="chevron-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </a>
             </div>
 
-            <a href="/campaigns" class="inline-block mt-12 bg-green-600 text-white px-10 py-3 rounded-full font-bold hover:bg-green-700 transition">View All Campaigns</a>
-        </div>
-    </section>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {% for campaign in campaigns %}
+                    
+                    {% if campaign.status == 'ACTIVE' %}
+                    <div class="campaign-card group bg-white rounded-[2rem] p-5 shadow-sm border border-gray-100 flex flex-col h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-2">
+                        <div class="relative h-64 mb-6 rounded-2xl overflow-hidden">
+                            {% if campaign.campaign_image %}
+                                <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Campaign">
+                            {% else %}
+                                <div class="absolute inset-0 flex flex-col items-center justify-center text-slate-400 bg-slate-50">
+                                    <div class="p-4 rounded-full bg-white shadow-inner border border-slate-100 mb-3">
+                                        <i data-lucide="package" class="w-10 h-10 text-green-500"></i>
+                                    </div>
+                                    <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">Campaign</span>
+                                </div>                         
+                            {% endif %}
+                            <div class="absolute top-4 right-4 bg-green-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg">
+                                <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span> Active
+                            </div>
+                        </div>
+                        
+                        <div class="px-2 flex-grow">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">{{ campaign.title }}</h3>
+                            <div class="flex items-center gap-2 mb-6 text-gray-400">
+                                <i data-lucide="calendar" class="w-4 h-4 text-green-600"></i>
+                                <span class="text-xs font-semibold uppercase tracking-tight">Ends: {{ campaign.end_date }}</span>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-5 rounded-2xl mb-6">
+                                <div class="flex justify-between items-end mb-2">
+                                    <span class="text-xs font-bold text-green-700 tracking-tight">{{ campaign.collected_quantity }} / {{ campaign.target_quantity }} {{ campaign.unit }}</span>
+                                    <span class="text-xs font-black text-gray-900">{{ campaign.progress_percentage }}%</span>
+                                </div>
+                                <div class="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                                    <div class="h-full bg-green-500 rounded-full transition-all duration-1000" style="width: {{ campaign.progress_percentage }}%"></div>
+                                </div>
+                            </div>
+                        </div>
 
-    <section class="py-24 bg-green-600 text-white text-center px-4">
-        <div class="max-w-3xl mx-auto">
-            <h2 class="text-4xl font-extrabold mb-6">Ready to Make a Difference?</h2>
-            <p class="text-xl mb-12 opacity-90 leading-relaxed text-gray-100">
-                Join ShareHope today and help NGOs reach communities in need through transparent and impactful donations.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/campaigns" class="bg-white text-green-600 px-10 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition">Browse Campaigns</a>
-                <a href="/signup" class="bg-green-800 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-green-900 transition border border-green-700">Get Started</a>
+                        <div class="px-2 pb-2 mt-auto">
+                            <a href="/campaigns/{{ campaign.id }}/" class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2 group-hover:gap-4">
+                                View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    {% elif campaign.status == 'COMPLETED' %}
+                    <div class="campaign-card group bg-white rounded-[2rem] p-5 shadow-sm border border-gray-100 flex flex-col h-full opacity-90 transition-all hover:shadow-xl">
+                        <div class="relative h-64 mb-6 rounded-2xl overflow-hidden">
+                            {% if campaign.campaign_image %}
+                                <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover grayscale opacity-60" alt="Campaign">
+                            {% else %}
+                                <div class="absolute inset-0 bg-slate-100 flex items-center justify-center">
+                                    <i data-lucide="package" class="w-10 h-10 text-slate-300"></i>
+                                </div>
+                            {% endif %}
+                            <div class="absolute top-4 right-4 bg-gray-800 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
+                                Completed
+                            </div>
+                        </div>
+                        
+                        <div class="px-2 flex-grow">
+                            <h3 class="text-2xl font-bold text-gray-400 mb-2">{{ campaign.title }}</h3>
+                            <div class="flex items-center gap-2 mb-4 text-green-600">
+                                {% if campaign.collected_quantity >= campaign.target_quantity %}
+                                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                <span class="text-xs font-bold uppercase tracking-widest">Goal Reached</span>
+                                {% else %}
+                                <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                                <span class="text-xs font-bold uppercase tracking-widest">Goal Not Reached</span>
+                                {% endif %}
+                            </div>
+                            <p class="text-sm text-gray-500 mb-6 italic leading-relaxed">This mission was successful thanks to the community. Target of {{ campaign.target_quantity }} reached.</p>
+                        </div>
+                        
+                        <div class="px-2 pb-2 mt-auto">
+                            <a href="/campaigns/{{ campaign.id }}/" class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2 group-hover:gap-4">
+                                View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    {% else %}
+                    <div class="campaign-card group bg-white rounded-[2rem] p-5 shadow-sm border border-gray-100 flex flex-col h-full transition-all hover:shadow-xl hover:-translate-y-2">
+                        <div class="relative h-64 mb-6 rounded-2xl overflow-hidden">
+                            {% if campaign.campaign_image %}
+                                <img src="{{ campaign.campaign_image.url }}" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" alt="Campaign">
+                            {% endif %}
+                            <div class="absolute top-4 right-4 bg-amber-500 text-white text-[10px] font-bold uppercase px-3 py-1.5 rounded-full shadow-lg">
+                                Coming Soon
+                            </div>
+                        </div>
+                        
+                        <div class="px-2 flex-grow">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ campaign.title }}</h3>
+                            <div class="flex items-center gap-2 mb-4 text-amber-600">
+                                <i data-lucide="bell-ring" class="w-4 h-4"></i>
+                                <span class="text-xs font-bold uppercase tracking-widest">Starts: {{ campaign.start_date }}</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-6 line-clamp-3 leading-relaxed">{{ campaign.description }}</p>
+                        </div>
+        
+                        <div class="px-2 pb-2 mt-auto">
+                            <a href="/campaigns/{{ campaign.id }}/" class="w-full bg-gray-900 text-white py-4 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-600 transition-all flex items-center justify-center gap-2 group-hover:gap-4">
+                                View More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                {% empty %}
+                    <div class="col-span-full py-20 text-center bg-gray-50 rounded-[3rem] border-2 border-dashed border-gray-200">
+                        <i data-lucide="search-x" class="w-12 h-12 text-gray-300 mx-auto mb-4"></i>
+                        <p class="text-gray-400 text-xl font-medium">No campaigns found matching your criteria.</p>
+                        <a href="/" class="text-green-600 font-bold mt-2 inline-block hover:underline">Clear all filters</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-12 md:hidden">
+                <a href="/campaigns" class="block w-full text-center bg-green-600 text-white py-5 rounded-2xl font-bold">
+                    View All Campaigns
+                </a>
             </div>
         </div>
     </section>

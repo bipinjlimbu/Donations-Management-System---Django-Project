@@ -416,7 +416,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none;
 }
 
-.rotate-\[-5deg\], .transform, .hover\:-translate-y-1, .hover\:-translate-y-0\.5, .hover\:-translate-y-0, .hover\:scale-110, .hover\:scale-105, .active\:translate-y-0, .active\:scale-\[0\.98\], .active\:scale-95, .group-hover\:scale-110, .group-hover\:scale-105 {
+.rotate-\[-5deg\], .transform, .hover\:-translate-y-1, .hover\:-translate-y-0\.5, .hover\:-translate-y-0, .hover\:-translate-y-2, .hover\:scale-110, .hover\:scale-105, .active\:translate-y-0, .active\:scale-\[0\.98\], .active\:scale-95, .group-hover\:translate-x-1, .group-hover\:scale-110, .group-hover\:scale-105 {
   --tw-translate-x: 0;
   --tw-translate-y: 0;
   --tw-rotate: 0;
@@ -432,7 +432,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
-.shadow-xl, .shadow-lg, .shadow-sm, .shadow-2xl, .shadow-md, .shadow-inner, .shadow-\[0_0_10px_rgba\(16\2c 185\2c 129\2c 0\.3\)\], .hover\:shadow-xl, .peer-checked\:shadow-sm {
+.shadow-xl, .shadow-lg, .shadow-sm, .shadow-2xl, .shadow-md, .shadow-inner, .shadow-\[0_0_10px_rgba\(16\2c 185\2c 129\2c 0\.3\)\], .hover\:shadow-xl, .hover\:shadow-2xl, .peer-checked\:shadow-sm {
   --tw-ring-offset-shadow: 0 0 #0000;
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
@@ -783,6 +783,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: -1.5rem;
 }
 
+.mt-auto {
+  margin-top: auto;
+}
+
 .block {
   display: block;
 }
@@ -927,6 +931,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100vh;
 }
 
+.h-\[80vh\] {
+  height: 80vh;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -937,6 +945,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .min-h-\[700px\] {
   min-height: 700px;
+}
+
+.min-h-\[600px\] {
+  min-height: 600px;
 }
 
 .w-full {
@@ -1114,6 +1126,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .max-w-3xl {
   max-width: 48rem;
+}
+
+.max-w-xl {
+  max-width: 36rem;
 }
 
 .flex-1 {
@@ -2796,6 +2812,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   transition-duration: 300ms;
 }
 
+.duration-700 {
+  transition-duration: 700ms;
+}
+
+.duration-1000 {
+  transition-duration: 1000ms;
+}
+
 .file\:mr-4::file-selector-button {
   margin-right: 1rem;
 }
@@ -2849,6 +2873,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .hover\:-translate-y-0:hover {
   --tw-translate-y: -0px;
+  transform: var(--tw-transform);
+}
+
+.hover\:-translate-y-2:hover {
+  --tw-translate-y: -0.5rem;
   transform: var(--tw-transform);
 }
 
@@ -3066,6 +3095,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(22 163 74 / var(--tw-text-opacity));
 }
 
+.hover\:text-gray-900:hover {
+  --tw-text-opacity: 1;
+  color: rgb(17 24 39 / var(--tw-text-opacity));
+}
+
 .hover\:underline:hover {
   text-decoration: underline;
 }
@@ -3077,6 +3111,12 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:shadow-xl:hover {
   --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\:shadow-2xl:hover {
+  --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -3162,6 +3202,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   transform: var(--tw-transform);
 }
 
+.group:hover .group-hover\:translate-x-1 {
+  --tw-translate-x: 0.25rem;
+  transform: var(--tw-transform);
+}
+
 .group:hover .group-hover\:scale-110 {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
@@ -3172,6 +3217,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
   transform: var(--tw-transform);
+}
+
+.group:hover .group-hover\:gap-4 {
+  gap: 1rem;
 }
 
 .group:hover .group-hover\:border-blue-200 {
@@ -3298,6 +3347,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:block {
     display: block;
+  }
+
+  .md\:flex {
+    display: flex;
+  }
+
+  .md\:hidden {
+    display: none;
   }
 
   .md\:h-32 {
