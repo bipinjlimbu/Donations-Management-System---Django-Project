@@ -775,13 +775,33 @@
                 {% for feedback in feedbacks %}
                 <div class="bg-white border border-slate-200 rounded-[2rem] p-4 flex items-center justify-between hover:border-blue-400 transition-all shadow-sm relative group">
                     
-                    <div class="flex items-center gap-4 min-w-[220px]">
-                        <div class="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center border border-blue-100 shadow-sm">
-                            <i data-lucide="user" class="w-6 h-6 text-blue-600"></i>
+                    {% if feedback.status == 'UNREAD' %}
+                        <div class="absolute inset-y-4 left-0 w-1.5 bg-emerald-500 rounded-r-full"></div>
+                    {% endif %}
+
+                    <div class="flex items-center gap-4 min-w-[240px]">
+                        <div class="w-12 h-12 rounded-full overflow-hidden border border-slate-100 shadow-sm shrink-0">
+                            {% if feedback.user.profile_image %}
+                                <img src="{{ feedback.user.profile_image.url }}" class="w-full h-full object-cover">
+                            {% else %}
+                                <div class="w-full h-full bg-blue-50 flex items-center justify-center text-blue-600">
+                                    <i data-lucide="user" class="w-6 h-6"></i>
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="overflow-hidden">
                             <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1">Full Name</p>
-                            <h3 class="text-base font-black text-slate-800 leading-none mb-1 truncate">{{ feedback.name }}</h3>
+                            {% if feedback.user.role == 'NGO' %}
+                            <h3 class="text-base font-black text-slate-800 leading-none mb-1 truncate">{{ feedback.user.ngo_profile.organization_name | default:"Not Assigned" }}</h3>
+                            {% else %}
+                            <h3 class="text-base font-black text-slate-800 leading-none mb-1 truncate">{{ feedback.user.donor_profile.full_name | default:"Not Assigned" }}</h3>
+                            {% endif %}
+                            <div class="flex items-center gap-2">
+                                <span class="text-[8px] px-1.5 py-0.5 {% if feedback.user.role == 'ADMIN' %}bg-red-50 text-red-600{% elif feedback.user.role == 'NGO' %}bg-purple-50 text-purple-600{% else %}bg-orange-50 text-orange-600{% endif %} font-black rounded uppercase tracking-wider">
+                                    {{ feedback.user.role }}
+                                </span>
+                                <p class="text-[10px] font-bold text-blue-500 truncate">@{{ feedback.user.username }}</p>
+                            </div>
                         </div>
                     </div>
 
@@ -789,7 +809,21 @@
 
                     <div class="min-w-[180px] px-4">
                         <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Email</p>
-                        <p class="text-sm font-bold text-slate-600 truncate">{{ feedback.email }}</p>
+                        <p class="text-sm font-bold text-slate-600 truncate">{{ feedback.user.email }}</p>
+                    </div>
+
+                    <div class="h-10 w-[1px] bg-slate-100 mx-2"></div>
+
+                    <div class="min-w-[130px] px-4">
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Contact</p>
+                        <p class="text-sm font-bold text-slate-600">{{ feedback.user.phone|default:"N/A" }}</p>
+                    </div>
+
+                    <div class="h-10 w-[1px] bg-slate-100 mx-2"></div>
+
+                    <div class="min-w-[130px] px-4">
+                        <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Location</p>
+                        <p class="text-sm font-bold text-slate-500 italic truncate">{{ feedback.user.address|default:"Nepal" }}</p>
                     </div>
 
                     <div class="h-10 w-[1px] bg-slate-100 mx-2"></div>
@@ -801,22 +835,20 @@
 
                     <div class="h-10 w-[1px] bg-slate-100 mx-2"></div>
 
-                    <div class="flex-grow px-4 max-w-[30%]">
+                    <div class="flex-grow px-4 max-w-[20%]">
                         <div class="bg-slate-50 border border-slate-100 rounded-2xl p-2 px-4">
-                            <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Message Preview</p>
-                            <p class="text-sm font-black text-slate-700 truncate italic">
-                                "{{ feedback.message }}"
-                            </p>
+                            <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Message</p>
+                            <p class="text-sm font-black text-slate-700 truncate italic">"{{ feedback.message }}"</p>
                         </div>
                     </div>
 
                     <div class="flex items-center gap-3 pl-6">
-                        <a href="/mark_feedback_read/{{ feedback.id }}/" title="Mark as Read" class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-black hover:bg-blue-700 transition-all shadow-md shadow-blue-100">
+                        <a href="/mark_feedback_read/{{ feedback.id }}/" class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-black hover:bg-blue-700 transition-all shadow-md shadow-blue-100">
                             <i data-lucide="check-circle" class="w-4 h-4"></i>
                             Mark as Read
                         </a>
 
-                        <a href="/delete_feedback/{{ feedback.id }}/" title="Remove" class="flex items-center gap-2 px-5 py-2.5 bg-rose-50 text-rose-600 rounded-xl text-xs font-black hover:bg-rose-600 hover:text-white transition-all">
+                        <a href="/delete_feedback/{{ feedback.id }}/" class="flex items-center gap-2 px-5 py-2.5 bg-rose-50 text-rose-600 rounded-xl text-xs font-black hover:bg-rose-600 hover:text-white transition-all">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                             Remove
                         </a>
@@ -825,7 +857,7 @@
                     {% if feedback.status == 'UNREAD' %}
                     <div class="absolute -top-3 right-8">
                         <div class="bg-emerald-600 text-white px-4 py-1 rounded-full flex items-center gap-2 shadow-lg shadow-emerald-100">
-                            <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                            <div class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
                             <span class="text-[8px] font-black uppercase tracking-widest">Unread Message</span>
                         </div>
                     </div>
@@ -833,15 +865,11 @@
                 </div>
                 {% empty %}
                 <div class="bg-white border-2 border-dashed border-slate-200 rounded-[3rem] p-20 text-center">
-                    <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-300">
-                        <i data-lucide="mail-check" class="w-8 h-8"></i>
-                    </div>
-                    <p class="text-slate-500 font-medium italic">All feedback has been addressed!</p>
+                    <p class="text-slate-500 font-medium italic">No entries found.</p>
                 </div>
                 {% endfor %}
             </div>
-            {% endif %}            
-
+            {% endif %}
         </main>
     </div>
 
