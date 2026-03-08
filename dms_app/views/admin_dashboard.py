@@ -95,7 +95,7 @@ def approve_signup_request(request, request_id):
         except Register.DoesNotExist:
             messages.error(request, "Signup request not found or already processed.")
     
-    return redirect("admin-dashboard")
+    return redirect("/dashboard/admin/?section=signup-requests")
 
 @login_required
 def reject_signup_request(request, request_id):
@@ -111,7 +111,7 @@ def reject_signup_request(request, request_id):
         except Register.DoesNotExist:
             messages.error(request, "Signup request not found or already processed.")
     
-    return redirect("admin-dashboard")
+    return redirect("/dashboard/admin/?section=signup-requests")
 
 @login_required
 def mark_feedback_toggle(request, feedback_id):
@@ -133,7 +133,7 @@ def mark_feedback_toggle(request, feedback_id):
     except Feedback.DoesNotExist:
         messages.error(request, "Feedback not found or already processed.")
     
-    return redirect("admin-dashboard")
+    return redirect("/dashboard/admin/?section=feedback")
 
 @login_required
 def delete_feedback_view(request, feedback_id):
@@ -148,4 +148,4 @@ def delete_feedback_view(request, feedback_id):
     except Feedback.DoesNotExist:
         messages.error(request, "Feedback not found or already processed.")
     
-    return redirect("admin-dashboard")
+    return redirect("/dashboard/admin/?section=feedback")
