@@ -19,29 +19,17 @@ def home_view(request):
 
 def contact_view(request):
     errors = {}
-    
+
     if request.method == "POST":
-        name = request.POST.get("name", "").strip()
-        email = request.POST.get("email", "").strip()
         subject = request.POST.get("subject", "").strip()
         message = request.POST.get("message", "").strip()
-        
-        if not name:
-            errors["name"] = "Name is required."
-        
-        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-        if not email:
-            errors["email"] = "Email is required."
-        elif not re.match(email_pattern, email):
-            errors["email"] = "Invalid email format."
         
         if not message:
             errors["message"] = "Message is required."
         
         if not errors:
             Feedback.objects.create(
-                name=name,
-                email=email,
+                user=request.user,
                 subject=subject,
                 message=message
             )
