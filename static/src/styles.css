@@ -1856,6 +1856,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(34 197 94 / 0.1);
 }
 
+.bg-amber-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(251 191 36 / var(--tw-bg-opacity));
+}
+
 .bg-gradient-to-tr {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
