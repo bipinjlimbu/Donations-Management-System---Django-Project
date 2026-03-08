@@ -6,7 +6,12 @@ from ..models import User, Donation, DonorProfile, Feedback, NGOProfile, Registe
 import re
 
 def home_view(request):
-    return render(request,"main/home_page.html")
+    context = {}
+    
+    campaigns = Campaign.objects.exclude(status__in=[Campaign.Status.PENDING, Campaign.Status.REJECTED]).order_by('-approved_at')[:3]
+    context["campaigns"] = campaigns
+    
+    return render(request,"main/home_page.html", context)
 
 def contact_view(request):
     errors = {}
