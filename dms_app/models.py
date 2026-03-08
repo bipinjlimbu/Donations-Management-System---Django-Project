@@ -148,12 +148,8 @@ class Feedback(models.Model):
         READ = 'READ', 'Read'
         UNREAD = 'UNREAD', 'Unread'
         
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     subject = models.CharField(max_length=200)
     message = models.TextField()
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.UNREAD)
     submitted_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f"{self.name} - {self.subject}"
