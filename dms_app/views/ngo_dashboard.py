@@ -26,9 +26,6 @@ def ngo_dashboard_view(request):
     
     if section == 'campaign-list':
         campaigns = Campaign.objects.filter(ngo=request.user).exclude(status=Campaign.Status.PENDING).order_by('-approved_at')
-        for campaign in campaigns:
-            campaign.is_active = Campaign.is_active(campaign)
-            campaign.is_completed = Campaign.is_completed(campaign)
         context['campaigns'] = campaigns
         
     elif section == 'my-donations' and current_status == 'all':
