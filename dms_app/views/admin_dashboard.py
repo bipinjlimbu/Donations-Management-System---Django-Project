@@ -123,7 +123,7 @@ def mark_feedback_read(request, feedback_id):
         feedback = Feedback.objects.get(id=feedback_id)
         feedback.status = Feedback.Status.READ
         feedback.save()
-        messages.success(request, f"Feedback from {feedback.name} has been marked as read.")
+        messages.success(request, f"Feedback from {feedback.user.username} has been marked as read.")
     except Feedback.DoesNotExist:
         messages.error(request, "Feedback not found or already processed.")
     
@@ -138,7 +138,7 @@ def delete_feedback_view(request, feedback_id):
     try:
         feedback = Feedback.objects.get(id=feedback_id)
         feedback.delete()
-        messages.success(request, f"Feedback from {feedback.name} has been deleted.")
+        messages.success(request, f"Feedback from {feedback.user.username} has been deleted.")
     except Feedback.DoesNotExist:
         messages.error(request, "Feedback not found or already processed.")
     
