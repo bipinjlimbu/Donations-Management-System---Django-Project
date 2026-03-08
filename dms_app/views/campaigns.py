@@ -128,9 +128,7 @@ def single_campaign_page_view(request, campaign_id):
     if campaign.status in [Campaign.Status.PENDING, Campaign.Status.REJECTED]:
         messages.warning(request, "This campaign is not available for viewing.")
         return redirect("campaigns")
-    
-    campaign.is_active = Campaign.is_active(campaign)
-    campaign.is_completed = Campaign.is_completed(campaign)
+
     return render(request,"main/single_campaign_page.html", {"campaign": campaign})
 
 @login_required
@@ -140,8 +138,6 @@ def edit_campaign_view(request, campaign_id):
         return redirect("campaigns")
     
     campaign = Campaign.objects.get(id=campaign_id)
-    campaign.is_active = Campaign.is_active(campaign)
-    campaign.is_completed = Campaign.is_completed(campaign)
     
     if campaign.status == Campaign.Status.APPROVED and campaign.ngo.user != request.user:
         messages.error(request, "You do not have permission to edit this campaign.")
