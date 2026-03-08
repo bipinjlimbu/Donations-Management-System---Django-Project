@@ -114,14 +114,17 @@ def reject_signup_request(request, request_id):
     return redirect("admin-dashboard")
 
 @login_required
-def mark_feedback_read(request, feedback_id):
+def mark_feedback_toggle(request, feedback_id):
     if request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to perform this action.")
         return redirect("home")
 
     try:
         feedback = Feedback.objects.get(id=feedback_id)
-        feedback.status = Feedback.Status.READ
+        if feedback.status == Feedback.Status.UNREAD:
+            feedback.status = Feedback.Status.READ
+        else:
+            feedback.status = Feedback.Status.UNREAD
         feedback.save()
         messages.success(request, f"Feedback from {feedback.user.username} has been marked as read.")
     except Feedback.DoesNotExist:
