@@ -15,15 +15,12 @@
     </style>
 </head>
 <body class="bg-gray-50 font-sans overflow-hidden">
-
     {% if messages %}
-        <div class="fixed top-4 right-4 z-50">
-            {% for message in messages %}
-                <script>
-                    alert("{{ message }}");
-                </script>
-            {% endfor %}
-        </div>
+        {% for message in messages %}
+            <script>
+                alert('{{message}}')
+            </script>
+        {% endfor %}
     {% endif %}
 
     <div class="dashboard-container">
@@ -33,9 +30,9 @@
                 <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-4 text-center">Admin Control Panel</p>
                 
                 <a href="?section=user-list" 
-                   class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all 
+                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all 
                    {% if section == 'user-list' or not section %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
-                    <i data-lucide="users" class="w-5 h-5"></i>
+                   <i data-lucide="users" class="w-5 h-5"></i>
                     <span class="text-sm font-semibold">User List</span>
                 </a>
 
@@ -47,9 +44,9 @@
                 </a>
 
                 <a href='?section=donations' 
-                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
-                   {% if section == 'donations' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
-                    <div class="flex items-center gap-3">
+                class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                {% if section == 'donations' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                <div class="flex items-center gap-3">
                         <i data-lucide="archive" class="w-5 h-5 group-hover:text-pink-400"></i>
                         <span class="text-sm font-medium">Donation History</span>
                     </div>
@@ -89,10 +86,10 @@
                         <span class="text-sm font-medium">Campaign Requests</span>
                     </div>
                     {% if campaign_request_count > 0 %}
-                        <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_request_count }}</span>
+                    <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_request_count }}</span>
                     {% endif %}
                 </a>
-
+                
                 <a href='?section=feedback' 
                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
                    {% if section == 'feedback' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
@@ -109,8 +106,8 @@
             <div class="p-6 border-t border-slate-800">
                 <a href="{% url 'home' %}" 
                 class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group">
-                    <i data-lucide="home" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    <span class="text-sm font-medium">Return to Home</span>
+                <i data-lucide="home" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="text-sm font-medium">Return to Home</span>
                 </a>
             </div>
         </aside>
