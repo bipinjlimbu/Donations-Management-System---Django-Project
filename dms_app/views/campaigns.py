@@ -108,7 +108,7 @@ def approve_campaign_request(request, campaign_id):
     campaign.approved_at = date.today()
     campaign.save()
     messages.success(request, f"Campaign '{campaign.title}' has been approved.")
-    return redirect("/dashboard/admin/campaign-requests/")
+    return redirect("/dashboard/admin/?section=campaign-requests/")
 
 @login_required
 def reject_campaign_request(request, campaign_id):
@@ -120,7 +120,7 @@ def reject_campaign_request(request, campaign_id):
     campaign.status = Campaign.Status.REJECTED
     campaign.save()
     messages.info(request, f"Campaign '{campaign.title}' has been rejected.")
-    return redirect("/dashboard/admin/campaign-requests/")
+    return redirect("/dashboard/admin/?section=campaign-requests/")
 
 def single_campaign_page_view(request, campaign_id):
     campaign = Campaign.objects.get(id=campaign_id)
