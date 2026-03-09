@@ -108,7 +108,7 @@ def approve_campaign_request(request, campaign_id):
     campaign.approved_at = date.today()
     campaign.save()
     messages.success(request, f"Campaign '{campaign.title}' has been approved.")
-    return redirect("admin-dashboard")
+    return redirect("/dashboard/admin/campaign-requests/")
 
 @login_required
 def reject_campaign_request(request, campaign_id):
