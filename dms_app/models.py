@@ -153,3 +153,10 @@ class Feedback(models.Model):
     message = models.TextField()
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.UNREAD)
     submitted_at = models.DateTimeField(auto_now_add=True)
+    
+class Testimonial(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField()
+    rating = models.PositiveIntegerField(default=5)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
