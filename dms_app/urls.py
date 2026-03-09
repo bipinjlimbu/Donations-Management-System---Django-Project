@@ -6,6 +6,7 @@ from .views.donor_dashboard import donor_dashboard_view, donate_view
 from .views.ngo_dashboard import ngo_dashboard_view, approve_donation_view, reject_donation_view
 from .views.profile import profile_view, edit_profile_view, approve_profile_changes, reject_profile_changes
 from .views.campaigns import campaigns_page_view, create_campaign_view, edit_campaign_view, delete_campaign_view, approve_campaign_request, reject_campaign_request, single_campaign_page_view
+from .views.testimonials import testimonials_view
 
 urlpatterns = [
     path("",home_view,name="home"),
@@ -25,6 +26,7 @@ urlpatterns = [
     path("campaigns/delete/<int:campaign_id>/", delete_campaign_view, name="delete-campaign"),
     path("campaigns/<int:campaign_id>/", single_campaign_page_view, name="single-campaign"),
     path("campaigns/donate/<int:campaign_id>/", donate_view, name="donate"),
+    path("testimonials/", testimonials_view, name="testimonials"),
     path("approve_donation_request/<int:donation_id>/", approve_donation_view, name="approve_donation"),
     path("reject_donation_request/<int:donation_id>/", reject_donation_view, name="reject_donation"),
     path("approve_signup_request/<int:request_id>/", approve_signup_request, name="approve_signup_request"),
