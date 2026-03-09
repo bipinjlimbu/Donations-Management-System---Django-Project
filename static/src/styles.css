@@ -416,7 +416,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none;
 }
 
-.-translate-y-1\/2, .rotate-\[-5deg\], .transform, .hover\:-translate-y-1, .hover\:-translate-y-2, .hover\:-translate-y-0\.5, .hover\:-translate-y-0, .hover\:scale-110, .hover\:scale-105, .active\:translate-y-0, .active\:scale-\[0\.98\], .active\:scale-95, .group-hover\:translate-x-1, .group-hover\:-translate-y-1, .group-hover\:scale-110, .group-hover\:scale-105 {
+.-translate-y-1\/2, .rotate-\[-5deg\], .transform, .hover\:-translate-y-1, .hover\:-translate-y-2, .hover\:-translate-y-0\.5, .hover\:-translate-y-0, .hover\:scale-110, .hover\:scale-105, .active\:translate-y-0, .active\:scale-\[0\.98\], .active\:scale-95, .active\:scale-90, .group-hover\:translate-x-1, .group-hover\:-translate-y-1, .group-hover\:-translate-x-1, .group-hover\:scale-110, .group-hover\:scale-105 {
   --tw-translate-x: 0;
   --tw-translate-y: 0;
   --tw-rotate: 0;
@@ -512,6 +512,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pointer-events-none {
   pointer-events: none;
+}
+
+.visible {
+  visibility: visible;
 }
 
 .static {
@@ -2153,6 +2157,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 2rem;
 }
 
+.py-7 {
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+}
+
+.px-16 {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
 .pt-6 {
   padding-top: 1.5rem;
 }
@@ -2759,6 +2773,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-shadow: var(--tw-shadow-colored);
 }
 
+.shadow-blue-900\/50 {
+  --tw-shadow-color: rgb(30 58 138 / 0.5);
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
 .outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -3257,6 +3276,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   transform: var(--tw-transform);
 }
 
+.active\:scale-90:active {
+  --tw-scale-x: .9;
+  --tw-scale-y: .9;
+  transform: var(--tw-transform);
+}
+
 .group:hover .group-hover\:translate-x-1 {
   --tw-translate-x: 0.25rem;
   transform: var(--tw-transform);
@@ -3264,6 +3289,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .group:hover .group-hover\:-translate-y-1 {
   --tw-translate-y: -0.25rem;
+  transform: var(--tw-transform);
+}
+
+.group:hover .group-hover\:-translate-x-1 {
+  --tw-translate-x: -0.25rem;
   transform: var(--tw-transform);
 }
 
@@ -3592,6 +3622,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .lg\:p-20 {
     padding: 5rem;
+  }
+
+  .lg\:p-16 {
+    padding: 4rem;
   }
 
   .lg\:text-left {
