@@ -15,13 +15,7 @@
     </style>
 </head>
 <body class="bg-gray-50 font-sans overflow-hidden">
-    {% if messages %}
-        {% for message in messages %}
-            <script>
-                alert('{{message}}')
-            </script>
-        {% endfor %}
-    {% endif %}
+    {% include 'components/_alert_messages.html' %}
 
     <div class="dashboard-container">
         
