@@ -10,6 +10,8 @@
 </head>
 <body class="bg-[#F8FAFC] font-sans antialiased min-h-screen flex flex-col">
 
+    {% include 'components/_alert_messages.html' %}
+
     {% include 'components/_navbar.html' %}
 
     <main class="flex-grow p-6 md:p-12 lg:p-20">
@@ -22,10 +24,10 @@
                     <p class="text-slate-500 font-medium text-lg">Real feedback from our donors and partner organizations making an impact.</p>
                 </div>
                 {% if user.is_authenticated and not user.is_staff %}
-                <button class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-200 transition-all flex items-center gap-3">
+                <a href="/testimonials/create" class="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-black rounded-2xl shadow-xl shadow-blue-200 transition-all flex items-center gap-3">
                     <i data-lucide="plus-circle" class="w-5 h-5"></i>
                     Share Your Story
-                </button>
+                </a>
                 {% endif %}
             </div>
 
