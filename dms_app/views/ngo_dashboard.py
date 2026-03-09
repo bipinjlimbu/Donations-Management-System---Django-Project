@@ -55,11 +55,11 @@ def approve_donation_view(request, donation_id):
     
     if campaign.ngo != request.user:
         messages.error(request, "You do not have permission to approve this donation.")
-        return redirect("dashboard/ngo/donation-requests/")
+        return redirect("dashboard/ngo/?section=donation-requests/")
     
     if campaign.is_completed():
         messages.error(request, "This campaign has already been completed. Cannot approve more donations.")
-        return redirect("dashboard/ngo/donation-requests/")
+        return redirect("dashboard/ngo/?section=donation-requests/")
     
     campaign.collected_quantity += int(donation.quantity)
     campaign.save()
@@ -67,7 +67,7 @@ def approve_donation_view(request, donation_id):
     donation.updated_at = timezone.now()
     donation.save()
     messages.success(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been approved.")
-    return redirect("dashboard/ngo/donation-requests/")
+    return redirect("dashboard/ngo/?section=donation-requests/")
 
 @login_required
 def reject_donation_view(request, donation_id):
@@ -79,14 +79,14 @@ def reject_donation_view(request, donation_id):
     
     if donation.campaign.ngo != request.user:
         messages.error(request, "You do not have permission to reject this donation.")
-        return redirect("dashboard/ngo/donation-requests/")
+        return redirect("dashboard/ngo/?section=donation-requests/")
     
     if donation.campaign.is_completed():
         messages.error(request, "This campaign has already been completed. Cannot reject donations.")
-        return redirect("dashboard/ngo/donation-requests/")
+        return redirect("dashboard/ngo/?section=donation-requests/")
 
     donation.status = Donation.Status.REJECTED
     donation.updated_at = timezone.now()
     donation.save()
     messages.info(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been rejected.")
-    return redirect("dashboard/ngo/donation-requests/")
+    return redirect("dashboard/ngo/?section=donation-requests/")
