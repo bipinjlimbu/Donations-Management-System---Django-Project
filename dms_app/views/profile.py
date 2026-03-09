@@ -81,7 +81,7 @@ def edit_profile_view(request, user_id):
                 donor_profile.save()
                 
             messages.success(request, "Profile updated successfully.")
-            return redirect('admin-dashboard')
+            return redirect('dashboard/admin/?section=user-list/')
         
         else:
             if user_to_edit.role == "NGO":
@@ -125,7 +125,7 @@ def approve_profile_changes(request, user_id):
     
     if profile.pending_status != "PENDING":
         messages.error(request, "No pending changes to approve.")
-        return redirect('admin-dashboard')
+        return redirect('dashboard/admin/?section=profile-changes/')
     
     user.username = profile.pending_username
     user.email = profile.pending_email
@@ -145,7 +145,7 @@ def approve_profile_changes(request, user_id):
     user.save()
     
     messages.success(request, "Pending changes approved successfully.")
-    return redirect('admin-dashboard')
+    return redirect('dashboard/admin/?section=profile-changes/')
 
 @login_required
 def reject_profile_changes(request, user_id):
@@ -162,10 +162,10 @@ def reject_profile_changes(request, user_id):
     
     if profile.pending_status != "PENDING":
         messages.error(request, "No pending changes to reject.")
-        return redirect('admin-dashboard')
+        return redirect('dashboard/admin/?section=profile-changes/')
     
     profile.pending_status = "REJECTED"
     profile.save()
     
     messages.success(request, "Pending changes rejected.")
-    return redirect('admin-dashboard')
+    return redirect('dashboard/admin/?section=profile-changes/')
