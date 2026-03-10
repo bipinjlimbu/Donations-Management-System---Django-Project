@@ -83,6 +83,18 @@
                     <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_request_count }}</span>
                     {% endif %}
                 </a>
+
+                <a href="?section=testimonial-requests" 
+                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                   {% if section == 'testimonial-requests' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="message-circle" class="w-5 h-5 group-hover:text-green-400"></i>
+                        <span class="text-sm font-medium">Testimonial Requests</span>
+                    </div>
+                    {% if testimonial_request_count > 0 %}
+                    <span class="bg-green-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ testimonial_request_count }}</span>
+                    {% endif %}
+                </a>
                 
                 <a href='?section=feedback' 
                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
