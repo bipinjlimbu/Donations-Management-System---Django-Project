@@ -10,9 +10,9 @@ def create_testimonial_view(request):
     
     if request.method == "POST":
         rating = request.POST.get("rating")
-        content = request.POST.get("content", "").strip()
+        message = request.POST.get("content", "").strip()
         
-        if not content:
+        if not message:
             errors["content"] = "Content cannot be empty."
         
         if errors:
@@ -21,8 +21,8 @@ def create_testimonial_view(request):
         Testimonial.objects.create(
             user=request.user,
             rating=rating,
-            content=content
-            status="PENDING"
+            message=message,
+            status=Testimonial.Status.PENDING
         )
         messages.success(request, "Your testimonial has been submitted and is pending review.")
         return redirect("testimonials")
