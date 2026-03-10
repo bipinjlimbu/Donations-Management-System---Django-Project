@@ -39,3 +39,10 @@ def approve_testimonial_view(request, testimonial_id):
     testimonial.save()
     messages.success(request, "Testimonial approved successfully.")
     return redirect("dashboard/admin/?section=testimonial-requests")
+
+def reject_testimonial_view(request, testimonial_id):
+    testimonial = Testimonial.objects.get(id=testimonial_id)
+    testimonial.status = Testimonial.Status.REJECTED
+    testimonial.save()
+    messages.success(request, "Testimonial rejected successfully.")
+    return redirect("dashboard/admin/?section=testimonial-requests")
