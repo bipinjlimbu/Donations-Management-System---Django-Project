@@ -3,7 +3,8 @@ from django.contrib import messages
 from ..models import Testimonial
 
 def testimonials_view(request):
-    return render(request, "main/testimonials_page.html")
+    testimonials = Testimonial.objects.filter(status=Testimonial.Status.APPROVED).order_by('-approved_at')
+    return render(request, "main/testimonials_page.html", {"testimonials": testimonials})
 
 def create_testimonial_view(request):
     errors = {}
