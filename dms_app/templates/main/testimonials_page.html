@@ -39,8 +39,12 @@
                 <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col justify-between group hover:border-blue-400 transition-all">
                     <div>
                         <div class="flex gap-1 text-orange-400 mb-6">
-                            {% for _ in testimonial.rating %}
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= testimonial.rating %}
+                                    <i data-lucide="star" class="w-5 h-5"></i>
+                                {% else %}  
+                                    <i data-lucide="star" class="w-5 h-5 text-slate-300"></i>
+                                {% endif %}
                             {% endfor %}
                         </div>
                         <p class="text-slate-700 font-bold italic leading-relaxed text-lg mb-8">
