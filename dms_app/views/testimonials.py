@@ -8,6 +8,10 @@ def testimonials_view(request):
 def create_testimonial_view(request):
     errors = {}
     
+    if Testimonial.objects.filter(user=request.user).exclude(status=Testimonial.Status.REJECTED).exists():
+        messages.error(request, "You have already submitted a testimonial.")
+        return redirect("testimonials")
+    
     if request.method == "POST":
         rating = request.POST.get("rating")
         message = request.POST.get("message", "").strip()
