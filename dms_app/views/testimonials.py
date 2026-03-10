@@ -32,3 +32,10 @@ def create_testimonial_view(request):
         return redirect("testimonials")
             
     return render(request, "main/create_testimonial_page.html")
+
+def approve_testimonial_view(request, testimonial_id):
+    testimonial = Testimonial.objects.get(id=testimonial_id)
+    testimonial.status = Testimonial.Status.APPROVED
+    testimonial.save()
+    messages.success(request, "Testimonial approved successfully.")
+    return redirect("dashboard/admin/?section=testimonial-requests")
