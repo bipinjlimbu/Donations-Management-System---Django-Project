@@ -99,7 +99,7 @@
                                     <div class="space-y-4">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Overall Rating</label>
                                         <div class="flex gap-3 bg-slate-50 w-fit p-4 rounded-[1.5rem] border border-slate-100" id="star-container">
-                                            <input type="hidden" name="rating" id="rating-value" value="5">
+                                            <input type="hidden" name="rating" id="rating-value" value="{{ data.rating|default:0 }}" />
                                             
                                             <i data-lucide="star" data-star="1" class="w-8 h-8 text-orange-400 cursor-pointer fill-current transition-all hover:scale-110 active:scale-90" onclick="setRating(1)"></i>
                                             <i data-lucide="star" data-star="2" class="w-8 h-8 text-orange-400 cursor-pointer fill-current transition-all hover:scale-110 active:scale-90" onclick="setRating(2)"></i>
@@ -113,7 +113,7 @@
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Tell your story</label>
                                         <textarea name="message" rows="8"
                                             class="w-full px-8 py-7 bg-slate-50 border border-slate-100 rounded-[2.5rem] focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all outline-none font-bold text-slate-700 resize-none leading-relaxed"
-                                            placeholder="Tell the community how ShareHope has impacted your journey..."></textarea>
+                                            placeholder="Tell the community how ShareHope has impacted your journey...">{{ data.message|default:'' }}</textarea>
                                         <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wide px-4">Your message will be reviewed by administrators before being published.</p>
                                         {% if errors.message %}
                                             <p class="text-red-500 text-sm">{{ errors.message }}</p>
@@ -159,6 +159,14 @@
     <script>
         lucide.createIcons();
 
+        // Trigger visual update on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const initialValue = document.getElementById('rating-value').value;
+            if (initialValue) {
+                setRating(parseInt(initialValue));
+            }
+        });
+
         function setRating(val) {
             document.getElementById('rating-value').value = val;
 
@@ -168,14 +176,19 @@
                 const starIndex = parseInt(star.getAttribute('data-star'));
 
                 if (starIndex <= val) {
+                    // Use classList.add/remove to handle colors
                     star.classList.add('text-orange-400', 'fill-current');
                     star.classList.remove('text-slate-300');
+                    // Manually set attributes for Lucide SVGs that have already rendered
+                    star.setAttribute('fill', 'currentColor'); 
                 } else {
                     star.classList.remove('text-orange-400', 'fill-current');
                     star.classList.add('text-slate-300');
+                    star.setAttribute('fill', 'none');
                 }
             });
-
+            
+            // Refresh icons to ensure SVG paths update correctly
             lucide.createIcons();
         }
     </script>
