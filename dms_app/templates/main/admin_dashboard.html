@@ -719,14 +719,14 @@
                         </div>
 
                         <div class="flex items-center gap-2 pl-6 ml-auto">
-                            <form method="POST" action="/approve_testimonial/{{ t.id }}/">
+                            <form method="POST" action="/approve_testimonial/{{ request.id }}/">
                                 {% csrf_token %}
                                 <button type="submit" class="flex items-center gap-2 px-5 py-2.5 bg-[#10B981] hover:bg-emerald-600 text-white rounded-xl text-xs font-black transition-all shadow-sm">
                                     <i data-lucide="check" class="w-4 h-4"></i> Approve
                                 </button>
                             </form>
 
-                            <form method="POST" action="/reject_testimonial/{{ t.id }}/" onsubmit="return confirm('Reject this?');">
+                            <form method="POST" action="/reject_testimonial/{{ request.id }}/" onsubmit="return confirm('Reject this?');">
                                 {% csrf_token %}
                                 <button type="submit" class="flex items-center gap-2 px-5 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-xs font-black transition-all">
                                     <i data-lucide="x" class="w-4 h-4"></i> Reject
