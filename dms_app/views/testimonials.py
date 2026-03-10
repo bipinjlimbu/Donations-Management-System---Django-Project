@@ -10,10 +10,10 @@ def create_testimonial_view(request):
     
     if request.method == "POST":
         rating = request.POST.get("rating")
-        message = request.POST.get("content", "").strip()
+        message = request.POST.get("message", "").strip()
         
         if not message:
-            errors["content"] = "Content cannot be empty."
+            errors["message"] = "Message cannot be empty."
         
         if errors:
             return render(request, "main/create_testimonial_page.html", {"errors": errors, "data": request.POST})
