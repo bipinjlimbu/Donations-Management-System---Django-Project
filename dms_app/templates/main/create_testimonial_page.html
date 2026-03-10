@@ -37,7 +37,7 @@
                                 </div>
                                 <div>
                                     <h4 class="font-bold text-sm mb-1">Be Authentic</h4>
-                                    <p class="text-slate-400 text-xs leading-relaxed">Share your real experience as a {{ user.role|default:"User" }}.</p>
+                                    <p class="text-slate-400 text-xs leading-relaxed">Share your real experience as a {{ user.role }}.</p>
                                 </div>
                             </div>
 
@@ -56,12 +56,22 @@
                             <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-4">Identity Preview</p>
                             <div class="flex items-center gap-4">
                                 <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center font-black text-xl shadow-lg shadow-blue-900/50">
-                                    {{ user.username|slice:":1"|upper }}
+                                    {% if user.profile_image %}
+                                        <img src="{{ request.user.profile_image.url }}" alt="Profile Image" class="w-full h-full object-cover rounded-2xl">
+                                    {% else %}
+                                        <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                                    {% endif %}
                                 </div>
                                 <div>
-                                    <p class="text-sm font-black">{{ user.get_full_name|default:user.username }}</p>
+                                    {% if user.role == 'NGO' %}
+                                    <p class="text-sm font-black">{{ user.ngo_profile.organization_name }}</p>
+                                    {% elif user.role == 'DONOR' %}
+                                    <p class="text-sm font-black">{{ user.donor_profile.full_name }}</p>
+                                    {% else %}
+                                    <p class="text-sm font-black">Administrator</p>
+                                    {% endif %}
                                     <span class="text-[8px] px-2 py-0.5 bg-blue-500/20 text-blue-400 font-black rounded uppercase tracking-wider border border-blue-500/30">
-                                        {{ user.role|default:"Member" }}
+                                        {{ user.role}}
                                     </span>
                                 </div>
                             </div>
@@ -101,7 +111,7 @@
 
                                     <div class="space-y-4">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Tell your story</label>
-                                        <textarea name="content" rows="8" required 
+                                        <textarea name="content" rows="8"
                                             class="w-full px-8 py-7 bg-slate-50 border border-slate-100 rounded-[2.5rem] focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all outline-none font-bold text-slate-700 resize-none leading-relaxed"
                                             placeholder="Tell the community how ShareHope has impacted your journey..."></textarea>
                                         <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wide px-4">Your message will be reviewed by administrators before being published.</p>
