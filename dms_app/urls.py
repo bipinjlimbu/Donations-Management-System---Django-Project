@@ -6,7 +6,7 @@ from .views.donor_dashboard import donor_dashboard_view, donate_view
 from .views.ngo_dashboard import ngo_dashboard_view, approve_donation_view, reject_donation_view
 from .views.profile import profile_view, edit_profile_view, approve_profile_changes, reject_profile_changes
 from .views.campaigns import campaigns_page_view, create_campaign_view, edit_campaign_view, delete_campaign_view, approve_campaign_request, reject_campaign_request, single_campaign_page_view
-from .views.testimonials import testimonials_view, create_testimonial_view, approve_testimonial_view, reject_testimonial_view, edit_testimonial_view
+from .views.testimonials import testimonials_view, create_testimonial_view, approve_testimonial_view, reject_testimonial_view, edit_testimonial_view, delete_testimonial_view
 
 urlpatterns = [
     path("",home_view,name="home"),
@@ -29,6 +29,7 @@ urlpatterns = [
     path("testimonials/", testimonials_view, name="testimonials"),
     path("testimonials/create/", create_testimonial_view, name="create-testimonial"),
     path("testimonials/edit/<int:testimonial_id>/", edit_testimonial_view, name="edit-testimonial"),
+    path("testimonials/delete/<int:testimonial_id>/", delete_testimonial_view, name="delete-testimonial"),
     path("approve_donation_request/<int:donation_id>/", approve_donation_view, name="approve_donation"),
     path("reject_donation_request/<int:donation_id>/", reject_donation_view, name="reject_donation"),
     path("approve_signup_request/<int:request_id>/", approve_signup_request, name="approve_signup_request"),
