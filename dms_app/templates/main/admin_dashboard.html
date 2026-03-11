@@ -727,10 +727,6 @@
                         </div>
 
                         <div class="flex items-center gap-2 pl-8 shrink-0 ml-auto">
-                            <a href="/testimonials/edit/{{ testimonial.user.id }}/" class="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
-                                <i data-lucide="edit-3" class="w-4 h-4"></i> Edit
-                            </a>
-
                             <form method="POST" action="/testimonials/delete/{{ testimonial.user.id }}/" onsubmit="return confirm('Are you sure?');">
                                 {% csrf_token %}
                                 <button type="submit" class="flex items-center gap-2 px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-xs font-bold transition-all">
