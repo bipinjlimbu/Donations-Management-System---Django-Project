@@ -47,3 +47,6 @@ def reject_testimonial_view(request, testimonial_id):
     testimonial.save()
     messages.success(request, "Testimonial rejected successfully.")
     return redirect("/dashboard/admin/?section=testimonial-requests")
+
+def edit_testimonial_view(request, testimonial_id):    
+    return render(request, "main/edit_testimonial_page.html")
