@@ -186,7 +186,6 @@
                                         {% endif %}
                                     </p>
                                     
-                                    {# UNIVERSAL DOC CHECK: Checks correct table based on role #}
                                     {% if user.role == "NGO" and user.ngo_profile.verification_document %}
                                         <a href="{{ user.ngo_profile.verification_document.url }}" target="_blank" class="text-blue-500 hover:scale-110 transition-transform">
                                             <i data-lucide="file-check" class="w-4 h-4"></i>
@@ -652,6 +651,106 @@
                     </div>
                     {% endfor %}
                 </div>
+
+            {% elif section == 'testimonial-list' %}
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-2xl font-black text-slate-800 tracking-tight">Testimonial Management</h1>
+                    <p class="text-sm text-slate-500 font-medium">Review, edit or remove stories shared on the Wall of Hope</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-[11px] font-bold bg-amber-50 text-amber-600 border border-amber-100 px-4 py-2 rounded-xl uppercase tracking-wider shadow-sm">
+                        Total Testimonials: {{ testimonials.count }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                {% for testimonial in testimonials %}
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 hover:border-blue-300 transition-all shadow-sm group">
+                    <div class="flex items-center w-full">
+                        
+                        <div class="flex items-center gap-4 w-[260px] shrink-0 pr-4">
+                            {% if testimonial.user.profile_image %}
+                                <img src="{{ testimonial.user.profile_image.url }}" class="w-14 h-14 rounded-xl object-cover shrink-0 ring-2 ring-slate-100">
+                            {% else %}
+                                <div class="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+                                    <i data-lucide="user" class="w-6 h-6 text-slate-300"></i>
+                                </div>
+                            {% endif %}
+                            <div class="overflow-hidden">
+                                <p class="font-bold text-slate-900 leading-tight truncate">
+                                    {% if testimonial.user.role == "NGO" %}{{ testimonial.user.ngo_profile.organization_name }}
+                                    {% else %}{{ testimonial.user.donor_profile.full_name }}{% endif %}
+                                </p>
+                                <div class="flex items-center gap-2 mt-1.5">
+                                    <span class="text-[9px] font-black {% if testimonial.user.role == 'NGO' %}bg-purple-100 text-purple-600{% else %}bg-orange-100 text-orange-600{% endif %} px-2 py-0.5 rounded uppercase tracking-tighter">
+                                        {{ testimonial.user.role }}
+                                    </span>
+                                    <span class="text-[10px] font-medium text-blue-500">@{{ testimonial.user.username }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-l border-slate-100 px-8 w-[220px] shrink-0">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Contact Info</p>
+                            <div class="space-y-1">
+                                <p class="text-xs text-slate-700 font-bold truncate flex items-center gap-2">
+                                    <i data-lucide="mail" class="w-3.5 h-3.5 text-slate-300"></i> {{ testimonial.user.email }}
+                                </p>
+                                <p class="text-xs text-slate-600 font-medium flex items-center gap-2">
+                                    <i data-lucide="phone" class="w-3.5 h-3.5 text-slate-300"></i> {{ testimonial.user.phone|default:"N/A" }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="border-l border-slate-100 px-8 w-[180px] shrink-0">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Location</p>
+                            <p class="text-sm text-slate-600 font-medium italic truncate">
+                                {{ testimonial.user.address|default:"No address provided" }}
+                            </p>
+                        </div>
+
+                        <div class="border-l border-slate-100 px-8 w-[140px] shrink-0">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Rating</p>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="star" class="w-5 h-5 text-orange-400 fill-current"></i>
+                                <span class="text-xl font-black text-slate-800 leading-none">{{ testimonial.rating }}<span class="text-xs text-slate-300 ml-0.5">/5</span></span>
+                            </div>
+                        </div>
+
+                        <div class="border-l border-slate-100 px-8 flex-grow overflow-hidden">
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2">Message</p>
+                            <p class="text-sm text-slate-600 font-medium leading-relaxed line-clamp-2 italic">
+                                "{{ testimonial.message|default:'No message provided' }}"
+                            </p>
+                        </div>
+
+                        <div class="flex items-center gap-2 pl-8 shrink-0 ml-auto">
+                            <a href="/testimonials/edit/{{ testimonial.user.id }}/" class="flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
+                                <i data-lucide="edit-3" class="w-4 h-4"></i> Edit
+                            </a>
+
+                            <form method="POST" action="/testimonials/delete/{{ testimonial.user.id }}/" onsubmit="return confirm('Are you sure?');">
+                                {% csrf_token %}
+                                <button type="submit" class="flex items-center gap-2 px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-xs font-bold transition-all">
+                                    <i data-lucide="user-x" class="w-4 h-4"></i> Remove
+                                </button>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+                {% empty %}
+                <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-[2.5rem] p-20 text-center">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                        <i data-lucide="coffee" class="w-8 h-8 text-slate-300"></i>
+                    </div>
+                    <p class="text-slate-500 font-bold text-lg">No testimonials to review!</p>
+                    <p class="text-slate-400 text-sm">All submitted testimonials have been processed.</p>
+                </div>
+                {% endfor %}
+            </div>
 
            {% elif section == 'testimonial-requests' %}
             <div class="flex justify-between items-center mb-8">
