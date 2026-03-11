@@ -74,3 +74,17 @@ def edit_testimonial_view(request, testimonial_id):
         return redirect("testimonials")
     
     return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST})
+
+def delete_testimonial_view(request, testimonial_id):
+    testimonial = Testimonial.objects.get(id=testimonial_id)
+    if testimonial.user != request.user:
+        messages.error(request, "You do not have permission to delete this testimonial.")
+        return redirect("testimonials")
+    
+    testimonial.delete()
+    messages.success(request, "Your testimonial has been deleted.")
+    
+    if request.user.is_staff:
+        return redirect("/dashboard/admin/?section=testimonial-list")
+    else:
+        return redirect("testimonials")
