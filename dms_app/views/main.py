@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.utils import timezone
 from django.contrib import messages
-from ..models import User, Donation, DonorProfile, Feedback, NGOProfile, Register, Campaign
+from ..models import Feedback, Campaign, Testimonial
 import re
 
 def home_view(request):
@@ -15,6 +13,9 @@ def home_view(request):
         
     context["campaigns"] = campaigns
     
+    testimonials = Testimonial.objects.filter(status=Testimonial.Status.APPROVED).order_by('-submitted_at')[:3]
+    context["testimonials"] = testimonials
+
     return render(request,"main/home_page.html", context)
 
 def contact_view(request):
