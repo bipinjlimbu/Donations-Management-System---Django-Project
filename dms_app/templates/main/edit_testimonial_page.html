@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="lg:col-span-8">
-                    {% if user.is_authenticated and not user.is_staff %}
+                    {% if testimonial.user == user %}
                         <div class="bg-white rounded-[3rem] shadow-2xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
                             <div class="p-8 md:p-14 lg:p-16">
                                 <div class="flex items-center gap-4 mb-12">
@@ -99,7 +99,7 @@
                                     <div class="space-y-4">
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Overall Rating</label>
                                         <div class="flex gap-3 bg-slate-50 w-fit p-4 rounded-[1.5rem] border border-slate-100" id="star-container">
-                                            <input type="hidden" name="rating" id="rating-value" value="{{ testimonial.rating|default:0 }}" />
+                                            <input type="hidden" name="rating" id="rating-value" {% if data.rating %} value="{{ data.rating }}" {% else %} value="{{ testimonial.rating|default:0 }}" {% endif %} />
                                             
                                             <i data-lucide="star" data-star="1" class="w-8 h-8 text-slate-300 cursor-pointer transition-all hover:scale-110 active:scale-90" onclick="setRating(1)"></i>
                                             <i data-lucide="star" data-star="2" class="w-8 h-8 text-slate-300 cursor-pointer transition-all hover:scale-110 active:scale-90" onclick="setRating(2)"></i>
@@ -113,7 +113,7 @@
                                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Your Story</label>
                                         <textarea name="message" rows="8"
                                             class="w-full px-8 py-7 bg-slate-50 border border-slate-100 rounded-[2.5rem] focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all outline-none font-bold text-slate-700 resize-none leading-relaxed"
-                                            placeholder="Update how ShareHope has impacted your journey...">{{ testimonial.message }}</textarea>
+                                            placeholder="Update how ShareHope has impacted your journey...">{% if data.message %}{{ data.message }}{% else %}{{ testimonial.message }}{% endif %}</textarea>
                                         
                                         {% if errors.message %}
                                             <p class="text-red-500 text-sm font-bold px-4">{{ errors.message }}</p>
