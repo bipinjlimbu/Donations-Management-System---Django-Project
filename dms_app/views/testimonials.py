@@ -48,5 +48,29 @@ def reject_testimonial_view(request, testimonial_id):
     messages.success(request, "Testimonial rejected successfully.")
     return redirect("/dashboard/admin/?section=testimonial-requests")
 
-def edit_testimonial_view(request, testimonial_id):    
-    return render(request, "main/edit_testimonial_page.html")
+def edit_testimonial_view(request, testimonial_id):  
+    testimonial = Testimonial.objects.get(id=testimonial_id)
+    if testimonial.user != request.user:
+        messages.error(request, "You do not have permission to edit this testimonial.")
+        return redirect("testimonials")
+    
+    errors = {}
+    
+    if request.method == "POST":
+        rating = request.POST.get("rating")
+        message = request.POST.get("message", "").strip()
+        
+        if not message:
+            errors["message"] = "Message cannot be empty."
+        
+        if errors:
+            return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST})
+        
+        testimonial.rating = rating
+        testimonial.message = message
+        testimonial.status = Testimonial.Status.PENDING
+        testimonial.save()
+        messages.success(request, "Your testimonial has been updated and is pending review.")
+        return redirect("testimonials")
+    
+    return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST})
