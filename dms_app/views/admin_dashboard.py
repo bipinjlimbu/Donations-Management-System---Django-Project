@@ -42,6 +42,10 @@ def admin_dashboard_view(request):
         campaigns = Campaign.objects.exclude(status=Campaign.Status.PENDING).order_by('-approved_at')
         context['campaigns'] = campaigns
         
+    elif section == 'testimonial-list':
+        testimonials = Testimonial.objects.exclude(status=Testimonial.Status.PENDING).order_by('-submitted_at')
+        context['testimonials'] = testimonials
+        
     elif section == 'donations' and current_status == 'all':
         context['donations'] = Donation.objects.exclude(status=Donation.Status.PENDING).order_by('-requested_at')
     elif section == 'donations' and current_status == 'delivered':
