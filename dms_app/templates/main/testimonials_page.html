@@ -31,86 +31,61 @@
                 {% endif %}
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {% for testimonial in testimonials %}
-
-                {% if testimonial.user.role == 'DONOR' %}
                 
-                <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-xl shadow-slate-200/50 flex flex-col justify-between group hover:border-blue-400 transition-all">
-                    <div>
-                        <div class="flex gap-1 text-orange-400 mb-6">
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= testimonial.rating %}
-                                    <i data-lucide="star" class="w-5 h-5 text-orange-400 fill-current"></i>
-                                {% else %}
-                                    <i data-lucide="star" class="w-5 h-5 text-slate-200"></i>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <p class="text-slate-700 font-bold italic leading-relaxed text-lg mb-8">
-                            "{{ testimonial.message }}"
-                        </p>
+                <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col items-center text-center relative group hover:scale-[1.02] transition-all duration-300">
+                    
+                    <div class="absolute top-6 left-8 text-blue-400 opacity-80">
+                        <i data-lucide="quote" class="w-12 h-12 fill-current"></i>
                     </div>
-                    <div class="flex items-center gap-4 pt-6 border-t border-slate-50">
-                        <div class="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center text-orange-600 font-black text-xl">
+
+                    <div class="relative mb-8">
+                        <div class="w-28 h-28 rounded-full ring-8 ring-slate-50 overflow-hidden shadow-inner bg-slate-100 flex items-center justify-center">
                             {% if testimonial.user.profile_image %}
-                            <img src="{{ testimonial.user.profile_image.url }}" class="w-full h-full rounded-2xl object-cover">
+                                <img src="{{ testimonial.user.profile_image.url }}" class="w-full h-full object-cover">
                             {% else %}
-                            {{ testimonial.user.username|slice:":1"|upper }}
+                                <span class="text-3xl font-black text-slate-400">{{ testimonial.user.username|slice:":1"|upper }}</span>
                             {% endif %}
                         </div>
-                        <div>
-                            <h4 class="font-black text-slate-900 leading-none mb-1">{{ testimonial.user.donor_profile.full_name }}</h4>
-                            <span class="text-[9px] px-2 py-0.5 bg-orange-50 text-orange-600 font-black rounded uppercase tracking-wider">Donor</span>
-                        </div>
                     </div>
-                </div>
 
-                {% elif testimonial.user.role == 'NGO' %}
+                    <p class="text-slate-600 font-medium leading-relaxed text-base mb-8 px-2">
+                        {{ testimonial.message }}
+                    </p>
 
-                <div class="bg-[#0F172A] p-8 rounded-[2.5rem] text-white relative overflow-hidden shadow-2xl flex flex-col justify-between">
-                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-600/20 rounded-full blur-3xl"></div>
-                    <div class="relative z-10">
-                        <div class="flex gap-1 text-orange-400 mb-6">
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= testimonial.rating %}
-                                    <i data-lucide="star" class="w-5 h-5 text-orange-400 fill-current"></i>
-                                {% else %}
-                                    <i data-lucide="star" class="w-5 h-5 text-slate-200"></i>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <p class="text-slate-200 font-bold italic leading-relaxed text-lg mb-8">
-                            "{{ testimonial.message }}"
+                    <div class="flex gap-1 mb-4">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= testimonial.rating %}
+                                <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-current"></i>
+                            {% else %}
+                                <i data-lucide="star" class="w-5 h-5 text-slate-200"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="mt-auto">
+                        <h4 class="text-xl font-black text-slate-900 leading-tight">
+                            {% if testimonial.user.role == 'DONOR' %}
+                                {{ testimonial.user.donor_profile.full_name }}
+                            {% else %}
+                                {{ testimonial.user.ngo_profile.organization_name }}
+                            {% endif %}
+                        </h4>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">
+                            {% if testimonial.user.role == 'DONOR' %}Donor{% else %}NGO{% endif %}
                         </p>
                     </div>
-                    <div class="flex items-center gap-4 pt-6 border-t border-slate-800 relative z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-black text-xl">
-                            {% if testimonial.user.profile_image %}
-                            <img src="{{ testimonial.user.profile_image.url }}" class="w-full h-full rounded-2xl object-cover">
-                            {% else %}
-                            {{ testimonial.user.username|slice:":1"|upper }}
-                            {% endif %}
-                        </div>
-                        <div>
-                            <h4 class="font-black text-white leading-none mb-1">{{ testimonial.user.ngo_profile.organization_name }}</h4>
-                            <span class="text-[9px] px-2 py-0.5 bg-blue-500/20 text-blue-400 font-black rounded uppercase tracking-wider">NGO Partner</span>
-                        </div>
-                    </div>
                 </div>
-
-                {% endif %}
 
                 {% empty %}
                 <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl p-16 text-center col-span-full">
                     <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm">
-                        <i data-lucide="coffee" class="w-8 h-8 text-slate-300"></i>
+                        <i data-lucide="message-square" class="w-8 h-8 text-slate-300"></i>
                     </div>
                     <p class="text-slate-500 font-bold text-lg">No testimonials yet!</p>
-                    <p class="text-slate-400 text-sm">Be the first to share your experience with ShareHope.</p>
                 </div>
                 {% endfor %}
-
             </div>
 
             {% if not user.is_authenticated %}
@@ -119,7 +94,7 @@
                     <i data-lucide="lock" class="w-8 h-8"></i>
                 </div>
                 <h4 class="text-2xl font-black text-slate-800 mb-2">Want to share your story?</h4>
-                <p class="text-slate-500 mb-8 max-w-sm mx-auto font-medium">Log in to your Donor or NGO account to leave a testimonial on the wall.</p>
+                <p class="text-slate-500 mb-8 max-w-sm mx-auto font-medium">Log in to contribute to the wall.</p>
                 <a href="/login" class="inline-flex items-center gap-3 px-10 py-4 bg-slate-900 text-white font-black rounded-2xl hover:bg-blue-600 transition-all">
                     Sign In to Contribute
                     <i data-lucide="log-in" class="w-5 h-5"></i>
