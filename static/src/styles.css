@@ -984,6 +984,26 @@ Ensure the default browser behavior of the `hidden` attribute.
   min-height: 600px;
 }
 
+.min-h-\[800px\] {
+  min-height: 800px;
+}
+
+.min-h-\[1000px\] {
+  min-height: 1000px;
+}
+
+.min-h-\[900px\] {
+  min-height: 900px;
+}
+
+.min-h-\[880px\] {
+  min-height: 880px;
+}
+
+.min-h-\[888px\] {
+  min-height: 888px;
+}
+
 .w-full {
   width: 100%;
 }
@@ -1665,6 +1685,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-green-500\/20 {
   border-color: rgb(34 197 94 / 0.2);
+}
+
+.border-purple-100 {
+  --tw-border-opacity: 1;
+  border-color: rgb(243 232 255 / var(--tw-border-opacity));
 }
 
 .bg-gray-50 {
@@ -3248,6 +3273,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:text-green-600:hover {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity));
+}
+
+.hover\:text-slate-900:hover {
+  --tw-text-opacity: 1;
+  color: rgb(15 23 42 / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {
