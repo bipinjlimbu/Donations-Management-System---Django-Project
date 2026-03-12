@@ -179,128 +179,79 @@
         </div>
     </section>
 
-    <section class="py-24 bg-[#F8FAFC]">
-    <div class="max-w-7xl mx-auto px-6">
+    <section class="py-24 bg-slate-50 relative overflow-hidden">
+    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
+    <div class="absolute -right-24 top-24 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl"></div>
+
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
         
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 text-center md:text-left">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div class="max-w-2xl">
-                <span class="text-blue-600 font-black text-xs uppercase tracking-[0.3em] mb-4 block">Wall of Hope</span>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="h-px w-8 bg-blue-600"></span>
+                    <span class="text-blue-600 font-black text-xs uppercase tracking-[0.3em]">Wall of Hope</span>
+                </div>
                 <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">Community <span class="text-blue-600">Voices.</span></h2>
                 <p class="text-slate-500 font-medium text-lg">Real feedback from our donors and partner organizations making an impact.</p>
             </div>
-            <a href="/testimonials" class="hidden md:flex items-center gap-2 text-blue-600 font-bold hover:text-slate-900 transition-colors group">
-                View Wall of Hope
-                <i data-lucide="chevron-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+            <a href="/testimonials" class="group flex items-center gap-3 bg-white border border-slate-200 px-6 py-3 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                <span class="font-bold text-slate-700">View All Stories</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-blue-600 group-hover:translate-x-1 transition-transform"></i>
             </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            
-            <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col items-center text-center relative group hover:scale-[1.02] transition-all duration-300">
-                <div class="absolute top-6 left-8 text-blue-100 group-hover:text-blue-200 transition-colors">
-                    <i data-lucide="quote" class="w-12 h-12 fill-current"></i>
-                </div>
+            {% for testimonial in testimonials|slice:":3" %}
+                <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-slate-100 flex flex-col hover:-translate-y-2 transition-transform duration-300 relative group">
+                    
+                    {% if testimonial.user == request.user %}
+                    <div class="absolute top-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                        <a href="/testimonials/edit/{{ testimonial.id }}" class="p-2 bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-xl transition-all shadow-sm" title="Edit Story">
+                            <i data-lucide="pencil" class="w-4 h-4"></i>
+                        </a>
+                        <a href="/testimonials/delete/{{ testimonial.id }}" class="p-2 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-xl transition-all shadow-sm" title="Delete Story">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                    {% endif %}
 
-                <div class="relative mb-8">
-                    <div class="w-24 h-24 rounded-full ring-8 ring-slate-50 overflow-hidden shadow-inner bg-slate-100 flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=200&h=200" class="w-full h-full object-cover" alt="User">
+                    <div class="flex gap-1 mb-6">
+                        {% for i in "12345" %}
+                            <i data-lucide="star" class="w-4 h-4 {% if forloop.counter <= testimonial.rating %}text-amber-400 fill-current{% else %}text-slate-200{% endif %}"></i>
+                        {% endfor %}
+                    </div>
+
+                    <p class="text-slate-600 font-medium leading-relaxed text-base mb-8 italic">
+                        "{{ testimonial.message }}"
+                    </p>
+
+                    <div class="mt-auto flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl overflow-hidden bg-slate-100">
+                            {% if testimonial.user.profile_image %}
+                                <img src="{{ testimonial.user.profile_image.url }}" class="w-full h-full object-cover">
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center bg-slate-200 text-slate-500 font-black">
+                                    {{ testimonial.user.username|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-slate-900 leading-tight">
+                                {% if testimonial.user.role == 'DONOR' %}{{ testimonial.user.donor_profile.full_name }}{% else %}{{ testimonial.user.ngo_profile.organization_name }}{% endif %}
+                            </h4>
+                            <span class="text-[10px] font-black uppercase tracking-widest {% if testimonial.user.role == 'NGO' %}bg-purple-50 text-purple-600{% else %}bg-blue-50 text-blue-600{% endif %} px-2 py-0.5 rounded">
+                                {{ testimonial.user.role }}
+                            </span>
+                        </div>
                     </div>
                 </div>
-
-                <p class="text-slate-600 font-medium leading-relaxed text-base mb-8 px-2">
-                    "Being able to see exactly where my donations go is a game changer. ShareHope makes the process transparent and incredibly rewarding."
-                </p>
-
-                <div class="flex gap-1 mb-4">
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
+            {% empty %}
+                <div class="col-span-full py-16 text-center bg-white rounded-[3rem] border-2 border-dashed border-slate-200">
+                    <i data-lucide="message-square" class="w-12 h-12 text-slate-200 mx-auto mb-4"></i>
+                    <p class="text-slate-400 text-lg font-medium">Be the first to share your impact story.</p>
                 </div>
-
-                <div class="mt-auto">
-                    <h4 class="text-lg font-black text-slate-900 leading-tight">Alex Thompson</h4>
-                    <div class="flex justify-center mt-2">
-                        <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
-                            DONOR
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col items-center text-center relative group hover:scale-[1.02] transition-all duration-300">
-                <div class="absolute top-6 left-8 text-blue-100 group-hover:text-blue-200 transition-colors">
-                    <i data-lucide="quote" class="w-12 h-12 fill-current"></i>
-                </div>
-
-                <div class="relative mb-8">
-                    <div class="w-24 h-24 rounded-full ring-8 ring-slate-50 overflow-hidden shadow-inner bg-slate-100 flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?fit=crop&w=200&h=200" class="w-full h-full object-cover" alt="NGO">
-                    </div>
-                </div>
-
-                <p class="text-slate-600 font-medium leading-relaxed text-base mb-8 px-2">
-                    "This platform has helped us reach 300% more donors than our traditional methods. The interface for managing campaigns is seamless."
-                </p>
-
-                <div class="flex gap-1 mb-4">
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                </div>
-
-                <div class="mt-auto">
-                    <h4 class="text-lg font-black text-slate-900 leading-tight">GreenEarth Foundation</h4>
-                    <div class="flex justify-center mt-2">
-                        <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-purple-50 text-purple-600 border border-purple-100">
-                            NGO PARTNER
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col items-center text-center relative group hover:scale-[1.02] transition-all duration-300">
-                <div class="absolute top-6 left-8 text-blue-100 group-hover:text-blue-200 transition-colors">
-                    <i data-lucide="quote" class="w-12 h-12 fill-current"></i>
-                </div>
-
-                <div class="relative mb-8">
-                    <div class="w-24 h-24 rounded-full ring-8 ring-slate-50 overflow-hidden shadow-inner bg-slate-100 flex items-center justify-center">
-                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?fit=crop&w=200&h=200" class="w-full h-full object-cover" alt="User">
-                    </div>
-                </div>
-
-                <p class="text-slate-600 font-medium leading-relaxed text-base mb-8 px-2">
-                    "The sense of community here is amazing. Knowing that even a small contribution helps a specific campaign keeps me coming back."
-                </p>
-
-                <div class="flex gap-1 mb-4">
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-current"></i>
-                    <i data-lucide="star" class="w-4 h-4 text-slate-200"></i>
-                </div>
-
-                <div class="mt-auto">
-                    <h4 class="text-lg font-black text-slate-900 leading-tight">Sarah Jenkins</h4>
-                    <div class="flex justify-center mt-2">
-                        <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
-                            DONOR
-                        </span>
-                    </div>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
-
-        <div class="mt-12 md:hidden">
-            <a href="/testimonials" class="block w-full text-center bg-blue-600 text-white py-5 rounded-2xl font-bold">
-                Read All Stories
-            </a>
         </div>
     </div>
 </section>
