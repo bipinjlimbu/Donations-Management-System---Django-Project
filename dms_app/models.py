@@ -125,7 +125,7 @@ class Campaign(models.Model):
             
         return completed_condition
     
-class pendingCampaign(models.Model):
+class PendingCampaign(models.Model):
     class Status(models.TextChoices):
         PENDING = 'PENDING', 'Pending'
         APPROVED = 'APPROVED', 'Approved'
@@ -185,3 +185,15 @@ class Testimonial(models.Model):
     status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
     submitted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+class PendingTestimonial(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'PENDING', 'Pending'
+        APPROVED = 'APPROVED', 'Approved'
+        REJECTED = 'REJECTED', 'Rejected'
+        
+    testimonial = models.ForeignKey(Testimonial, on_delete=models.CASCADE, related_name='pending_testimonial')
+    message = models.TextField()
+    rating = models.PositiveIntegerField(default=5)
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
+    requested_at = models.DateTimeField(auto_now_add=True)
