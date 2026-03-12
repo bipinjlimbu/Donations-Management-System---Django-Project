@@ -133,11 +133,12 @@ def single_campaign_page_view(request, campaign_id):
 
 @login_required
 def edit_campaign_view(request, campaign_id):
-    if request.user.role == 'DONOR':
+   
+    campaign = Campaign.objects.get(id=campaign_id)
+    
+    if request.user != campaign.ngo:
         messages.error(request, "You do not have permission to edit a campaign.")
         return redirect("campaigns")
-    
-    campaign = Campaign.objects.get(id=campaign_id)
     
     if campaign.status == Campaign.Status.APPROVED and campaign.ngo.user != request.user:
         messages.error(request, "You do not have permission to edit this campaign.")
