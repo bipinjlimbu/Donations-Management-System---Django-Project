@@ -262,6 +262,18 @@ def approve_campaign_changes(request, pending_campaign_id):
     return redirect("/dashboard/admin/?section=campaign-changes/")
 
 @login_required
+def reject_campaign_changes(request, pending_campaign_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("campaigns")
+
+    pending_campaign = PendingCampaign.objects.get(id=pending_campaign_id)
+    pending_campaign.status = PendingCampaign.Status.REJECTED
+    pending_campaign.save()
+    messages.info(request, f"Changes for campaign '{pending_campaign.campaign.title}' have been rejected.")
+    return redirect("/dashboard/admin/?section=campaign-changes/")
+
+@login_required
 def delete_campaign_view(request, campaign_id):
     if request.user.role == 'DONOR':
         messages.error(request, "You do not have permission to delete a campaign.")
