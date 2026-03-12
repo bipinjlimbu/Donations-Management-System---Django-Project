@@ -104,7 +104,7 @@ class Campaign(models.Model):
     @property
     def progress_percentage(self):
         if self.target_quantity > 0:
-            return (self.collected_quantity / self.target_quantity) * 100
+            return round(((self.collected_quantity / self.target_quantity) * 100), 2)
         return 0
     
     def is_active(self):
