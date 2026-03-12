@@ -1,6 +1,6 @@
 from datetime import date
 from django.shortcuts import render, redirect
-from ..models import Campaign
+from ..models import Campaign, PendingCampaign
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -196,21 +196,34 @@ def edit_campaign_view(request, campaign_id):
         if errors:
             return render(request, "main/edit_campaign_page.html", {"errors": errors,"data": request.POST, "campaign": campaign})
         
-        campaign.title = title
-        campaign.description = description
-        if campaign_image:
-            campaign.campaign_image = campaign_image
-        campaign.category = category
-        campaign.item_type = item_type
-        campaign.unit = unit
-        campaign.target_quantity = target_quantity
-        if campaign.status == Campaign.Status.APPROVED:
-            campaign.start_date = start_date
-        else:
-            campaign.end_date = end_date
-        campaign.save()
+        if (
+            campaign.title == title and
+            campaign.description == description and
+            campaign.category == category and
+            campaign.item_type == item_type and
+            campaign.unit == unit and
+            str(campaign.target_quantity) == target_quantity and
+            ((campaign.status == Campaign.Status.APPROVED and str(campaign.start_date) == start_date) or (campaign.status != Campaign.Status.APPROVED and str(campaign.end_date) == end_date)) and
+            not campaign_image
+        ):
+            messages.info(request, "No changes detected.")
+            return redirect(f"/campaigns/edit/{campaign.id}")
         
-        messages.success(request, "Campaign updated successfully.")
+        PendingCampaign.objects.create(
+            title = title,
+            description = description,
+            campaign_image = campaign_image if campaign_image else campaign.campaign_image,
+            category = category,
+            item_type = item_type,
+            unit = unit,
+            target_quantity = target_quantity,
+            start_date = start_date if campaign.status == Campaign.Status.APPROVED else None,
+            end_date = end_date if campaign.status != Campaign.Status.APPROVED else None,
+            campaign = campaign,
+            status = PendingCampaign.Status.PENDING
+        )
+        
+        messages.success(request, "Campaign Changes Sent for Approval.")
         return redirect("campaigns")
     
     return render(request,"main/edit_campaign_page.html", {"campaign": campaign})
