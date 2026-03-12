@@ -230,6 +230,38 @@ def edit_campaign_view(request, campaign_id):
     return render(request,"main/edit_campaign_page.html", {"campaign": campaign})
 
 @login_required
+def approve_campaign_changes(request, pending_campaign_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("campaigns")
+    
+    pending_campaign = PendingCampaign.objects.get(id=pending_campaign_id)
+    campaign = pending_campaign.campaign
+    
+    campaign.title = pending_campaign.title
+    campaign.description = pending_campaign.description
+    campaign.category = pending_campaign.category
+    campaign.item_type = pending_campaign.item_type
+    campaign.unit = pending_campaign.unit
+    campaign.target_quantity = pending_campaign.target_quantity
+    
+    if pending_campaign.campaign_image != campaign.campaign_image:
+        campaign.campaign_image = pending_campaign.campaign_image
+        
+    if campaign.status == Campaign.Status.APPROVED and pending_campaign.start_date != campaign.start_date:
+        campaign.start_date = pending_campaign.start_date
+        
+    if campaign.status != Campaign.Status.APPROVED and pending_campaign.end_date != campaign.end_date:
+        campaign.end_date = pending_campaign.end_date
+        
+    campaign.save()
+    pending_campaign.status = PendingCampaign.Status.APPROVED
+    pending_campaign.save()
+    
+    messages.success(request, f"Changes for campaign '{campaign.title}' have been approved.")
+    return redirect("/dashboard/admin/?section=campaign-changes/")
+
+@login_required
 def delete_campaign_view(request, campaign_id):
     if request.user.role == 'DONOR':
         messages.error(request, "You do not have permission to delete a campaign.")
