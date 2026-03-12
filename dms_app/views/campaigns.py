@@ -230,12 +230,12 @@ def edit_campaign_view(request, campaign_id):
     return render(request,"main/edit_campaign_page.html", {"campaign": campaign})
 
 @login_required
-def approve_campaign_changes(request, pending_campaign_id):
+def approve_campaign_changes(request, campaign_id):
     if request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to perform this action.")
         return redirect("campaigns")
     
-    pending_campaign = PendingCampaign.objects.get(id=pending_campaign_id)
+    pending_campaign = PendingCampaign.objects.get(id=campaign_id)
     campaign = pending_campaign.campaign
     
     campaign.title = pending_campaign.title
@@ -262,12 +262,12 @@ def approve_campaign_changes(request, pending_campaign_id):
     return redirect("/dashboard/admin/?section=campaign-changes/")
 
 @login_required
-def reject_campaign_changes(request, pending_campaign_id):
+def reject_campaign_changes(request, campaign_id):
     if request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to perform this action.")
         return redirect("campaigns")
 
-    pending_campaign = PendingCampaign.objects.get(id=pending_campaign_id)
+    pending_campaign = PendingCampaign.objects.get(id=campaign_id)
     pending_campaign.status = PendingCampaign.Status.REJECTED
     pending_campaign.save()
     messages.info(request, f"Changes for campaign '{pending_campaign.campaign.title}' have been rejected.")
