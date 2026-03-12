@@ -139,8 +139,8 @@ class PendingCampaign(models.Model):
     item_type = models.CharField(max_length=100)
     unit = models.CharField(max_length=50)
     target_quantity = models.PositiveIntegerField()
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
     requested_at = models.DateTimeField(auto_now_add=True)
         
