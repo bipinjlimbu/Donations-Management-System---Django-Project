@@ -254,6 +254,9 @@ def approve_campaign_changes(request, campaign_id):
     if campaign.status != Campaign.Status.APPROVED and pending_campaign.end_date != campaign.end_date:
         campaign.end_date = pending_campaign.end_date
         
+    if campaign.status != Campaign.Status.APPROVED:
+        campaign.status = Campaign.Status.APPROVED
+        
     campaign.save()
     pending_campaign.status = PendingCampaign.Status.APPROVED
     pending_campaign.save()
