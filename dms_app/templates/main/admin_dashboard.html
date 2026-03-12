@@ -114,7 +114,19 @@
                     <span class="bg-green-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ testimonial_request_count }}</span>
                     {% endif %}
                 </a>
-                
+
+                <a href="?section=testimonial-changes" 
+                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                   {% if section == 'testimonial-changes' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="refresh-cw" class="w-5 h-5 group-hover:text-pink-400"></i>
+                        <span class="text-sm font-medium">Testimonial Changes</span>
+                    </div>
+                    {% if testimonial_change_count > 0 %}
+                    <span class="bg-pink-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ testimonial_change_count }}</span>
+                    {% endif %}
+                </a>
+
                 <a href='?section=feedback' 
                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
                    {% if section == 'feedback' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
