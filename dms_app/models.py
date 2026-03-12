@@ -124,6 +124,25 @@ class Campaign(models.Model):
             self.save()
             
         return completed_condition
+    
+class pendingCampaign(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'PENDING', 'Pending'
+        APPROVED = 'APPROVED', 'Approved'
+        REJECTED = 'REJECTED', 'Rejected'
+        
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    campaign_image = models.ImageField(upload_to='images/campaigns/', blank=True, null=True)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='pending_campaign')
+    category = models.CharField(max_length=100)
+    item_type = models.CharField(max_length=100)
+    unit = models.CharField(max_length=50)
+    target_quantity = models.PositiveIntegerField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+    status = models.CharField(max_length=15, choices=Status.choices, default=Status.PENDING)
+    requested_at = models.DateTimeField(auto_now_add=True)
         
 class Donation(models.Model):
     class Status(models.TextChoices):
