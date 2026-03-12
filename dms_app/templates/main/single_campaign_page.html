@@ -21,7 +21,7 @@
                 <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to All Campaigns
             </a>
             
-            {% if request.user.is_superuser or request.user == campaign.ngo %}
+            {% if request.user == campaign.ngo %}
                 <div class="flex items-center gap-3">
                     <a href="/campaigns/edit/{{ campaign.id }}/" class="text-sm font-bold text-slate-600 bg-white px-4 py-2 rounded-xl border border-slate-200 hover:border-blue-300 hover:text-blue-600 flex items-center gap-2 transition-all">
                         <i data-lucide="edit" class="w-4 h-4"></i> Edit
