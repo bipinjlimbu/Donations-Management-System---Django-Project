@@ -98,8 +98,8 @@
                         <i data-lucide="refresh-cw" class="w-5 h-5 group-hover:text-yellow-400"></i>
                         <span class="text-sm font-medium">Campaign Changes</span>
                     </div>
-                    {% if campaign_change_count > 0 %}
-                    <span class="bg-yellow-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_change_count }}</span>
+                    {% if campaign_changes_count > 0 %}
+                    <span class="bg-yellow-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_changes_count }}</span>
                     {% endif %}
                 </a>
 
@@ -1100,6 +1100,116 @@
                 </div>
                 {% endfor %}
             </div>
+
+            {% elif section == 'campaign-changes' %}
+    <div class="mb-8 flex justify-between items-end">
+        <div>
+            <h1 class="text-2xl font-black text-slate-800 tracking-tight">Campaign Update Requests</h1>
+            <p class="text-sm text-slate-500 font-medium">Review modifications to live initiatives</p>
+        </div>
+        <span class="text-[11px] font-bold bg-amber-100 text-amber-700 px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200">
+            {{ campaign_changes|length }} Updates Pending
+        </span>
+    </div>
+
+    <div class="space-y-6">
+        {% for request in campaign_changes %}
+        <div class="bg-white border border-slate-200 rounded-[2.5rem] overflow-hidden shadow-sm hover:border-blue-300 transition-all group">
+            
+            <div class="flex flex-col lg:flex-row">
+                <div class="w-full lg:w-72 p-6 bg-slate-50/50 border-r border-slate-100 flex flex-col items-center justify-center">
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3 self-start">Image Update</p>
+                    <div class="relative w-full aspect-square rounded-2xl overflow-hidden shadow-md bg-white">
+                        <img src="{{ request.campaign.campaign_image.url }}" class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale">
+                        
+                        {% if request.campaign_image != request.campaign.campaign_image %}
+                            <img src="{{ request.campaign_image.url }}" class="absolute inset-0 w-full h-full object-cover z-10 ring-2 ring-blue-500/20">
+                            <div class="absolute top-2 right-2 z-20 bg-blue-600 text-[8px] font-black text-white px-2 py-0.5 rounded uppercase shadow-sm">New</div>
+                        {% else %}
+                            <div class="absolute inset-0 flex items-center justify-center z-10">
+                                <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">No Change</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="flex-1 p-8">
+                    <div class="mb-8">
+                        <label class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1 block">Campaign Title</label>
+                        <p class="text-xs text-slate-400 line-through mb-1">{{ request.campaign.title }}</p>
+                        <p class="text-xl font-black text-blue-600 leading-tight tracking-tight">{{ request.pending_title|default:request.campaign.title }}</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <label class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1 block">Goal & Unit</label>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-xs text-slate-400 line-through">{{ request.campaign.target_quantity }}</span>
+                                <i data-lucide="arrow-right" class="w-3 h-3 text-slate-300"></i>
+                                <span class="text-xl font-black text-emerald-600">{{ request.pending_target_quantity|default:request.campaign.target_quantity }}</span>
+                                <span class="text-[10px] font-bold text-emerald-700 uppercase">{{ request.pending_unit|default:request.campaign.unit }}</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <label class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1 block">Timeline</label>
+                            <p class="text-[11px] text-slate-400 line-through mb-0.5">{{ request.campaign.end_date|date:"M d, Y" }}</p>
+                            <p class="text-xs font-bold text-slate-700">Ends: {{ request.pending_end_date|date:"M d, Y"|default:request.campaign.end_date }}</p>
+                        </div>
+
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <label class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1 block">Category</label>
+                            <p class="text-[11px] text-slate-400 line-through mb-0.5">{{ request.campaign.category }}</p>
+                            <p class="text-xs font-bold text-slate-700">{{ request.pending_category|default:request.campaign.category }}</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-100">
+                        <label class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-2 block">Proposed Description</label>
+                        <p class="text-sm text-slate-600 leading-relaxed bg-blue-50/30 p-5 rounded-2xl border border-blue-50/50 italic">
+                            "{{ request.pending_description|default:request.campaign.description }}"
+                        </p>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500">
+                                <i data-lucide="user" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Requested By</p>
+                                <p class="text-xs font-bold text-blue-600">{{ request.campaign.ngo.ngo_profile.organization_name }}</p>
+                            </div>
+                            <div class="h-4 w-px bg-slate-200 mx-2"></div>
+                            <p class="text-[10px] text-slate-400 font-medium italic">Sent {{ request.created_at|timesince }} ago</p>
+                        </div>
+
+                        <div class="flex gap-3 w-full md:w-auto">
+                            <form method="POST" action="/reject_campaign_change/{{ request.id }}/">
+                                {% csrf_token %}
+                                <button type="submit" class="px-6 py-2.5 text-xs font-black text-slate-400 hover:text-red-500 uppercase tracking-widest transition-colors">
+                                    Discard
+                                </button>
+                            </form>
+                            <form method="POST" action="/approve_campaign_change/{{ request.id }}/">
+                                {% csrf_token %}
+                                <button type="submit" class="px-8 py-3 bg-[#0F172A] hover:bg-blue-600 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-900/10 flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4"></i> Apply Update
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="bg-white border-2 border-dashed border-slate-200 rounded-[3rem] p-20 text-center">
+            <i data-lucide="coffee" class="w-12 h-12 text-slate-200 mx-auto mb-4"></i>
+            <p class="text-slate-500 font-bold">No campaign modifications pending review.</p>
+        </div>
+        {% endfor %}
+    </div>
+
             {% endif %}
         </main>
     </div>

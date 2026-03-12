@@ -20,9 +20,9 @@ def admin_dashboard_view(request):
         'current_status': current_status,
         'signup_request_count': Register.objects.filter().count(),
         'campaign_request_count': Campaign.objects.filter(status=Campaign.Status.PENDING).count(),
-        'campaign_changes_count': Campaign.objects.filter(status=Campaign.Status.PENDING).count(),
+        'campaign_changes_count': PendingCampaign.objects.filter(status=PendingCampaign.Status.PENDING).count(),
         'testimonial_request_count': Testimonial.objects.filter(status=Testimonial.Status.PENDING).count(),
-        'testimonial_changes_count': Testimonial.objects.filter(status=Testimonial.Status.PENDING).count(),
+        'testimonial_changes_count': PendingTestimonial.objects.filter(status=PendingTestimonial.Status.PENDING).count(),
         'pending_changes_count': pending_ngo_count + pending_donor_count,
         'feedback_count': Feedback.objects.filter(status=Feedback.Status.UNREAD).count(),
     }
