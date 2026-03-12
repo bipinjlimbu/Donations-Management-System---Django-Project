@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from ..models import Testimonial
+from ..models import Testimonial, PendingTestimonial
 
 def testimonials_view(request):
     testimonials = Testimonial.objects.filter(status=Testimonial.Status.APPROVED).order_by('-submitted_at')
@@ -66,10 +66,19 @@ def edit_testimonial_view(request, testimonial_id):
         if errors:
             return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST})
         
-        testimonial.rating = rating
-        testimonial.message = message
-        testimonial.status = Testimonial.Status.PENDING
-        testimonial.save()
+        if (
+            str(testimonial.rating) == rating and
+            testimonial.message == message
+        ):
+            messages.info(request, "No changes detected.")
+            return redirect(f"/testimonials/edit/{testimonial.id}")
+        
+        PendingTestimonial.objects.create(
+            testimonial = testimonial,
+            rating = rating,
+            message = message,
+            status = Testimonial.Status.PENDING
+        )
         messages.success(request, "Your testimonial has been updated and is pending review.")
         return redirect("testimonials")
     
