@@ -42,6 +42,10 @@ def admin_dashboard_view(request):
         
     elif section == 'campaign-list':
         campaigns = Campaign.objects.exclude(status=Campaign.Status.PENDING).order_by('-approved_at')
+        for campaign in campaigns:
+            campaign.is_active = Campaign.is_active(campaign)
+            campaign.is_completed = Campaign.is_completed(campaign)
+            
         context['campaigns'] = campaigns
         
     elif section == 'testimonial-list':
@@ -59,7 +63,7 @@ def admin_dashboard_view(request):
         context['campaign_requests'] = Campaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
         
     elif section == 'campaign-changes':
-        context['campaign_changes'] = PendingCampaign.objects.filter(status=Campaign.Status.PENDING).order_by('-requested_at')
+        context['campaign_changes'] = PendingCampaign.objects.filter(status=PendingCampaign.Status.PENDING).order_by('-requested_at')
         
     elif section == 'testimonial-requests':
         context['testimonial_requests'] = Testimonial.objects.filter(status=Testimonial.Status.PENDING).order_by('-submitted_at')
