@@ -124,24 +124,14 @@ def approve_profile_changes(request, profile_id):
     return redirect('dashboard/admin/?section=profile-changes/')
 
 @login_required
-def reject_profile_changes(request, user_id):
+def reject_profile_changes(request, profile_id):
     if request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to perform this action.")
         return redirect('home')
-
-    user = get_object_or_404(User, id=user_id)
     
-    if user.role == "NGO":
-        profile = get_object_or_404(NGOProfile, user=user)
-    else:
-        profile = get_object_or_404(DonorProfile, user=user)
-    
-    if profile.pending_status != "PENDING":
-        messages.error(request, "No pending changes to reject.")
-        return redirect('dashboard/admin/?section=profile-changes/')
-    
-    profile.pending_status = "REJECTED"
-    profile.save()
+    pending_profile = get_object_or_404(PendingProfile, id=profile_id)
+    pending_profile.status = PendingProfile.Status.REJECTED
+    pending_profile.save()
     
     messages.success(request, "Pending changes rejected.")
     return redirect('dashboard/admin/?section=profile-changes/')
