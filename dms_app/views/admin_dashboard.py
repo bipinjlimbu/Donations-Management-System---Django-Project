@@ -20,7 +20,7 @@ def admin_dashboard_view(request):
         'campaign_changes_count': PendingCampaign.objects.filter(status=PendingCampaign.Status.PENDING).count(),
         'testimonial_request_count': Testimonial.objects.filter(status=Testimonial.Status.PENDING).count(),
         'testimonial_changes_count': PendingTestimonial.objects.filter(status=PendingTestimonial.Status.PENDING).count(),
-        'pending_changes_count': PendingProfile.objects.filter(status=PendingProfile.Status.PENDING).count(),
+        'profile_changes_count': PendingProfile.objects.filter(status=PendingProfile.Status.PENDING).count(),
         'feedback_count': Feedback.objects.filter(status=Feedback.Status.UNREAD).count(),
     }
 
