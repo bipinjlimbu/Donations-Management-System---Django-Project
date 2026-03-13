@@ -90,38 +90,35 @@ def edit_profile_view(request, user_id):
     return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'data': request.POST})
 
 @login_required
-def approve_profile_changes(request, user_id):
+def approve_profile_changes(request, profile_id):
     if request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to perform this action.")
         return redirect('home')
     
-    user = get_object_or_404(User, id=user_id)
+    pending_profile = get_object_or_404(PendingProfile, id=profile_id)
+    user = pending_profile.user
+    
+    user.username = pending_profile.username
+    user.email = pending_profile.email
+    user.phone = pending_profile.phone
+    user.address = pending_profile.address
+    
+    if pending_profile.profile_image != user.profile_image:
+        user.profile_image = pending_profile.profile_image
+        
+    user.save()
     
     if user.role == "NGO":
         profile = get_object_or_404(NGOProfile, user=user)
+        profile.organization_name = pending_profile.name
+        profile.save()
     else:
         profile = get_object_or_404(DonorProfile, user=user)
-    
-    if profile.pending_status != "PENDING":
-        messages.error(request, "No pending changes to approve.")
-        return redirect('dashboard/admin/?section=profile-changes/')
-    
-    user.username = profile.pending_username
-    user.email = profile.pending_email
-    user.phone = profile.pending_phone
-    user.address = profile.pending_address
-    
-    if user.role == "NGO":
-        profile.organization_name = profile.pending_name
-    else:
-        profile.full_name = profile.pending_name
+        profile.full_name = pending_profile.name
+        profile.save()
         
-    if profile.pending_image:
-        user.profile_image = profile.pending_image
-        
-    profile.pending_status = "APPROVED"
-    profile.save()
-    user.save()
+    pending_profile.status = PendingProfile.Status.APPROVED
+    pending_profile.save()
     
     messages.success(request, "Pending changes approved successfully.")
     return redirect('dashboard/admin/?section=profile-changes/')
