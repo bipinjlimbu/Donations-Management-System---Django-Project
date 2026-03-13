@@ -2,32 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import now
 
-class ContactInfo(models.Model):
-    phone = models.CharField(max_length=15)
-    address = models.TextField()
-    profile_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
-    
-    class Meta:
-        abstract = True
-
-class PendingChanges(models.Model):
-    class Status(models.TextChoices):
-        PENDING = 'PENDING', 'Pending'
-        APPROVED = 'APPROVED', 'Approved'
-        REJECTED = 'REJECTED', 'Rejected'
-        
-    pending_name = models.CharField(max_length=100, blank=True, null=True)
-    pending_username = models.CharField(max_length=150, blank=True, null=True)
-    pending_email = models.EmailField(blank=True, null=True)
-    pending_phone = models.CharField(max_length=15, blank=True, null=True)
-    pending_address = models.TextField(blank=True, null=True)
-    pending_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
-    pending_status = models.CharField(max_length=15, choices=Status.choices, default=Status.APPROVED)
-    changes_requested_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        abstract = True
-
 class User(AbstractUser):
     class Role(models.TextChoices):
         ADMIN = 'ADMIN', 'Admin'
@@ -43,33 +17,53 @@ class User(AbstractUser):
         if self.is_superuser:
             self.role = self.Role.ADMIN
         super().save(*args, **kwargs)
-
-class Register(ContactInfo):        
-    username = models.CharField(max_length=150, unique=True)
+        
+class Register(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
     role = models.CharField(max_length=15, choices=User.Role.choices, default=User.Role.DONOR)
+    phone = models.CharField(max_length=15)
+    address = models.TextField()
+    profile_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
     registration_number = models.CharField(max_length=50, blank=True, null=True)
     citizenship_number = models.CharField(max_length=20, blank=True, null=True)
     verification_document = models.FileField(upload_to='images/verification_docs/')
     requested_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.username} ({self.get_role_display()})"
+        return f"{self.name} ({self.get_role_display()})"
+    
 
-class NGOProfile(PendingChanges):
+
+class NGOProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ngo_profile')
     organization_name = models.CharField(max_length=100)
     registration_number = models.CharField(max_length=50)
     verification_document = models.FileField(upload_to='images/ngo_docs/', blank=True, null=True)
 
-class DonorProfile(PendingChanges):
+class DonorProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='donor_profile')
     full_name = models.CharField(max_length=100)
     citizenship_number = models.CharField(max_length=20)
     verification_document = models.FileField(upload_to='images/donor_docs/', blank=True, null=True)
 
+class PendingProfile(models.Model):
+    class Status(models.TextChoices):
+        PENDING = 'PENDING', 'Pending'
+        APPROVED = 'APPROVED', 'Approved'
+        REJECTED = 'REJECTED', 'Rejected'
+        
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='pending_profile')
+    name = models.CharField(max_length=100, blank=True, null=True)
+    username = models.CharField(max_length=150, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
+    status = models.CharField(max_length=15, choices=Status.choices, default=Status.APPROVED)
+    requested_at = models.DateTimeField(auto_now_add=True)
+    
 class Campaign(models.Model):
     class Status(models.TextChoices):
         PENDING = 'PENDING', 'Pending'
