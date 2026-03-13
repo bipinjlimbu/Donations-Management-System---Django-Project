@@ -371,15 +371,15 @@
                             <div class="relative">
                                 <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden border-2 border-white shadow-sm opacity-40 absolute -left-2 top-0"></div>
                                 <div class="w-14 h-14 rounded-2xl bg-slate-100 overflow-hidden border-2 border-blue-100 shadow-md relative z-10">
-                                    {% if request.pending_image %}
-                                        <img src="{{request.pending_image.url}}" class="w-full h-full object-cover">
+                                    {% if request.profile_image %}
+                                        <img src="{{request.profile_image.url}}" class="w-full h-full object-cover">
                                     {% else %}
                                         <img src="{{request.user.profile_image.url}}" class="w-full h-full object-cover">
                                     {% endif %}
                                 </div>
                             </div>
                             <div>
-                                <h3 class="text-base font-black text-slate-900 tracking-tight">{{request.organization_name}}</h3>
+                                <h3 class="text-base font-black text-slate-900 tracking-tight">{{request.user.ngo_profile.organization_name}}</h3>
                                 <div class="flex items-center gap-2 mt-1">
                                     <span class="bg-emerald-50 text-emerald-600 text-[9px] font-black px-1.5 py-0.5 rounded border border-emerald-100 uppercase">{{request.user.role}}</span>
                                     <span class="text-[10px] font-bold text-slate-400">ID: #{{request.user.id}}</span>
@@ -391,27 +391,27 @@
                             <div>
                                 <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">USERNAME</p>
                                 <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">@{{request.user.username}}</p>
-                                <p class="text-xs font-black text-blue-600 leading-tight">@{{request.pending_username}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">@{{request.username}}</p>
                             </div>
                             <div>
                                 <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">ORG NAME</p>
-                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.organization_name}}</p>
-                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_name}}</p>
+                                <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.user.ngo_profile.organization_name}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.name}}</p>
                             </div>
                             <div>
                                 <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">PHONE</p>
                                 <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.user.phone}}</p>
-                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_phone}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.phone}}</p>
                             </div>
                             <div>
                                 <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">EMAIL</p>
                                 <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.user.email}}</p>
-                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_email}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.email}}</p>
                             </div>
                             <div>
                                 <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter mb-1">ADDRESS</p>
                                 <p class="text-[11px] font-bold text-slate-400 line-through opacity-50 mb-0.5">{{request.user.address}}</p>
-                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.pending_address}}</p>
+                                <p class="text-xs font-black text-blue-600 leading-tight">{{request.address}}</p>
                             </div>
                         </div>
 
