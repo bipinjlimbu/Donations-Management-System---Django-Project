@@ -121,7 +121,7 @@ def approve_profile_changes(request, profile_id):
     pending_profile.save()
     
     messages.success(request, "Pending changes approved successfully.")
-    return redirect('dashboard/admin/?section=profile-changes/')
+    return redirect('/dashboard/admin/?section=profile-changes/')
 
 @login_required
 def reject_profile_changes(request, profile_id):
@@ -134,4 +134,4 @@ def reject_profile_changes(request, profile_id):
     pending_profile.save()
     
     messages.success(request, "Pending changes rejected.")
-    return redirect('dashboard/admin/?section=profile-changes/')
+    return redirect('/dashboard/admin/?section=profile-changes/')
