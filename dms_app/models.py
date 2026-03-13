@@ -35,7 +35,6 @@ class Register(models.Model):
         return f"{self.name} ({self.get_role_display()})"
     
 
-
 class NGOProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='ngo_profile')
     organization_name = models.CharField(max_length=100)
@@ -60,7 +59,7 @@ class PendingProfile(models.Model):
     email = models.EmailField(blank=True, null=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
+    profile_image = models.ImageField(upload_to='images/profiles/', blank=True, null=True)
     status = models.CharField(max_length=15, choices=Status.choices, default=Status.APPROVED)
     requested_at = models.DateTimeField(auto_now_add=True)
     
