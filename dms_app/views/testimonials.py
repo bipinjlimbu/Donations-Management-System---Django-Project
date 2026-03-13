@@ -100,7 +100,7 @@ def approve_testimonial_change(request, testimonial_id):
     pending_testimonial.save()
     
     messages.success(request,f"Changes for testimonial of {testimonial.user.username} have been approved.")
-    return redirect("/dashboard/admin/?section=testimonial-changes/")
+    return redirect("/dashboard/admin/?section=testimonial-changes")
 
 def reject_testimonial_change(request, testimonial_id):
     if request.user.role != 'ADMIN':
@@ -112,7 +112,7 @@ def reject_testimonial_change(request, testimonial_id):
     pending_testimonial.save()
     
     messages.info(request,f"Changes for testimonial of {pending_testimonial.testimonial.user.username} have been rejected.")
-    return redirect("/dashboard/admin/?section=testimonial-changes/")
+    return redirect("/dashboard/admin/?section=testimonial-changes")
     
 def delete_testimonial_view(request, testimonial_id):
     testimonial = Testimonial.objects.get(id=testimonial_id)
