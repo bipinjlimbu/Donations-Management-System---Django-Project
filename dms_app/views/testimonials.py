@@ -99,8 +99,21 @@ def approve_testimonial_change(request, testimonial_id):
     pending_testimonial.status = PendingTestimonial.Status.APPROVED
     pending_testimonial.save()
     
+    messages.success(request,f"Changes for testimonial of {testimonial.user.username} have been approved.")
     return redirect("/dashboard/admin/?section=testimonial-changes/")
 
+def reject_testimonial_change(request, testimonial_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("testimonials")
+    
+    pending_testimonial = PendingTestimonial.objects.get(testimonial_id)
+    pending_testimonial.status = PendingTestimonial.Status.REJECTED
+    pending_testimonial.save()
+    
+    messages.info(request,f"Changes for testimonial of {pending_testimonial.testimonial.user.username} have been rejected.")
+    return redirect("/dashboard/admin/?section=testimonial-changes/")
+    
 def delete_testimonial_view(request, testimonial_id):
     testimonial = Testimonial.objects.get(id=testimonial_id)
     if testimonial.user != request.user:
