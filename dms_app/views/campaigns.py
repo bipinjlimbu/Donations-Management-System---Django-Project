@@ -108,7 +108,7 @@ def approve_campaign_request(request, campaign_id):
     campaign.approved_at = date.today()
     campaign.save()
     messages.success(request, f"Campaign '{campaign.title}' has been approved.")
-    return redirect("/dashboard/admin/?section=campaign-requests/")
+    return redirect("/dashboard/admin/?section=campaign-requests")
 
 @login_required
 def reject_campaign_request(request, campaign_id):
@@ -120,7 +120,7 @@ def reject_campaign_request(request, campaign_id):
     campaign.status = Campaign.Status.REJECTED
     campaign.save()
     messages.info(request, f"Campaign '{campaign.title}' has been rejected.")
-    return redirect("/dashboard/admin/?section=campaign-requests/")
+    return redirect("/dashboard/admin/?section=campaign-requests")
 
 def single_campaign_page_view(request, campaign_id):
     campaign = Campaign.objects.get(id=campaign_id)
@@ -262,7 +262,7 @@ def approve_campaign_changes(request, campaign_id):
     pending_campaign.save()
     
     messages.success(request, f"Changes for campaign '{campaign.title}' have been approved.")
-    return redirect("/dashboard/admin/?section=campaign-changes/")
+    return redirect("/dashboard/admin/?section=campaign-changes")
 
 @login_required
 def reject_campaign_changes(request, campaign_id):
@@ -274,7 +274,7 @@ def reject_campaign_changes(request, campaign_id):
     pending_campaign.status = PendingCampaign.Status.REJECTED
     pending_campaign.save()
     messages.info(request, f"Changes for campaign '{pending_campaign.campaign.title}' have been rejected.")
-    return redirect("/dashboard/admin/?section=campaign-changes/")
+    return redirect("/dashboard/admin/?section=campaign-changes")
 
 @login_required
 def delete_campaign_view(request, campaign_id):
