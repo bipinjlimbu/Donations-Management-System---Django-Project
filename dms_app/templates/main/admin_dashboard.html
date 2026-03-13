@@ -72,9 +72,9 @@
                         <i data-lucide="refresh-cw" class="w-5 h-5 group-hover:text-amber-400"></i>
                         <span class="text-sm font-medium">Profile Changes</span>
                     </div>
-                    {% if pending_changes_count > 0 %}
+                    {% if profile_changes_count > 0 %}
                     <span class="bg-purple-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">
-                        {{ pending_changes_count }}
+                        {{ profile_changes_count }}
                     </span>
                     {% endif %}
                 </a>
@@ -357,20 +357,20 @@
                     <p class="text-sm text-slate-500 font-medium">Review requested modifications to user accounts</p>
                 </div>
                 <span class="text-[11px] font-bold bg-amber-100 text-amber-700 px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200">
-                    {{ pending_changes|length }} Update Pending
+                    {{ profile_changes|length }} Update Pending
                 </span>
             </div>
 
             <div class="space-y-4">
-                {% for request in pending_changes %}
+                {% for request in profile_changes %}
                 <div class="bg-white border border-slate-200 rounded-[2rem] p-6 hover:border-blue-300 transition-all shadow-sm">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                         
                         <div class="lg:col-span-3 flex items-center gap-4 border-r border-slate-100 pr-4">
                             <div class="relative flex shrink-0">
                                 <img src="{{ request.user.profile_image.url }}" class="w-10 h-10 rounded-xl object-cover opacity-40 border border-slate-200">
-                                {% if request.pending_image %}
-                                    <img src="{{ request.pending_image.url }}" class="w-12 h-12 rounded-xl object-cover ring-4 ring-blue-500/20 -ml-4 z-10 shadow-md">
+                                {% if request.profile_image %}
+                                    <img src="{{ request.profile_image.url }}" class="w-12 h-12 rounded-xl object-cover ring-4 ring-blue-500/20 -ml-4 z-10 shadow-md">
                                 {% else %}
                                     <img src="{{ request.user.profile_image.url }}" class="w-12 h-12 rounded-xl object-cover ring-4 ring-blue-500/20 -ml-4 z-10 shadow-md">
                                 {% endif %}
@@ -392,7 +392,7 @@
                             <div class="overflow-hidden">
                                 <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Username</p>
                                 <p class="text-[11px] text-slate-400 line-through truncate">@{{ request.user.username }}</p>
-                                <p class="text-xs text-blue-600 font-bold truncate">@{{ request.pending_username|default:request.user.username }}</p>
+                                <p class="text-xs text-blue-600 font-bold truncate">@{{ request.username }}</p>
                             </div>
                             
                             <div>
@@ -400,41 +400,39 @@
                                     {% if request.user.role == 'NGO' %}Org Name{% else %}Full Name{% endif %}
                                 </p>
                                 <p class="text-[11px] text-slate-400 line-through truncate">
-                                    {% if request.user.role == 'NGO' %}{{ request.organization_name }}{% else %}{{ request.full_name }}{% endif %}
+                                    {% if request.user.role == 'NGO' %}{{ request.user.ngo_profile.organization_name }}{% else %}{{ request.user.donor_profile.full_name }}{% endif %}
                                 </p>
-                                <p class="text-xs text-blue-600 font-bold truncate">
-                                    {% if request.user.role == 'NGO' %}{{ request.pending_organization_name|default:request.organization_name }}{% else %}{{ request.pending_full_name|default:request.full_name }}{% endif %}
-                                </p>
+                                <p class="text-xs text-blue-600 font-bold truncate">{{ request.name }}</p>
                             </div>
 
                             <div>
                                 <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Phone</p>
                                 <p class="text-[11px] text-slate-400 line-through">{{ request.user.phone }}</p>
-                                <p class="text-xs text-blue-600 font-bold">{{ request.pending_phone|default:request.user.phone }}</p>
+                                <p class="text-xs text-blue-600 font-bold">{{ request.phone }}</p>
                             </div>
 
                             <div class="overflow-hidden">
                                 <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Email</p>
                                 <p class="text-[11px] text-slate-400 line-through truncate">{{ request.user.email }}</p>
-                                <p class="text-xs text-blue-600 font-bold truncate">{{ request.pending_email|default:request.user.email }}</p>
+                                <p class="text-xs text-blue-600 font-bold truncate">{{ request.email }}</p>
                             </div>
 
                             <div class="overflow-hidden">
                                 <p class="text-[9px] text-slate-400 font-black uppercase tracking-widest mb-1">Address</p>
                                 <p class="text-[11px] text-slate-400 line-through truncate">{{ request.user.address }}</p>
-                                <p class="text-xs text-blue-600 font-bold truncate">{{ request.pending_address|default:request.user.address }}</p>
+                                <p class="text-xs text-blue-600 font-bold truncate">{{ request.address }}</p>
                             </div>
                         </div>
 
                         <div class="lg:col-span-2 flex items-center justify-end gap-2 border-l border-slate-100 pl-4">
-                            <form method="POST" action="/approve_profile_change/{{ request.user.id }}/" class="flex-1">
+                            <form method="POST" action="/approve_profile_change/{{ request.id }}/" class="flex-1">
                                 {% csrf_token %}
                                 <button type="submit" class="w-full flex items-center justify-center gap-2 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-md shadow-emerald-200">
                                     <i data-lucide="check" class="w-4 h-4"></i> Approve
                                 </button>
                             </form>
                             
-                            <form method="POST" action="/reject_profile_change/{{ request.user.id }}/">
+                            <form method="POST" action="/reject_profile_change/{{ request.id }}/">
                                 {% csrf_token %}
                                 <button type="submit" class="p-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl transition-all">
                                     <i data-lucide="x" class="w-5 h-5"></i>
