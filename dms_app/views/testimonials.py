@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from ..models import Testimonial, PendingTestimonial
 
 def testimonials_view(request):
     testimonials = Testimonial.objects.filter(status=Testimonial.Status.APPROVED).order_by('-submitted_at')
     return render(request, "main/testimonials_page.html", {"testimonials": testimonials})
 
+@login_required
 def create_testimonial_view(request):
     errors = {}
     
@@ -34,20 +36,31 @@ def create_testimonial_view(request):
             
     return render(request, "main/create_testimonial_page.html")
 
+@login_required 
 def approve_testimonial_view(request, testimonial_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("testimonials")
+    
     testimonial = Testimonial.objects.get(id=testimonial_id)
     testimonial.status = Testimonial.Status.APPROVED
     testimonial.save()
     messages.success(request, "Testimonial approved successfully.")
     return redirect("/dashboard/admin/?section=testimonial-requests")
 
+@login_required
 def reject_testimonial_view(request, testimonial_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("testimonials")
+    
     testimonial = Testimonial.objects.get(id=testimonial_id)
     testimonial.status = Testimonial.Status.REJECTED
     testimonial.save()
     messages.success(request, "Testimonial rejected successfully.")
     return redirect("/dashboard/admin/?section=testimonial-requests")
 
+@login_required
 def edit_testimonial_view(request, testimonial_id):  
     testimonial = Testimonial.objects.get(id=testimonial_id)
     if testimonial.user != request.user:
@@ -84,6 +97,7 @@ def edit_testimonial_view(request, testimonial_id):
     
     return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST})
 
+@login_required
 def approve_testimonial_change(request, testimonial_id):
     if request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to perform this action.")
@@ -102,6 +116,7 @@ def approve_testimonial_change(request, testimonial_id):
     messages.success(request,f"Changes for testimonial of {testimonial.user.username} have been approved.")
     return redirect("/dashboard/admin/?section=testimonial-changes")
 
+@login_required
 def reject_testimonial_change(request, testimonial_id):
     if request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to perform this action.")
@@ -113,17 +128,18 @@ def reject_testimonial_change(request, testimonial_id):
     
     messages.info(request,f"Changes for testimonial of {pending_testimonial.testimonial.user.username} have been rejected.")
     return redirect("/dashboard/admin/?section=testimonial-changes")
-    
+ 
+@login_required   
 def delete_testimonial_view(request, testimonial_id):
     testimonial = Testimonial.objects.get(id=testimonial_id)
-    if testimonial.user != request.user:
+    if testimonial.user != request.user or request.user.role != 'ADMIN':
         messages.error(request, "You do not have permission to delete this testimonial.")
         return redirect("testimonials")
     
     testimonial.delete()
     messages.success(request, "Your testimonial has been deleted.")
     
-    if request.user.is_staff:
+    if request.user.role == 'ADMIN':
         return redirect("/dashboard/admin/?section=testimonial-list")
     else:
         return redirect("testimonials")
