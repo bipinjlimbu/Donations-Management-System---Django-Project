@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from ..models import User, NGOProfile, DonorProfile
+from ..models import User, NGOProfile, DonorProfile, PendingProfile
 import re
 
 @login_required
@@ -13,12 +13,7 @@ def profile_view(request, user_id):
 def edit_profile_view(request, user_id):
     user_to_edit = get_object_or_404(User, id=user_id)
     
-    if user_to_edit.role == "NGO":
-        ngo_profile, created = NGOProfile.objects.get_or_create(user=user_to_edit)
-    else:
-        donor_profile, created = DonorProfile.objects.get_or_create(user=user_to_edit)
-    
-    if request.user.id != user_id and request.user.role != 'ADMIN':
+    if request.user.id != user_id:
         messages.error(request, "You do not have permission to edit this profile.")
         return redirect('home')
     
@@ -62,53 +57,37 @@ def edit_profile_view(request, user_id):
             errors["address"] = "Address is required."
                     
         if errors:
-            return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'errors': errors})
+            return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'errors': errors, 'data': request.POST})
         
-        elif request.user.role == 'ADMIN':
+        elif user_to_edit.role == "ADMIN":
             user_to_edit.username = username
             user_to_edit.email = email
             user_to_edit.phone = phone
             user_to_edit.address = address
+            
             if image:
                 user_to_edit.profile_image = image
-            user_to_edit.save()
             
-            if user_to_edit.role == "NGO":
-                ngo_profile.organization_name = name
-                ngo_profile.save()
-            else:
-                donor_profile.full_name = name
-                donor_profile.save()
-                
+            user_to_edit.save()
             messages.success(request, "Profile updated successfully.")
-            return redirect('dashboard/admin/?section=user-list/')
+            return redirect('profile', user_id=user_id)
         
         else:
-            if user_to_edit.role == "NGO":
-                ngo_profile.pending_username = username
-                ngo_profile.pending_email = email
-                ngo_profile.pending_phone = phone
-                ngo_profile.pending_address = address
-                if image:
-                    ngo_profile.pending_image = image
-                ngo_profile.pending_name = name
-                ngo_profile.pending_status = "PENDING"
-                ngo_profile.save()
-            else:
-                donor_profile.pending_username = username
-                donor_profile.pending_email = email
-                donor_profile.pending_phone = phone
-                donor_profile.pending_address = address
-                if image:
-                    donor_profile.pending_image = image
-                donor_profile.pending_name = name
-                donor_profile.pending_status = "PENDING"
-                donor_profile.save()
-            
+            PendingProfile.objects.create(
+                user=user_to_edit,
+                name=name,
+                username=username,
+                email=email,
+                phone=phone,
+                address=address,
+                profile_image=image if image else user_to_edit.profile_image,
+                status=PendingProfile.Status.PENDING
+            )
+
             messages.success(request, "Profile update request submitted for admin approval.")
             return redirect('profile', user_id=user_id)
-    
-    return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit})
+
+    return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'data': request.POST})
 
 @login_required
 def approve_profile_changes(request, user_id):
