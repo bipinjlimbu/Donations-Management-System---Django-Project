@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
-from ..models import NGOProfile, Campaign, Donation
+from ..models import NGOProfile, Campaign, Donation, PendingProfile
 
 @login_required
 def ngo_dashboard_view(request):
@@ -13,7 +13,7 @@ def ngo_dashboard_view(request):
     section = request.GET.get('section', 'campaign-list')
     current_status = request.GET.get('status', 'all')
     
-    pending_ngo_count = NGOProfile.objects.filter(pending_status="PENDING").count()
+    pending_ngo_count = PendingProfile.objects.filter(user=request.user,status=PendingProfile.Status.PENDING).count()
     pending_campaign_count = Campaign.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).count()
     total_pending = pending_ngo_count + pending_campaign_count
     
@@ -40,7 +40,7 @@ def ngo_dashboard_view(request):
         
     elif section == 'pending-requests':
         context['pending_campaigns'] = Campaign.objects.filter(ngo=request.user, status=Campaign.Status.PENDING).order_by('-requested_at')
-        context['pending_profile_changes'] = NGOProfile.objects.filter(user=request.user, pending_status="PENDING").order_by('-changes_requested_at')
+        context['pending_profile_changes'] = PendingProfile.objects.filter(user=request.user, status=PendingProfile.Status.PENDING).order_by('-requested_at')
         
     return render(request, 'main/ngo_dashboard.html', context)
 
