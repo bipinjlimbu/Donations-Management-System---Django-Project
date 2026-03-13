@@ -84,6 +84,23 @@ def edit_testimonial_view(request, testimonial_id):
     
     return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST})
 
+def approve_testimonial_change(request, testimonial_id):
+    if request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to perform this action.")
+        return redirect("testimonials")
+    
+    pending_testimonial = PendingTestimonial.objects.get(id=testimonial_id)
+    testimonial = pending_testimonial.testimonial
+    
+    testimonial.rating = pending_testimonial.rating
+    testimonial.message = pending_testimonial.message
+    testimonial.save()
+    
+    pending_testimonial.status = PendingTestimonial.Status.APPROVED
+    pending_testimonial.save()
+    
+    return redirect("/dashboard/admin/?section=testimonial-changes/")
+
 def delete_testimonial_view(request, testimonial_id):
     testimonial = Testimonial.objects.get(id=testimonial_id)
     if testimonial.user != request.user:
