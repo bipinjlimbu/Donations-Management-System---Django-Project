@@ -28,12 +28,10 @@
                         </button>
                     </form>
 
-                    {% if user.role != 'ADMIN' %}
                     <a href="/profile/edit/{{ user.id }}/" class="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg shadow-blue-500/20 transition-all transform active:scale-95">
                         <i data-lucide="edit-3" class="w-4 h-4"></i>
                         <span>Edit Profile</span>
                     </a>
-                    {% endif %}
                 </div>
             </div>
 
