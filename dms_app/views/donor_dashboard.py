@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from ..models import Donation, DonorProfile, Campaign
+from ..models import Donation, DonorProfile, Campaign, PendingProfile
 
 @login_required
 def donor_dashboard_view(request):
     section = request.GET.get('section', 'my-donations')
     current_status = request.GET.get('status', 'all')
     
-    profile_change_count = DonorProfile.objects.filter(user=request.user, pending_status="PENDING").count()
+    profile_change_count = PendingProfile.objects.filter(user=request.user, status=PendingProfile.Status.PENDING).count()
     pending_donation_count = Donation.objects.filter(donor=request.user, status=Donation.Status.PENDING).count()
     total_pending = profile_change_count + pending_donation_count
     
@@ -26,7 +26,7 @@ def donor_dashboard_view(request):
         context['donations'] = Donation.objects.filter(donor=request.user, status=Donation.Status.REJECTED).order_by('-requested_at')
     elif section == 'pending-requests':
         context['pending_donations'] = Donation.objects.filter(donor=request.user, status=Donation.Status.PENDING).order_by('-requested_at')
-        context['pending_profile_changes'] = DonorProfile.objects.filter(user=request.user, pending_status="PENDING").order_by('-changes_requested_at')
+        context['pending_profile_changes'] = PendingProfile.objects.filter(user=request.user, status=PendingProfile.Status.PENDING).order_by('-requested_at')
         
     return render(request, 'main/donor_dashboard.html', context )
 
