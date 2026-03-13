@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from ..models import NGOProfile, DonorProfile, Register, Campaign, PendingCampaign, Testimonial, PendingTestimonial, Feedback, Donation, User
+from ..models import NGOProfile, DonorProfile, Register, Campaign, PendingCampaign, Testimonial, PendingTestimonial, Feedback, Donation, User, PendingProfile
 
 @login_required
 def admin_dashboard_view(request):
@@ -11,10 +11,7 @@ def admin_dashboard_view(request):
     
     section = request.GET.get('section', 'user-list')
     current_status = request.GET.get('status', 'all')
-    
-    pending_ngo_count = NGOProfile.objects.filter(pending_status="PENDING").count()
-    pending_donor_count = DonorProfile.objects.filter(pending_status="PENDING").count()
-    
+        
     context = {
         'section': section,
         'current_status': current_status,
@@ -23,7 +20,7 @@ def admin_dashboard_view(request):
         'campaign_changes_count': PendingCampaign.objects.filter(status=PendingCampaign.Status.PENDING).count(),
         'testimonial_request_count': Testimonial.objects.filter(status=Testimonial.Status.PENDING).count(),
         'testimonial_changes_count': PendingTestimonial.objects.filter(status=PendingTestimonial.Status.PENDING).count(),
-        'pending_changes_count': pending_ngo_count + pending_donor_count,
+        'pending_changes_count': PendingProfile.objects.filter(status=PendingProfile.Status.PENDING).count(),
         'feedback_count': Feedback.objects.filter(status=Feedback.Status.UNREAD).count(),
     }
 
@@ -34,11 +31,7 @@ def admin_dashboard_view(request):
         context['signup_requests'] = Register.objects.all().order_by('-requested_at')
         
     elif section == 'profile-changes':
-        donor_pending = DonorProfile.objects.filter(pending_status="PENDING").select_related('user')
-        ngo_pending = NGOProfile.objects.filter(pending_status="PENDING").select_related('user')
-        combined = list(donor_pending) + list(ngo_pending)
-        combined.sort(key=lambda x: x.changes_requested_at, reverse=True)
-        context['pending_changes'] = combined
+        context['profile_changes'] = PendingProfile.objects.filter(status=PendingProfile.Status.PENDING).order_by('-requested_at')
         
     elif section == 'campaign-list':
         campaigns = Campaign.objects.exclude(status=Campaign.Status.PENDING).order_by('-approved_at')
