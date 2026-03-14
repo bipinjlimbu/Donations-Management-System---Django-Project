@@ -42,3 +42,6 @@ def contact_view(request):
 
 def about_view(request):
     return render(request,"main/about_page.html")
+
+def notifications_view(request):
+    return render(request,"main/notifications_page.html")
