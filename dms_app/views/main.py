@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from ..models import Feedback, Campaign, Testimonial, Notification
 
 def home_view(request):
     context = {}
-    context["alert_notification"] = Notification.objects.filter(user=request.user, is_read=False).exists()
+    if request.user.is_authenticated:
+        context["alert_notification"] = Notification.objects.filter(user=request.user, is_read=False).exists()
+    else:
+        context["alert_notification"] = False
     
     campaigns = Campaign.objects.exclude(status__in=[Campaign.Status.PENDING, Campaign.Status.REJECTED]).order_by('-approved_at')[:3]
     for campaign in campaigns:
@@ -20,7 +24,10 @@ def home_view(request):
 
 def contact_view(request):
     errors = {}
-    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
+    if request.user.is_authenticated:
+        alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
+    else:
+        alert_notification = False
 
     if request.method == "POST":
         subject = request.POST.get("subject", "").strip()
@@ -42,9 +49,15 @@ def contact_view(request):
     return render(request,"main/contact_page.html", {"errors": errors,"data": request.POST, "alert_notification": alert_notification})
 
 def about_view(request):
+    if request.user.is_authenticated:
+        alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
+    else:
+        alert_notification = False
+        
     alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
     return render(request,"main/about_page.html", {"alert_notification": alert_notification})
 
+@login_required
 def notifications_view(request):
     alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
     return render(request,"main/notifications_page.html", {"alert_notification": alert_notification})
