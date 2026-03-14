@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
-from ..models import NGOProfile, Campaign, Donation, PendingProfile
+from ..models import Notification, Campaign, Donation, PendingProfile
 
 @login_required
 def ngo_dashboard_view(request):
@@ -66,6 +66,12 @@ def approve_donation_view(request, donation_id):
     donation.status = Donation.Status.DELIVERED
     donation.updated_at = timezone.now()
     donation.save()
+    
+    Notification.objects.create(
+        user = donation.donor,
+        message = f"Your donation for campaign '{donation.campaign_title}' has been approved and marked as delivered."
+    )
+    
     messages.success(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been approved.")
     return redirect("dashboard/ngo/?section=donation-requests/")
 
