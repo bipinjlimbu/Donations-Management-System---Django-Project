@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from ..models import Feedback, Campaign, Testimonial
+from ..models import Feedback, Campaign, Testimonial, Notification
 
 def home_view(request):
     context = {}
+    context["alert_notification"] = Notification.objects.filter(user=request.user, is_read=False).exists()
     
     campaigns = Campaign.objects.exclude(status__in=[Campaign.Status.PENDING, Campaign.Status.REJECTED]).order_by('-approved_at')[:3]
     for campaign in campaigns:
@@ -19,6 +20,7 @@ def home_view(request):
 
 def contact_view(request):
     errors = {}
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
 
     if request.method == "POST":
         subject = request.POST.get("subject", "").strip()
@@ -37,10 +39,12 @@ def contact_view(request):
             messages.success(request, "Your feedback has been submitted successfully!")
             return redirect("contact")
         
-    return render(request,"main/contact_page.html", {"errors": errors,"data": request.POST})
+    return render(request,"main/contact_page.html", {"errors": errors,"data": request.POST, "alert_notification": alert_notification})
 
 def about_view(request):
-    return render(request,"main/about_page.html")
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
+    return render(request,"main/about_page.html", {"alert_notification": alert_notification})
 
 def notifications_view(request):
-    return render(request,"main/notifications_page.html")
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
+    return render(request,"main/notifications_page.html", {"alert_notification": alert_notification})
