@@ -21,7 +21,7 @@ def admin_dashboard_view(request):
         'testimonial_request_count': Testimonial.objects.filter(status=Testimonial.Status.PENDING).count(),
         'testimonial_changes_count': PendingTestimonial.objects.filter(status=PendingTestimonial.Status.PENDING).count(),
         'profile_changes_count': PendingProfile.objects.filter(status=PendingProfile.Status.PENDING).count(),
-        'feedback_count': Feedback.objects.filter(status=Feedback.Status.UNREAD).count(),
+        'feedback_count': Feedback.objects.filter(is_read=False).count(),
     }
 
     if section == 'user-list':
