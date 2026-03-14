@@ -45,12 +45,24 @@
                 </a>
 
                 <a href='?section=donations' 
-                class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
-                {% if section == 'donations' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
-                <div class="flex items-center gap-3">
+                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                    {% if section == 'donations' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
                         <i data-lucide="archive" class="w-5 h-5 group-hover:text-pink-400"></i>
                         <span class="text-sm font-medium">Donation History</span>
                     </div>
+                </a>
+                
+                <a href='?section=feedback' 
+                    class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
+                    {% if section == 'feedback' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="message-square" class="w-5 h-5 group-hover:text-yellow-400"></i>
+                        <span class="text-sm font-medium">User Feedback</span>
+                    </div>
+                    {% if feedback_count > 0 %}
+                        <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ feedback_count }}</span>
+                    {% endif %}
                 </a>
 
                 <a href="?section=signup-requests" 
@@ -61,7 +73,7 @@
                         <span class="text-sm font-medium">Sign Up Requests</span>
                     </div>
                     {% if signup_request_count > 0 %}
-                    <span class="bg-orange-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ signup_request_count }}</span>
+                    <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ signup_request_count }}</span>
                     {% endif %}
                 </a>
 
@@ -73,7 +85,7 @@
                         <span class="text-sm font-medium">Profile Changes</span>
                     </div>
                     {% if profile_changes_count > 0 %}
-                    <span class="bg-purple-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">
+                    <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">
                         {{ profile_changes_count }}
                     </span>
                     {% endif %}
@@ -87,7 +99,7 @@
                         <span class="text-sm font-medium">Campaign Requests</span>
                     </div>
                     {% if campaign_request_count > 0 %}
-                    <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_request_count }}</span>
+                    <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_request_count }}</span>
                     {% endif %}
                 </a>
 
@@ -99,7 +111,7 @@
                         <span class="text-sm font-medium">Campaign Changes</span>
                     </div>
                     {% if campaign_changes_count > 0 %}
-                    <span class="bg-yellow-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_changes_count }}</span>
+                    <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ campaign_changes_count }}</span>
                     {% endif %}
                 </a>
 
@@ -111,7 +123,7 @@
                         <span class="text-sm font-medium">Testimonial Requests</span>
                     </div>
                     {% if testimonial_request_count > 0 %}
-                    <span class="bg-green-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ testimonial_request_count }}</span>
+                    <span class="bg-blue-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ testimonial_request_count }}</span>
                     {% endif %}
                 </a>
 
@@ -123,19 +135,7 @@
                         <span class="text-sm font-medium">Testimonial Changes</span>
                     </div>
                     {% if testimonial_changes_count > 0 %}
-                    <span class="bg-pink-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ testimonial_changes_count }}</span>
-                    {% endif %}
-                </a>
-
-                <a href='?section=feedback' 
-                   class="flex items-center justify-between px-4 py-3 rounded-xl transition-all group
-                   {% if section == 'feedback' %} bg-blue-600 text-white shadow-lg shadow-blue-900/20 {% else %} hover:bg-slate-800 hover:text-white text-slate-400 {% endif %}">
-                    <div class="flex items-center gap-3">
-                        <i data-lucide="message-square" class="w-5 h-5 group-hover:text-yellow-400"></i>
-                        <span class="text-sm font-medium">User Feedback</span>
-                    </div>
-                    {% if feedback_count > 0 %}
-                        <span class="bg-yellow-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ feedback_count }}</span>
+                    <span class="bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold">{{ testimonial_changes_count }}</span>
                     {% endif %}
                 </a>
             </nav>
