@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from ..models import User, NGOProfile, DonorProfile, PendingProfile
+from ..models import User, NGOProfile, DonorProfile, PendingProfile, Notification
 import re
 
 @login_required
@@ -120,6 +120,11 @@ def approve_profile_changes(request, profile_id):
     pending_profile.status = PendingProfile.Status.APPROVED
     pending_profile.save()
     
+    Notification.objects.create(
+        user = user,
+        message = "Your profile update request has been approved."
+    )
+    
     messages.success(request, "Pending changes approved successfully.")
     return redirect('/dashboard/admin/?section=profile-changes')
 
@@ -132,6 +137,11 @@ def reject_profile_changes(request, profile_id):
     pending_profile = get_object_or_404(PendingProfile, id=profile_id)
     pending_profile.status = PendingProfile.Status.REJECTED
     pending_profile.save()
+    
+    Notification.objects.create(
+        user = pending_profile.user,
+        message = "Your profile update request has been rejected."
+    )
     
     messages.success(request, "Pending changes rejected.")
     return redirect('/dashboard/admin/?section=profile-changes')
