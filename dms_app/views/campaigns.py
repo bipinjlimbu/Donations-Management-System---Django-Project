@@ -6,6 +6,7 @@ from django.contrib import messages
 
 def campaigns_page_view(request):
     campaigns = Campaign.objects.exclude(status__in=[Campaign.Status.REJECTED, Campaign.Status.PENDING]).order_by('-approved_at')
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
         
     category = request.GET.get("category", "all")
     status = request.GET.get("status", "all")
@@ -21,10 +22,11 @@ def campaigns_page_view(request):
         campaigns = campaigns.filter(status=status)
         
         
-    return render(request,"main/campaigns_page.html", {"campaigns": campaigns})
+    return render(request,"main/campaigns_page.html", {"campaigns": campaigns, "alert_notification": alert_notification})
 
 @login_required
 def create_campaign_view(request):
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
     
     if request.user.role == 'DONOR':
         messages.error(request, "You do not have permission to create a campaign.")
@@ -76,7 +78,7 @@ def create_campaign_view(request):
             errors["end_date"] = "End date must be after the start date."
         
         if errors:
-            return render(request, "main/create_campaign_page.html", {"errors": errors,"data": request.POST})
+            return render(request, "main/create_campaign_page.html", {"errors": errors,"data": request.POST, "alert_notification": alert_notification})
         
         Campaign.objects.create(
             title = title,
@@ -95,7 +97,7 @@ def create_campaign_view(request):
         
         messages.success(request, "Campaign created successfully and is pending approval.")
         return redirect("campaigns")
-    return render(request,"main/create_campaign_page.html")
+    return render(request,"main/create_campaign_page.html", {"alert_notification": alert_notification})
 
 @login_required
 def approve_campaign_request(request, campaign_id):
@@ -145,7 +147,7 @@ def single_campaign_page_view(request, campaign_id):
 
 @login_required
 def edit_campaign_view(request, campaign_id):
-   
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
     campaign = Campaign.objects.get(id=campaign_id)
     
     if request.user != campaign.ngo:
@@ -207,7 +209,7 @@ def edit_campaign_view(request, campaign_id):
                 errors["end_date"] = "End date must be after the start date."
         
         if errors:
-            return render(request, "main/edit_campaign_page.html", {"errors": errors,"data": request.POST, "campaign": campaign})
+            return render(request, "main/edit_campaign_page.html", {"errors": errors,"data": request.POST, "campaign": campaign, "alert_notification": alert_notification})
         
         if (
             campaign.title == title and
@@ -239,7 +241,7 @@ def edit_campaign_view(request, campaign_id):
         messages.success(request, "Campaign Changes Sent for Approval.")
         return redirect("campaigns")
     
-    return render(request,"main/edit_campaign_page.html", {"campaign": campaign})
+    return render(request,"main/edit_campaign_page.html", {"campaign": campaign, "alert_notification": alert_notification})
 
 @login_required
 def approve_campaign_changes(request, campaign_id):
