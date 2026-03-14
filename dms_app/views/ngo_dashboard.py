@@ -94,5 +94,11 @@ def reject_donation_view(request, donation_id):
     donation.status = Donation.Status.REJECTED
     donation.updated_at = timezone.now()
     donation.save()
+    
+    Notification.objects.create(
+        user = donation.donor,
+        message = f"Your donation for campaign '{donation.campaign_title}' has been rejected."
+    )
+    
     messages.info(request, f"Donation from {donation.donor_name} for campaign '{donation.campaign_title}' has been rejected.")
     return redirect("dashboard/ngo/?section=donation-requests/")
