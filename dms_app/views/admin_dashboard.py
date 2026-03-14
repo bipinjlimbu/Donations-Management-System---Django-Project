@@ -134,13 +134,11 @@ def mark_feedback_toggle(request, feedback_id):
 
     try:
         feedback = Feedback.objects.get(id=feedback_id)
-        if feedback.status == Feedback.Status.UNREAD:
-            feedback.status = Feedback.Status.READ
-            feedback.save()
+        feedback.is_read = not feedback.is_read
+        feedback.save()
+        if feedback.is_read:
             messages.success(request, f"Feedback from {feedback.user.username} has been marked as read.")
         else:
-            feedback.status = Feedback.Status.UNREAD
-            feedback.save()
             messages.success(request, f"Feedback from {feedback.user.username} has been marked as unread.")
             
     except Feedback.DoesNotExist:
