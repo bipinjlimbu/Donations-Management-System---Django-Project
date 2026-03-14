@@ -7,10 +7,12 @@ import re
 @login_required
 def profile_view(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    return render(request, 'main/profile_page.html', {'user': user})
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
+    return render(request, 'main/profile_page.html', {'user': user, 'alert_notification': alert_notification})
 
 @login_required
 def edit_profile_view(request, user_id):
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
     user_to_edit = get_object_or_404(User, id=user_id)
     
     if request.user.id != user_id:
@@ -57,7 +59,7 @@ def edit_profile_view(request, user_id):
             errors["address"] = "Address is required."
                     
         if errors:
-            return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'errors': errors, 'data': request.POST})
+            return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'errors': errors, 'data': request.POST, 'alert_notification': alert_notification})
         
         elif user_to_edit.role == "ADMIN":
             user_to_edit.username = username
@@ -87,7 +89,7 @@ def edit_profile_view(request, user_id):
             messages.success(request, "Profile update request submitted for admin approval.")
             return redirect('profile', user_id=user_id)
 
-    return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'data': request.POST})
+    return render(request, 'main/edit_profile_page.html', {'user_to_edit': user_to_edit, 'data': request.POST, 'alert_notification': alert_notification})
 
 @login_required
 def approve_profile_changes(request, profile_id):
