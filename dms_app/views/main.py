@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from ..models import Feedback, Campaign, Testimonial
-import re
 
 def home_view(request):
     context = {}
