@@ -1,6 +1,6 @@
 from datetime import date
 from django.shortcuts import render, redirect
-from ..models import Campaign, PendingCampaign
+from ..models import Campaign, PendingCampaign, Notification
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
@@ -107,6 +107,12 @@ def approve_campaign_request(request, campaign_id):
     campaign.status = Campaign.Status.APPROVED
     campaign.approved_at = date.today()
     campaign.save()
+    
+    Notification.objects.create(
+        user = campaign.ngo.user,
+        message = f"Your campaign '{campaign.title}' has been approved."
+    )
+    
     messages.success(request, f"Campaign '{campaign.title}' has been approved.")
     return redirect("/dashboard/admin/?section=campaign-requests")
 
@@ -119,6 +125,12 @@ def reject_campaign_request(request, campaign_id):
     campaign = Campaign.objects.get(id=campaign_id)
     campaign.status = Campaign.Status.REJECTED
     campaign.save()
+    
+    Notification.objects.create(
+        user = campaign.ngo.user,
+        message = f"Your campaign '{campaign.title}' has been rejected."
+    )
+    
     messages.info(request, f"Campaign '{campaign.title}' has been rejected.")
     return redirect("/dashboard/admin/?section=campaign-requests")
 
@@ -261,6 +273,11 @@ def approve_campaign_changes(request, campaign_id):
     pending_campaign.status = PendingCampaign.Status.APPROVED
     pending_campaign.save()
     
+    Notification.objects.create(
+        user = campaign.ngo.user,
+        message = f"Changes for your campaign '{campaign.title}' have been approved."
+    )
+    
     messages.success(request, f"Changes for campaign '{campaign.title}' have been approved.")
     return redirect("/dashboard/admin/?section=campaign-changes")
 
@@ -273,6 +290,12 @@ def reject_campaign_changes(request, campaign_id):
     pending_campaign = PendingCampaign.objects.get(id=campaign_id)
     pending_campaign.status = PendingCampaign.Status.REJECTED
     pending_campaign.save()
+    
+    Notification.objects.create(
+        user = pending_campaign.campaign.ngo.user,
+        message = f"Changes for your campaign '{pending_campaign.campaign.title}' have been rejected."
+    )
+    
     messages.info(request, f"Changes for campaign '{pending_campaign.campaign.title}' have been rejected.")
     return redirect("/dashboard/admin/?section=campaign-changes")
 
@@ -289,5 +312,11 @@ def delete_campaign_view(request, campaign_id):
         return redirect("campaigns")
     
     campaign.delete()
+    
+    Notification.objects.create(
+        user = campaign.ngo.user,
+        message = f"Your campaign '{campaign.title}' has been deleted."
+    )
+    
     messages.success(request, "Campaign deleted successfully.")
     return redirect("campaigns")
