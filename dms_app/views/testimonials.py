@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from ..models import Testimonial, PendingTestimonial
+from ..models import Testimonial, PendingTestimonial, Notification
 
 def testimonials_view(request):
     testimonials = Testimonial.objects.filter(status=Testimonial.Status.APPROVED).order_by('-submitted_at')
@@ -45,6 +45,12 @@ def approve_testimonial_view(request, testimonial_id):
     testimonial = Testimonial.objects.get(id=testimonial_id)
     testimonial.status = Testimonial.Status.APPROVED
     testimonial.save()
+    
+    Notification.objects.create(
+        user = testimonial.user,
+        message = "Your testimonial has been approved and is now visible on the site."
+    )
+    
     messages.success(request, "Testimonial approved successfully.")
     return redirect("/dashboard/admin/?section=testimonial-requests")
 
@@ -57,6 +63,12 @@ def reject_testimonial_view(request, testimonial_id):
     testimonial = Testimonial.objects.get(id=testimonial_id)
     testimonial.status = Testimonial.Status.REJECTED
     testimonial.save()
+    
+    Notification.objects.create(
+        user = testimonial.user,
+        message = "Your testimonial has been rejected."
+    )
+    
     messages.success(request, "Testimonial rejected successfully.")
     return redirect("/dashboard/admin/?section=testimonial-requests")
 
@@ -113,6 +125,11 @@ def approve_testimonial_change(request, testimonial_id):
     pending_testimonial.status = PendingTestimonial.Status.APPROVED
     pending_testimonial.save()
     
+    Notification.objects.create(
+        user = testimonial.user,
+        message = "Your testimonial changes have been approved."
+    )
+    
     messages.success(request,f"Changes for testimonial of {testimonial.user.username} have been approved.")
     return redirect("/dashboard/admin/?section=testimonial-changes")
 
@@ -126,6 +143,11 @@ def reject_testimonial_change(request, testimonial_id):
     pending_testimonial.status = PendingTestimonial.Status.REJECTED
     pending_testimonial.save()
     
+    Notification.objects.create(
+        user = pending_testimonial.testimonial.user,
+        message = "Your testimonial changes have been rejected."
+    )
+    
     messages.info(request,f"Changes for testimonial of {pending_testimonial.testimonial.user.username} have been rejected.")
     return redirect("/dashboard/admin/?section=testimonial-changes")
  
@@ -138,6 +160,11 @@ def delete_testimonial_view(request, testimonial_id):
     
     testimonial.delete()
     messages.success(request, "Your testimonial has been deleted.")
+    
+    Notification.objects.create(
+        user = testimonial.user,
+        message = "Your testimonial has been deleted."
+    )
     
     if request.user.role == 'ADMIN':
         return redirect("/dashboard/admin/?section=testimonial-list")
