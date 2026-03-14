@@ -4,12 +4,14 @@ from django.contrib.auth.decorators import login_required
 from ..models import Testimonial, PendingTestimonial, Notification
 
 def testimonials_view(request):
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
     testimonials = Testimonial.objects.filter(status=Testimonial.Status.APPROVED).order_by('-submitted_at')
-    return render(request, "main/testimonials_page.html", {"testimonials": testimonials})
+    return render(request, "main/testimonials_page.html", {"testimonials": testimonials, "alert_notification": alert_notification})
 
 @login_required
 def create_testimonial_view(request):
     errors = {}
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
     
     if Testimonial.objects.filter(user=request.user).exclude(status=Testimonial.Status.REJECTED).exists():
         messages.error(request, "You have already submitted a testimonial.")
@@ -23,7 +25,7 @@ def create_testimonial_view(request):
             errors["message"] = "Message cannot be empty."
         
         if errors:
-            return render(request, "main/create_testimonial_page.html", {"errors": errors, "data": request.POST})
+            return render(request, "main/create_testimonial_page.html", {"errors": errors, "data": request.POST, "alert_notification": alert_notification})
         
         Testimonial.objects.create(
             user=request.user,
@@ -34,7 +36,7 @@ def create_testimonial_view(request):
         messages.success(request, "Your testimonial has been submitted and is pending review.")
         return redirect("testimonials")
             
-    return render(request, "main/create_testimonial_page.html")
+    return render(request, "main/create_testimonial_page.html", {"alert_notification": alert_notification})
 
 @login_required 
 def approve_testimonial_view(request, testimonial_id):
@@ -74,6 +76,7 @@ def reject_testimonial_view(request, testimonial_id):
 
 @login_required
 def edit_testimonial_view(request, testimonial_id):  
+    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
     testimonial = Testimonial.objects.get(id=testimonial_id)
     if testimonial.user != request.user:
         messages.error(request, "You do not have permission to edit this testimonial.")
@@ -89,7 +92,7 @@ def edit_testimonial_view(request, testimonial_id):
             errors["message"] = "Message cannot be empty."
         
         if errors:
-            return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST})
+            return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST, "alert_notification": alert_notification})
         
         if (
             str(testimonial.rating) == rating and
@@ -107,7 +110,7 @@ def edit_testimonial_view(request, testimonial_id):
         messages.success(request, "Your testimonial has been updated and is pending review.")
         return redirect("testimonials")
     
-    return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST})
+    return render(request, "main/edit_testimonial_page.html", {"testimonial": testimonial, "errors": errors, "data": request.POST, "alert_notification": alert_notification})
 
 @login_required
 def approve_testimonial_change(request, testimonial_id):
