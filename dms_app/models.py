@@ -155,15 +155,11 @@ class Donation(models.Model):
     requested_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, null=True)
 
-class Feedback(models.Model):
-    class Status(models.TextChoices):
-        READ = 'READ', 'Read'
-        UNREAD = 'UNREAD', 'Unread'
-        
+class Feedback(models.Model):  
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     subject = models.CharField(max_length=200)
     message = models.TextField()
-    status = models.CharField(max_length=10, choices=Status.choices, default=Status.UNREAD)
+    is_read = models.BooleanField(default=False)
     submitted_at = models.DateTimeField(auto_now_add=True)
     
 class Testimonial(models.Model):
@@ -193,7 +189,6 @@ class PendingTestimonial(models.Model):
     
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
-    title = models.CharField(max_length=100)
     message = models.CharField(max_length=255)
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
