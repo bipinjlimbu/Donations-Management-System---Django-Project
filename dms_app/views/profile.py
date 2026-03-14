@@ -145,3 +145,15 @@ def reject_profile_changes(request, profile_id):
     
     messages.success(request, "Pending changes rejected.")
     return redirect('/dashboard/admin/?section=profile-changes')
+
+def delete_profile_view(request, user_id):
+    user_to_delete = get_object_or_404(User, id=user_id)
+    
+    if request.user.id != user_id and request.user.role != 'ADMIN':
+        messages.error(request, "You do not have permission to delete this profile.")
+        return redirect('home')
+    
+    user_to_delete.delete()
+    messages.success(request, "Profile deleted successfully.")
+    
+    return redirect('home')
