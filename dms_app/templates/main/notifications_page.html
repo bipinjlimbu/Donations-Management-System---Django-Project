@@ -63,10 +63,14 @@
                     </div>
 
                     <div class="flex items-center gap-2 border-l border-slate-100 pl-6">
-                        <form action="/notifications/mark_read/{{ notification.id }}/" method="post">
+                        <form action="/notifications/toggle_read/{{ notification.id }}/" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="p-3 bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-xl transition-all shadow-sm" title="Mark Read">
-                                <i data-lucide="check" class="w-5 h-5"></i>
+                            <button type="submit" class="p-3 bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-xl transition-all shadow-sm" title="Toggle Read">
+                                {% if notification.is_read %}
+                                    <i data-lucide="eye-off" class="w-5 h-5"></i>
+                                {% else %}
+                                    <i data-lucide="check" class="w-5 h-5"></i>
+                                {% endif %}
                             </button>
                         </form>
                         <form action="/notifications/delete/{{ notification.id }}/" method="post">
