@@ -24,7 +24,10 @@ def toggle_notification_read_view(request, notification_id):
     if notification:
         notification.is_read = not notification.is_read
         notification.save()
-        messages.success(request, "Notification marked as read.")
+        if notification.is_read:
+            messages.success(request, "Notification marked as read.")
+        else:
+            messages.success(request, "Notification marked as unread.")
     else:
         messages.error(request, "Notification not found.")
     return redirect("notifications")
