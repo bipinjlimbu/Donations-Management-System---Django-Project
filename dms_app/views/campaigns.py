@@ -112,6 +112,7 @@ def approve_campaign_request(request, campaign_id):
     
     Notification.objects.create(
         user = campaign.ngo,
+        title ="Campaign Approved",
         message = f"Your campaign '{campaign.title}' has been approved."
     )
     
@@ -130,6 +131,7 @@ def reject_campaign_request(request, campaign_id):
     
     Notification.objects.create(
         user = campaign.ngo,
+        title = "Campaign Rejected",
         message = f"Your campaign '{campaign.title}' has been rejected."
     )
     
@@ -277,6 +279,7 @@ def approve_campaign_changes(request, campaign_id):
     
     Notification.objects.create(
         user = campaign.ngo,
+        title = "Campaign Changes Approved",
         message = f"Changes for your campaign '{campaign.title}' have been approved."
     )
     
@@ -295,6 +298,7 @@ def reject_campaign_changes(request, campaign_id):
     
     Notification.objects.create(
         user = pending_campaign.campaign.ngo,
+        title = "Campaign Changes Rejected",
         message = f"Changes for your campaign '{pending_campaign.campaign.title}' have been rejected."
     )
     
@@ -317,6 +321,7 @@ def delete_campaign_view(request, campaign_id):
     
     Notification.objects.create(
         user = campaign.ngo,
+        title = "Campaign Deleted",
         message = f"Your campaign '{campaign.title}' has been deleted."
     )
     
