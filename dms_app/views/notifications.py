@@ -12,3 +12,8 @@ def notifications_view(request):
     
     return render(request,"main/notifications_page.html", context)
 
+@login_required
+def mark_all_notifications_read_view(request):
+    Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
+    messages.success(request, "All notifications marked as read.")
+    return redirect("notifications")
