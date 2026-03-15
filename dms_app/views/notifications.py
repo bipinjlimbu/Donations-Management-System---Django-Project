@@ -17,3 +17,14 @@ def mark_all_notifications_read_view(request):
     Notification.objects.filter(user=request.user, is_read=False).update(is_read=True)
     messages.success(request, "All notifications marked as read.")
     return redirect("notifications")
+
+@login_required
+def mark_notification_read_view(request, notification_id):
+    notification = Notification.objects.get(id=notification_id, user=request.user)
+    if notification:
+        notification.is_read = True
+        notification.save()
+        messages.success(request, "Notification marked as read.")
+    else:
+        messages.error(request, "Notification not found.")
+    return redirect("notifications")
