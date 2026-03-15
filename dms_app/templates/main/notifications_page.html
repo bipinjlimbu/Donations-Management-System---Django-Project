@@ -63,12 +63,18 @@
                     </div>
 
                     <div class="flex items-center gap-2 border-l border-slate-100 pl-6">
-                        <button class="p-3 bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-xl transition-all shadow-sm" title="Mark Read">
-                            <i data-lucide="check" class="w-5 h-5"></i>
-                        </button>
-                        <button class="p-3 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-xl transition-all shadow-sm" title="Remove">
-                            <i data-lucide="trash-2" class="w-5 h-5"></i>
-                        </button>
+                        <form action="/notifications/mark_read/{{ notification.id }}/" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="p-3 bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-xl transition-all shadow-sm" title="Mark Read">
+                                <i data-lucide="check" class="w-5 h-5"></i>
+                            </button>
+                        </form>
+                        <form action="/notifications/delete/{{ notification.id }}/" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="p-3 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-xl transition-all shadow-sm" title="Remove">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button>
+                        </form>
                     </div>
 
                     {% if not notification.is_read %}
