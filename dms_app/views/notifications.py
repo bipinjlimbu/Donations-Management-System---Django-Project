@@ -28,3 +28,13 @@ def mark_notification_read_view(request, notification_id):
     else:
         messages.error(request, "Notification not found.")
     return redirect("notifications")
+
+@login_required
+def delete_notification_view(request, notification_id):
+    notification = Notification.objects.get(id=notification_id, user=request.user)
+    if notification:
+        notification.delete()
+        messages.success(request, "Notification deleted successfully.")
+    else:
+        messages.error(request, "Notification not found.")
+    return redirect("notifications")
