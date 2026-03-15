@@ -124,6 +124,7 @@ def approve_profile_changes(request, profile_id):
     
     Notification.objects.create(
         user = user,
+        title = "Profile Update Approved",
         message = "Your profile update request has been approved."
     )
     
@@ -142,6 +143,7 @@ def reject_profile_changes(request, profile_id):
     
     Notification.objects.create(
         user = pending_profile.user,
+        title = "Profile Update Rejected",
         message = "Your profile update request has been rejected."
     )
     
