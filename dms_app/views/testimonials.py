@@ -50,6 +50,7 @@ def approve_testimonial_view(request, testimonial_id):
     
     Notification.objects.create(
         user = testimonial.user,
+        title = "Testimonial Approved",
         message = "Your testimonial has been approved and is now visible on the site."
     )
     
@@ -68,6 +69,7 @@ def reject_testimonial_view(request, testimonial_id):
     
     Notification.objects.create(
         user = testimonial.user,
+        title = "Testimonial Rejected",
         message = "Your testimonial has been rejected."
     )
     
@@ -130,6 +132,7 @@ def approve_testimonial_change(request, testimonial_id):
     
     Notification.objects.create(
         user = testimonial.user,
+        title = "Testimonial Changes Approved",
         message = "Your testimonial changes have been approved."
     )
     
@@ -148,6 +151,7 @@ def reject_testimonial_change(request, testimonial_id):
     
     Notification.objects.create(
         user = pending_testimonial.testimonial.user,
+        title = "Testimonial Changes Rejected",
         message = "Your testimonial changes have been rejected."
     )
     
@@ -166,6 +170,7 @@ def delete_testimonial_view(request, testimonial_id):
     
     Notification.objects.create(
         user = testimonial.user,
+        title = "Testimonial Deleted",
         message = "Your testimonial has been deleted."
     )
     
