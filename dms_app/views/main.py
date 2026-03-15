@@ -59,5 +59,9 @@ def about_view(request):
 
 @login_required
 def notifications_view(request):
-    alert_notification = Notification.objects.filter(user=request.user, is_read=False).exists()
-    return render(request,"main/notifications_page.html", {"alert_notification": alert_notification})
+    context = {}
+    
+    context["alert_notification"] = Notification.objects.filter(user=request.user, is_read=False).exists()
+    context["notifications"] = Notification.objects.filter(user=request.user).order_by('-created_at')
+    
+    return render(request,"main/notifications_page.html", context)
