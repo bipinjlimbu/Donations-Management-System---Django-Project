@@ -23,10 +23,13 @@
                     <p class="text-slate-500 font-medium text-lg">Stay informed about your campaigns, donations, and community interactions.</p>
                 </div>
                 
-                <button class="px-8 py-4 bg-white border border-slate-200 text-slate-600 font-black rounded-2xl hover:bg-slate-50 transition-all flex items-center gap-3 shadow-sm text-sm">
-                    <i data-lucide="check-check" class="w-5 h-5"></i>
-                    Mark All Read
-                </button>
+                <form action="/notifications/mark_all_read/" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="px-8 py-4 bg-white border border-slate-200 text-slate-600 font-black rounded-2xl hover:bg-slate-50 transition-all flex items-center gap-3 shadow-sm text-sm">
+                        <i data-lucide="check-check" class="w-5 h-5"></i>
+                        Mark All Read
+                    </button>
+                </form>
             </div>
 
             <div class="space-y-4">
