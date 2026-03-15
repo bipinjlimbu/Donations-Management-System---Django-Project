@@ -69,6 +69,7 @@ def approve_donation_view(request, donation_id):
     
     Notification.objects.create(
         user = donation.donor,
+        title = "Donation Approved",
         message = f"Your donation for campaign '{donation.campaign_title}' has been approved and marked as delivered."
     )
     
@@ -97,6 +98,7 @@ def reject_donation_view(request, donation_id):
     
     Notification.objects.create(
         user = donation.donor,
+        title = "Donation Rejected",
         message = f"Your donation for campaign '{donation.campaign_title}' has been rejected."
     )
     
