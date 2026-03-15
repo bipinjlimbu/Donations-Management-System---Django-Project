@@ -7,7 +7,7 @@ from .views.ngo_dashboard import ngo_dashboard_view, approve_donation_view, reje
 from .views.profile import profile_view, edit_profile_view, approve_profile_changes, reject_profile_changes, delete_profile_view
 from .views.campaigns import campaigns_page_view, create_campaign_view, edit_campaign_view, delete_campaign_view, approve_campaign_request, reject_campaign_request, single_campaign_page_view, approve_campaign_changes, reject_campaign_changes
 from .views.testimonials import testimonials_view, create_testimonial_view, approve_testimonial_view, reject_testimonial_view, edit_testimonial_view, delete_testimonial_view, approve_testimonial_change, reject_testimonial_change
-from .views.notifications import notifications_view, mark_all_notifications_read_view, mark_notification_read_view, delete_notification_view
+from .views.notifications import notifications_view, mark_all_notifications_read_view, toggle_notification_read_view, delete_notification_view
 
 urlpatterns = [
     path("",home_view,name="home"),
@@ -15,7 +15,7 @@ urlpatterns = [
     path("about/",about_view,name="about"),
     path("notifications/",notifications_view,name="notifications"),
     path("notifications/mark_all_read/", mark_all_notifications_read_view, name="mark_all_notifications_read"),
-    path("notifications/mark_read/<int:notification_id>/", mark_notification_read_view, name="mark_notification_read"),
+    path("notifications/toggle_read/<int:notification_id>/", toggle_notification_read_view, name="toggle_notification_read"),   
     path("notifications/delete/<int:notification_id>/", delete_notification_view, name="delete_notification"),
     path("register/",register_view,name="register"),
     path("login/",login_view,name="login"),
