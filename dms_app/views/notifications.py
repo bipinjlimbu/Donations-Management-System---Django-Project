@@ -19,10 +19,10 @@ def mark_all_notifications_read_view(request):
     return redirect("notifications")
 
 @login_required
-def mark_notification_read_view(request, notification_id):
+def toggle_notification_read_view(request, notification_id):
     notification = Notification.objects.get(id=notification_id, user=request.user)
     if notification:
-        notification.is_read = True
+        notification.is_read = not notification.is_read
         notification.save()
         messages.success(request, "Notification marked as read.")
     else:
