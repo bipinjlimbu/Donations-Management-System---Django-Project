@@ -416,7 +416,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none;
 }
 
-.-translate-y-1\/2, .rotate-\[-5deg\], .rotate-3, .-rotate-3, .rotate-6, .scale-0, .transform, .hover\:-translate-y-1, .hover\:-translate-y-2, .hover\:-translate-y-0\.5, .hover\:-translate-y-0, .hover\:scale-110, .hover\:scale-105, .hover\:scale-\[1\.02\], .active\:translate-y-0, .active\:scale-\[0\.98\], .active\:scale-95, .active\:scale-90, .group-hover\:translate-x-1, .group-hover\:-translate-y-1, .group-hover\:-translate-x-1, .group-hover\:rotate-0, .group-hover\:scale-110, .group-hover\:scale-105, .group-hover\:scale-100, .md\:-translate-y-8 {
+.-translate-y-1\/2, .rotate-\[-5deg\], .rotate-3, .-rotate-3, .rotate-6, .scale-0, .transform, .hover\:-translate-y-1, .hover\:-translate-y-2, .hover\:-translate-y-0\.5, .hover\:-translate-y-0, .hover\:-translate-y-4, .hover\:scale-110, .hover\:scale-105, .hover\:scale-\[1\.02\], .active\:translate-y-0, .active\:scale-\[0\.98\], .active\:scale-95, .active\:scale-90, .group-hover\:translate-x-1, .group-hover\:-translate-y-1, .group-hover\:-translate-x-1, .group-hover\:rotate-0, .group-hover\:scale-110, .group-hover\:scale-105, .group-hover\:scale-100, .md\:-translate-y-8, .lg\:translate-y-12 {
   --tw-translate-x: 0;
   --tw-translate-y: 0;
   --tw-rotate: 0;
@@ -427,7 +427,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.divide-y > *, .border, .border-2, .border-4, .border-t, .border-l, .border-r, .border-b, .border-l-8, .file\:border-0::file-selector-button {
+.divide-y > *, .border, .border-2, .border-4, .border-t, .border-l, .border-r, .border-b, .border-l-8, .border-t-2, .file\:border-0::file-selector-button {
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
@@ -692,6 +692,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .-right-20 {
   right: -5rem;
+}
+
+.-top-4 {
+  top: -1rem;
 }
 
 .z-10 {
@@ -1666,6 +1670,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-l-8 {
   border-left-width: 8px;
+}
+
+.border-t-2 {
+  border-top-width: 2px;
 }
 
 .border-dashed {
@@ -3294,6 +3302,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   transform: var(--tw-transform);
 }
 
+.hover\:-translate-y-4:hover {
+  --tw-translate-y: -1rem;
+  transform: var(--tw-transform);
+}
+
 .hover\:scale-110:hover {
   --tw-scale-x: 1.1;
   --tw-scale-y: 1.1;
@@ -4131,6 +4144,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .lg\:w-72 {
     width: 18rem;
+  }
+
+  .lg\:translate-y-12 {
+    --tw-translate-y: 3rem;
+    transform: var(--tw-transform);
   }
 
   .lg\:grid-cols-2 {
