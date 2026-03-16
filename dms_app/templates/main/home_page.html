@@ -417,81 +417,156 @@
     </section>
 
     <section class="py-24 bg-slate-50 relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
-    <div class="absolute -right-24 top-24 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl"></div>
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-200 to-transparent"></div>
+        <div class="absolute -right-24 top-24 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl"></div>
 
-    <div class="max-w-7xl mx-auto px-6 relative z-10">
-        
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-            <div class="max-w-2xl">
-                <div class="flex items-center gap-3 mb-4">
-                    <span class="h-px w-8 bg-blue-600"></span>
-                    <span class="text-blue-600 font-black text-xs uppercase tracking-[0.3em]">Wall of Hope</span>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                <div class="max-w-2xl">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="h-px w-8 bg-blue-600"></span>
+                        <span class="text-blue-600 font-black text-xs uppercase tracking-[0.3em]">Wall of Hope</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">Community <span class="text-blue-600">Voices.</span></h2>
+                    <p class="text-slate-500 font-medium text-lg">Real feedback from our donors and partner organizations making an impact.</p>
                 </div>
-                <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">Community <span class="text-blue-600">Voices.</span></h2>
-                <p class="text-slate-500 font-medium text-lg">Real feedback from our donors and partner organizations making an impact.</p>
+                <a href="/testimonials" class="group flex items-center gap-3 bg-white border border-slate-200 px-6 py-3 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                    <span class="font-bold text-slate-700">View All Stories</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-blue-600 group-hover:translate-x-1 transition-transform"></i>
+                </a>
             </div>
-            <a href="/testimonials" class="group flex items-center gap-3 bg-white border border-slate-200 px-6 py-3 rounded-2xl shadow-sm hover:shadow-md transition-all">
-                <span class="font-bold text-slate-700">View All Stories</span>
-                <i data-lucide="arrow-right" class="w-4 h-4 text-blue-600 group-hover:translate-x-1 transition-transform"></i>
-            </a>
-        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {% for testimonial in testimonials|slice:":3" %}
-                <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-slate-100 flex flex-col hover:-translate-y-2 transition-transform duration-300 relative group">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {% for testimonial in testimonials|slice:":3" %}
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/40 border border-slate-100 flex flex-col hover:-translate-y-2 transition-transform duration-300 relative group">
+                        
+                        {% if testimonial.user == request.user %}
+                        <div class="absolute top-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
+                            <a href="/testimonials/edit/{{ testimonial.id }}" class="p-2 bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-xl transition-all shadow-sm" title="Edit Story">
+                                <i data-lucide="pencil" class="w-4 h-4"></i>
+                            </a>
+                            <a href="/testimonials/delete/{{ testimonial.id }}" class="p-2 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-xl transition-all shadow-sm" title="Delete Story">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+
+                        <div class="flex gap-1 mb-6">
+                            {% for i in "12345" %}
+                                <i data-lucide="star" class="w-4 h-4 {% if forloop.counter <= testimonial.rating %}text-amber-400 fill-current{% else %}text-slate-200{% endif %}"></i>
+                            {% endfor %}
+                        </div>
+
+                        <p class="text-slate-600 font-medium leading-relaxed text-base mb-8 italic">
+                            "{{ testimonial.message }}"
+                        </p>
+
+                        <div class="mt-auto flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl overflow-hidden bg-slate-100">
+                                {% if testimonial.user.profile_image %}
+                                    <img src="{{ testimonial.user.profile_image.url }}" class="w-full h-full object-cover">
+                                {% else %}
+                                    <div class="w-full h-full flex items-center justify-center bg-slate-200 text-slate-500 font-black">
+                                        {{ testimonial.user.username|slice:":1"|upper }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 leading-tight">
+                                    {% if testimonial.user.role == 'DONOR' %}{{ testimonial.user.donor_profile.full_name }}{% else %}{{ testimonial.user.ngo_profile.organization_name }}{% endif %}
+                                </h4>
+                                <span class="text-[10px] font-black uppercase tracking-widest {% if testimonial.user.role == 'NGO' %}bg-purple-50 text-purple-600{% else %}bg-blue-50 text-blue-600{% endif %} px-2 py-0.5 rounded">
+                                    {{ testimonial.user.role }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-span-full py-16 text-center bg-white rounded-[3rem] border-2 border-dashed border-slate-200">
+                        <i data-lucide="message-square" class="w-12 h-12 text-slate-200 mx-auto mb-4"></i>
+                        <p class="text-slate-400 text-lg font-medium">Be the first to share your impact story.</p>
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="relative bg-slate-900 rounded-[4rem] overflow-hidden shadow-2xl shadow-slate-200">
+                
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-green-500/20 rounded-full blur-3xl"></div>
+                
+                <div class="flex flex-col lg:flex-row items-center">
                     
-                    {% if testimonial.user == request.user %}
-                    <div class="absolute top-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-                        <a href="/testimonials/edit/{{ testimonial.id }}" class="p-2 bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 rounded-xl transition-all shadow-sm" title="Edit Story">
-                            <i data-lucide="pencil" class="w-4 h-4"></i>
-                        </a>
-                        <a href="/testimonials/delete/{{ testimonial.id }}" class="p-2 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-xl transition-all shadow-sm" title="Delete Story">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </a>
-                    </div>
-                    {% endif %}
+                    <div class="lg:w-1/2 p-12 md:p-20 relative z-10">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="h-px w-8 bg-green-500"></span>
+                            <span class="text-green-500 font-black text-xs uppercase tracking-[0.3em]">For Organizations</span>
+                        </div>
+                        <h2 class="text-4xl md:text-5xl font-black text-white mb-8 leading-tight">
+                            Need supplies for your <span class="text-green-500">Mission?</span>
+                        </h2>
+                        <p class="text-slate-400 text-lg font-medium mb-10 leading-relaxed">
+                            Join ShareHope to connect with thousands of donors ready to provide clothes, food, books, and equipment. Streamline your collection process today.
+                        </p>
+                        
+                        <ul class="space-y-4 mb-12">
+                            <li class="flex items-center gap-3 text-slate-300 font-bold">
+                                <i data-lucide="check-circle-2" class="w-6 h-6 text-green-500"></i>
+                                Verified NGO Dashboard
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300 font-bold">
+                                <i data-lucide="check-circle-2" class="w-6 h-6 text-green-500"></i>
+                                Unlimited Campaign Posts
+                            </li>
+                            <li class="flex items-center gap-3 text-slate-300 font-bold">
+                                <i data-lucide="check-circle-2" class="w-6 h-6 text-green-500"></i>
+                                Direct Logistics Support
+                            </li>
+                        </ul>
 
-                    <div class="flex gap-1 mb-6">
-                        {% for i in "12345" %}
-                            <i data-lucide="star" class="w-4 h-4 {% if forloop.counter <= testimonial.rating %}text-amber-400 fill-current{% else %}text-slate-200{% endif %}"></i>
-                        {% endfor %}
-                    </div>
+                        <div class="flex flex-col sm:flex-row gap-4">
 
-                    <p class="text-slate-600 font-medium leading-relaxed text-base mb-8 italic">
-                        "{{ testimonial.message }}"
-                    </p>
-
-                    <div class="mt-auto flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-2xl overflow-hidden bg-slate-100">
-                            {% if testimonial.user.profile_image %}
-                                <img src="{{ testimonial.user.profile_image.url }}" class="w-full h-full object-cover">
+                            {% if user.is_authenticated %}
+                                {% if user.role == 'ADMIN' %}
+                                <a href="/dashboard/admin" class="bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest transition-all text-center shadow-lg shadow-green-900/20">
+                                    View Admin Panel
+                                </a>
+                                {% elif user.role == 'NGO' %}
+                                <a href="/dashboard/ngo" class="bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest transition-all text-center shadow-lg shadow-green-900/20">
+                                    View NGO Dashboard
+                                </a>
+                                {% else %}
+                                    <a href="/dashboard/donor" class="bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest transition-all text-center shadow-lg shadow-green-900/20">
+                                        View Donor Dashboard
+                                    </a>
+                                {% endif %}
                             {% else %}
-                                <div class="w-full h-full flex items-center justify-center bg-slate-200 text-slate-500 font-black">
-                                    {{ testimonial.user.username|slice:":1"|upper }}
-                                </div>
+                                <a href="/register" class="bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest transition-all text-center shadow-lg shadow-green-900/20">
+                                    Register
+                                </a>
                             {% endif %}
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-slate-900 leading-tight">
-                                {% if testimonial.user.role == 'DONOR' %}{{ testimonial.user.donor_profile.full_name }}{% else %}{{ testimonial.user.ngo_profile.organization_name }}{% endif %}
-                            </h4>
-                            <span class="text-[10px] font-black uppercase tracking-widest {% if testimonial.user.role == 'NGO' %}bg-purple-50 text-purple-600{% else %}bg-blue-50 text-blue-600{% endif %} px-2 py-0.5 rounded">
-                                {{ testimonial.user.role }}
-                            </span>
+                            <a href="/contact" class="bg-white/10 hover:bg-white/20 text-white border border-white/10 px-10 py-5 rounded-2xl font-black text-sm uppercase tracking-widest transition-all text-center backdrop-blur-sm">
+                                Contact Sales
+                            </a>
                         </div>
                     </div>
+
+                    <div class="lg:w-1/2 h-[400px] lg:h-[700px] relative">
+                        <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80" 
+                            class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" 
+                            alt="NGO Support">
+                        <div class="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/40 to-transparent lg:block hidden"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent lg:hidden block"></div>
+                    </div>
+
                 </div>
-            {% empty %}
-                <div class="col-span-full py-16 text-center bg-white rounded-[3rem] border-2 border-dashed border-slate-200">
-                    <i data-lucide="message-square" class="w-12 h-12 text-slate-200 mx-auto mb-4"></i>
-                    <p class="text-slate-400 text-lg font-medium">Be the first to share your impact story.</p>
-                </div>
-            {% endfor %}
+            </div>
         </div>
-        </div>
-    </div>
-</section>
+    </section>
 
     {% include 'components/_footer.html' %}
 
